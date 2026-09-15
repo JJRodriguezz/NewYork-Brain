@@ -40,14 +40,14 @@
     // Panorama: las cifras ancla de cada tema (las que cada JSON declare en `ancla`, o las 3 primeras)
     const pt = $('#panoramaTiles');
     [
-      ['demografia', ['miraflores_pob_proy_2026']],
-      ['social', ['miraflores_idh_2019', 'miraflores_pobreza_2018']],
-      ['economia', ['precio_m2_miraflores_usd']],
-      ['turismo', ['hospedajes_calificados_miraflores']],
-      ['municipio', ['pim_2026_miraflores']],
-      ['seguridad', ['denuncias_total_2025_miraflores']],
-      ['geo', ['areas_verdes_ha_miraflores']],
-      ['infraestructura', ['subestaciones_miraflores', 'congestion_lima_2025_pct']],
+      ['demografia', ['manhattan_pob_proy_2026']],
+      ['social', ['manhattan_idh_2019', 'manhattan_pobreza_2018']],
+      ['economia', ['precio_m2_manhattan_usd']],
+      ['turismo', ['hospedajes_calificados_manhattan']],
+      ['municipio', ['pim_2026_manhattan']],
+      ['seguridad', ['denuncias_total_2025_manhattan']],
+      ['geo', ['areas_verdes_ha_manhattan']],
+      ['infraestructura', ['subestaciones_manhattan', 'congestion_ny_2025_pct']],
     ].forEach(([t, claves]) => { const j = L[t]; if (!j || !j.cifras) return; tiles(pt, j, claves.filter(k => j.cifras[k])); });
     if (L.geo_resumen && L.geo_resumen.cifras) { /* ya cubierto arriba si geo_resumen sigue el contrato */ }
     // Secciones temáticas: genérico + narrativa
