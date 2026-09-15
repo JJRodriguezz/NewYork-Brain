@@ -1,4 +1,4 @@
-// Arranque: compuerta (servidor), carga del lago vía /api/datos, navegación, buscador, reloj/clima.
+// Arranque: compuerta (servidor), carga del lago vía /api/datos, navegación, buscador, reloj/cny.
 (function () {
   const $ = s => document.querySelector(s);
   const gate = $('#gate'), app = $('#app');
@@ -21,7 +21,7 @@
     try { window.SECCIONES && SECCIONES.render(LAGO); } catch (e) { console.error('secciones', e); }
     try { window.DIAGNOSTICO && DIAGNOSTICO.init(LAGO); } catch (e) { console.error('diagnostico', e); }
     try { window.MAPA && MAPA.init(LAGO); } catch (e) { console.error('mapa', e); }
-    navegacion(); buscador(); reloj(); clima();
+    navegacion(); buscador(); reloj(); cny();
     if (location.hash) { const s = document.querySelector(location.hash); s && s.scrollIntoView(); }
     // QA sin ojos: ?solo=gemelo deja una sola sección visible para que la captura headless la tenga arriba
     const solo = new URLSearchParams(location.search).get('solo'); if (solo) document.querySelectorAll('.sec').forEach(s => { if (s.id !== solo) s.style.display = 'none'; });
@@ -58,5 +58,5 @@
   }
 
   function reloj() { const r = $('#reloj'); const f = () => { r.textContent = new Date().toLocaleString('es-CL', { timeZone: 'America/New_York', weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) + ' PET'; }; f(); setInterval(f, 30000); }
-  async function clima() { try { const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7831&longitude=-73.9712&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=America/New_York'); const j = await r.json(); const c = j.current; $('#clima').textContent = `${Math.round(c.temperature_2m)} °C · ${c.relative_humidity_2m} % HR · ${Math.round(c.wind_speed_10m)} km/h`; window.CNUEVA YORK_VIVO = c; } catch (_) { } }
+  async function cny() { try { const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7831&longitude=-73.9712&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=America/New_York'); const j = await r.json(); const c = j.current; $('#cny').textContent = `${Math.round(c.temperature_2m)} °C · ${c.relative_humidity_2m} % HR · ${Math.round(c.wind_speed_10m)} km/h`; window.CNUEVA YORK_VIVO = c; } catch (_) { } }
 })();

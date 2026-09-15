@@ -25,11 +25,11 @@
     { id: 'lst', n: 'Temp. superficie', capa: 'MODIS_Terra_Land_Surface_Temp_Day' },
   ];
   const CAPAS = [
-    { id: 'limite', n: 'Límite de Manhattan', g: 'Territorio', color: '#ff8a5b', archivo: 'territorio:miraflores', on: true },
-    { id: 'vecinas', n: 'Distritos de Nueva York', g: 'Territorio', color: '#6f7f96', archivo: 'territorio:distritos_lima', on: true },
+    { id: 'limite', n: 'Límite de Manhattan', g: 'Territorio', color: '#ff8a5b', archivo: 'territorio:manhattan', on: true },
+    { id: 'vecinas', n: 'Distritos de Nueva York', g: 'Territorio', color: '#6f7f96', archivo: 'territorio:distritos_ny', on: true },
     { id: 'atlas', n: 'Atlas distritos (índice / métrica)', g: 'Territorio', color: '#3987e5', on: false, virtual: true },
-    { id: 'sectores', n: 'Subzonas catastrales (39)', g: 'Territorio', color: '#ffb08f', archivo: 'territorio:zonas_miraflores', on: false },
-    { id: 'zonas14', n: 'Atlas zonas de Manhattan (14)', g: 'Territorio', color: '#ff8a5b', archivo: 'territorio:zonas_miraflores_14', on: false },
+    { id: 'sectores', n: 'Subzonas catastrales (39)', g: 'Territorio', color: '#ffb08f', archivo: 'territorio:zonas_manhattan', on: false },
+    { id: 'zonas14', n: 'Atlas zonas de Manhattan (14)', g: 'Territorio', color: '#ff8a5b', archivo: 'territorio:zonas_manhattan_14', on: false },
     { id: 'intensidad_urbana', n: 'Cruce energía + edificación + presión vial', g: 'Infraestructura', color: '#7fe0d2', archivo: 'geo:intensidad_urbana', on: false },
     { id: 'prc', n: 'Zonificación', g: 'Planificación', color: '#9085e9', archivo: 'geo:zonificacion', on: false },
     { id: 'patrimonio', n: 'Patrimonio y huacas', g: 'Planificación', color: '#c98500', archivo: 'geo:patrimonio', on: false },
@@ -90,7 +90,7 @@
 
   async function init(lago) {
     LAGO = lago; sensores = {}; const lg = lago.sensores && lago.sensores.listas && lago.sensores.listas.gibs; if (Array.isArray(lg)) lg.forEach(x => { if (x.estado === 'vivo' && x.fecha_valida && x.url_maplibre) sensores[x.id] = { fecha: x.fecha_valida, nivel: x.zoom_max, ext: x.ext, url_plantilla: x.url_maplibre }; }); S2 = (lago.sensores && lago.sensores.listas && lago.sensores.listas.s2_recortes) || null;
-    try { tecnicoActivo = localStorage.getItem('lima_hud') === '1'; } catch (_) { }
+    try { tecnicoActivo = localStorage.getItem('ny_hud') === '1'; } catch (_) { }
     if (!window.maplibregl) { await new Promise(r => { const t = setInterval(() => { if (window.maplibregl) { clearInterval(t); r(); } }, 150); setTimeout(() => { clearInterval(t); r(); }, 15000); }); }
     if (!window.maplibregl) { $('#mapaAviso').textContent = 'MAPLIBRE NO CARGÓ (red)'; return; }
     try { OSCURO = await fetch('/estilo_oscuro.json', { cache: 'force-cache' }).then(r => r.json()); } catch (e) { console.warn('estilo oscuro', e.message); }
@@ -384,10 +384,10 @@
     const zTop = ZZ[0] || {}, zEnergia = maxZ('demanda_kw_ha'), zEdif = maxZ('m2_construidos_ha'), zVial = maxZ('presion_vial_media');
     const vistas = {
       sistema: { titulo: 'MANHATTAN / SISTEMA URBANO', nota: 'Tres lentes cuantificadas · selecciona una vista', items: [
-        [n(C('infraestructura', 'subestaciones_miraflores'), 0), 'SED oficiales'],
+        [n(C('infraestructura', 'subestaciones_manhattan'), 0), 'SED oficiales'],
         [m2 ? n(m2 / 1e6, 2) + ' M' : '—', 'm² construidos estimados'],
         [n(C('infraestructura', 'vias_analizadas_km'), 1), 'km de red vial analizada'],
-        [n(C('infraestructura', 'congestion_lima_2025_pct'), 0) + ' %', 'congestión Nueva York 2025'],
+        [n(C('infraestructura', 'congestion_ny_2025_pct'), 0) + ' %', 'congestión Nueva York 2025'],
       ] },
       cruce: { titulo: 'LENTE / CRUCE URBANO', nota: 'Índice relativo · energía + edificación + presión vial', items: [
         [zTop.nombre || '—', 'mayor intensidad combinada'],
@@ -396,7 +396,7 @@
         [zVial.nombre || zEdif.nombre || '—', 'mayor presión vial media'],
       ] },
       energia: { titulo: 'LENTE / ENERGÍA', nota: 'Con Edison · indicadores 2024 · corte 13 feb 2026', items: [
-        [n(C('infraestructura', 'subestaciones_miraflores'), 0), 'subestaciones dentro del distrito'],
+        [n(C('infraestructura', 'subestaciones_manhattan'), 0), 'subestaciones dentro del distrito'],
         [energiaKw ? n(energiaKw / 1000, 1) + ' MW' : '—', 'suma de máximas particulares'],
         [n(C('infraestructura', 'demanda_maxima_alumbrado_suma_kw'), 1) + ' kW', 'suma máxima de alumbrado'],
         ['10 / 22,9 kV', 'tensiones primarias declaradas'],
@@ -410,8 +410,8 @@
       trafico: { titulo: 'LENTE / PRESIÓN VIAL', nota: 'Mapa = proxy estructural · cifras Nueva York = TomTom 2025', items: [
         [n(C('infraestructura', 'vias_analizadas_km'), 1) + ' km', 'red vial recortada'],
         [n(C('infraestructura', 'vias_presion_alta_km'), 1) + ' km', 'proxy alto o muy alto'],
-        [n(C('infraestructura', 'congestion_lima_2025_pct'), 0) + ' %', 'congestión media de Nueva York'],
-        [n(C('infraestructura', 'velocidad_punta_lima_2025_kmh'), 1) + ' km/h', 'velocidad en hora punta · Nueva York'],
+        [n(C('infraestructura', 'congestion_ny_2025_pct'), 0) + ' %', 'congestión media de Nueva York'],
+        [n(C('infraestructura', 'velocidad_punta_ny_2025_kmh'), 1) + ' km/h', 'velocidad en hora punta · Nueva York'],
       ] },
     };
     const v = vistas[lente] || vistas.sistema; root.dataset.lente = lente || 'sistema';
@@ -564,11 +564,11 @@
     const inp = $('#mapaBuscar'), res = $('#mapaResultados');
     inp.addEventListener('input', () => { const q = inp.value.trim().toLocaleLowerCase('es'); if (q.length < 2) { res.hidden = true; return; } const hallados = lugares.filter(l => l.nombre.toLocaleLowerCase('es').includes(q)).slice(0, 8); res.innerHTML = hallados.length ? hallados.map((l, i) => `<button type="button" data-i="${i}"><span>${l.nombre}</span><small>${l.tipo}</small></button>`).join('') : '<button type="button" disabled>Sin coincidencias</button>'; res.hidden = false; res.querySelectorAll('button[data-i]').forEach(b => b.onclick = () => { const l = hallados[Number(b.dataset.i)]; irA(l); inp.value = l.nombre; res.hidden = true; mostrarPanel(false); }); });
     inp.addEventListener('keydown', e => { if (e.key === 'Escape') { res.hidden = true; inp.blur(); } });
-    const inicio = $('#mapaInicio'); const cerrarInicio = () => { inicio.hidden = true; try { localStorage.setItem('lima_inicio_v1', '1'); } catch (_) { } };
+    const inicio = $('#mapaInicio'); const cerrarInicio = () => { inicio.hidden = true; try { localStorage.setItem('ny_inicio_v1', '1'); } catch (_) { } };
     inicio.querySelector('.mapa-inicio-cerrar').onclick = cerrarInicio; inicio.querySelectorAll('[data-inicio]').forEach(b => b.onclick = () => { cerrarInicio(); mostrarPanel(false); aplicarPreset(b.dataset.inicio, b); });
-    try { if (!location.search && localStorage.getItem('lima_inicio_v1') !== '1') setTimeout(() => { inicio.hidden = false; }, 900); } catch (_) { }
+    try { if (!location.search && localStorage.getItem('ny_inicio_v1') !== '1') setTimeout(() => { inicio.hidden = false; }, 900); } catch (_) { }
     $('#mapaAyuda').querySelector('.mapa-ayuda-cerrar').onclick = () => toggleAyuda(false);
-    $('#reiniciarIntro').onclick = () => { toggleAyuda(false); inicio.hidden = false; try { localStorage.removeItem('lima_inicio_v1'); } catch (_) { } };
+    $('#reiniciarIntro').onclick = () => { toggleAyuda(false); inicio.hidden = false; try { localStorage.removeItem('ny_inicio_v1'); } catch (_) { } };
     document.addEventListener('keydown', e => { const tag = (e.target.tagName || '').toLowerCase(), escribiendo = ['input', 'textarea', 'select'].includes(tag) || e.target.isContentEditable; if (escribiendo || e.metaKey || e.ctrlKey || e.altKey) return; const r = document.getElementById('gemelo').getBoundingClientRect(), visible = r.bottom > 0 && r.top < innerHeight; if (!visible && e.key !== 'Escape') return; const k = e.key.toLowerCase(); if (k === '?') { e.preventDefault(); toggleAyuda(); } else if (k === 'e') { e.preventDefault(); mostrarPanel(panel.classList.contains('cerrado')); } else if (k === 'a') { e.preventDefault(); document.querySelector('#acciones button[data-act="analizar"]').click(); } else if (k === 'm') { e.preventDefault(); document.querySelector('#acciones button[data-act="medir"]').click(); } else if (k === 'h') { e.preventDefault(); document.querySelector('#acciones button[data-act="tecnico"]').click(); } else if (k === 'v') { e.preventDefault(); document.querySelector('#tour .tour-play').click(); } else if (/^[1-4]$/.test(e.key)) { e.preventDefault(); const lente = ['cruce', 'energia', 'densificacion', 'trafico'][Number(e.key) - 1]; const lb = document.querySelector(`#mapaLentes button[data-lente="${lente}"]`); lb && lb.click(); } else if (e.key === 'Escape') { if (!$('#mapaAyuda').hidden) toggleAyuda(false); if (!inicio.hidden) cerrarInicio(); if (VUELO.jugando) detenerVuelo(); if (MEDICION.activa) document.querySelector('#acciones button[data-act="medir"]').click(); const fc = $('#mapaFicha button'); if (fc) fc.click(); } });
     tour();
     actualizarEstado();
@@ -577,7 +577,7 @@
   function accion(a, b) {
     if (a === 'analizar') { if (MEDICION.activa) { const mb = document.querySelector('#acciones button[data-act="medir"]'); mb && alternarMedicion(mb); analizarActivo = true; } else analizarActivo = !analizarActivo; b.classList.toggle('on', analizarActivo); b.setAttribute('aria-pressed', String(analizarActivo)); actualizarEstado(); notificar(analizarActivo ? 'Análisis activo · haz clic en el mapa' : 'Análisis pausado'); }
     if (a === 'medir') alternarMedicion(b);
-    if (a === 'tecnico') { tecnicoActivo = !tecnicoActivo; $('#mapaHud').hidden = !tecnicoActivo; $('#mapaWrap').classList.toggle('tecnico', tecnicoActivo); b.classList.toggle('on', tecnicoActivo); b.setAttribute('aria-pressed', String(tecnicoActivo)); try { localStorage.setItem('lima_hud', tecnicoActivo ? '1' : '0'); } catch (_) { } notificar(tecnicoActivo ? 'Telemetría visible' : 'Telemetría oculta'); }
+    if (a === 'tecnico') { tecnicoActivo = !tecnicoActivo; $('#mapaHud').hidden = !tecnicoActivo; $('#mapaWrap').classList.toggle('tecnico', tecnicoActivo); b.classList.toggle('on', tecnicoActivo); b.setAttribute('aria-pressed', String(tecnicoActivo)); try { localStorage.setItem('ny_hud', tecnicoActivo ? '1' : '0'); } catch (_) { } notificar(tecnicoActivo ? 'Telemetría visible' : 'Telemetría oculta'); }
     if (a === 'compartir') compartirVista();
     if (a === 'ayuda') toggleAyuda();
     if (a === '3d') { const on = mapa.getPitch() > 5; mapa.easeTo({ pitch: on ? 0 : 55, bearing: on ? 0 : -17, duration: 900 }); b.classList.toggle('on', !on); b.setAttribute('aria-pressed', String(!on)); if (mapaB) mapaB.easeTo({ pitch: on ? 0 : 55, bearing: on ? 0 : -17, duration: 900 }); notificar(on ? 'Vista 2D activada' : 'Vista 3D activada'); }
