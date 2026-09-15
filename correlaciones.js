@@ -34,11 +34,11 @@
     const porId = Object.fromEntries(metricas.map(m => [m.id, m]));
     const fuentePorId = Object.fromEntries((j.fuentes || []).map(f => [f.id, f]));
 
-    $('#correlacionesLead').innerHTML = `Cruza <b>${metricas.length} variables reales y trazables</b> de los 43 distritos de Lima: bienestar, demografía, servicios, economía, turismo, seguridad y capacidad municipal. El gráfico conserva los valores originales, calcula Pearson y Spearman sobre casos completos y resalta Miraflores. <b>Correlación no implica causalidad</b>: úsala para formular preguntas y detectar relaciones que merecen análisis.`;
+    $('#correlacionesLead').innerHTML = `Cruza <b>${metricas.length} variables reales y trazables</b> de los 43 distritos de Nueva York: bienestar, demografía, servicios, economía, turismo, seguridad y capacidad municipal. El gráfico conserva los valores originales, calcula Pearson y Spearman sobre casos completos y resalta Manhattan. <b>Correlación no implica causalidad</b>: úsala para formular preguntas y detectar relaciones que merecen análisis.`;
     h.tiles(h.cont, j, ['metricas_n', 'pares_n', 'distritos_n']);
 
     const g = h.gcont;
-    const explorer = window.G.card(g, 'Explorador de relaciones', 'elige dos variables · Miraflores en coral', { ancha: true });
+    const explorer = window.G.card(g, 'Explorador de relaciones', 'elige dos variables · Manhattan en coral', { ancha: true });
     explorer.cuerpo.innerHTML = `
       <div class="corr-presets" aria-label="Lecturas sugeridas">${presets.map((p, i) => `<button type="button" data-preset="${i}" class="${i === 0 ? 'on' : ''}">${p.titulo}</button>`).join('')}</div>
       <div class="corr-controls">
@@ -95,9 +95,9 @@
       const intercepto = ybar - pendiente * xbar;
       const y1 = intercepto + pendiente * xmin, y2 = intercepto + pendiente * xmax;
       const puntosSvg = puntos.map(p => {
-        const mira = p.ubigeo === '150122';
+        const mira = p.ubigeo === 'NY';
         const etiqueta = `${p.nombre}: ${mx.corto} ${fmt(p[x], mx)} · ${my.corto} ${fmt(p[y], my)}`;
-        return `<g class="corr-punto ${mira ? 'mira' : ''}" tabindex="0" role="img" aria-label="${etiqueta}" data-nombre="${p.nombre}" data-x="${p[x]}" data-y="${p[y]}"><circle cx="${X(p[x])}" cy="${Y(p[y])}" r="${mira ? 8 : 5}"><title>${etiqueta}</title></circle>${mira ? `<text x="${X(p[x]) + 12}" y="${Y(p[y]) - 10}" class="mira-label">Miraflores</text>` : ''}</g>`;
+        return `<g class="corr-punto ${mira ? 'mira' : ''}" tabindex="0" role="img" aria-label="${etiqueta}" data-nombre="${p.nombre}" data-x="${p[x]}" data-y="${p[y]}"><circle cx="${X(p[x])}" cy="${Y(p[y])}" r="${mira ? 8 : 5}"><title>${etiqueta}</title></circle>${mira ? `<text x="${X(p[x]) + 12}" y="${Y(p[y]) - 10}" class="mira-label">Manhattan</text>` : ''}</g>`;
       }).join('');
       const html = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Dispersión de ${mx.nombre} y ${my.nombre} para ${puntos.length} distritos">
         ${rejilla}<line x1="${X(xmin)}" y1="${Y(y1)}" x2="${X(xmax)}" y2="${Y(y2)}" class="corr-tendencia"/>

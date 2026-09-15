@@ -8,7 +8,7 @@
     movilidad: { energia: 20, edificacion: 20, vial: 60 },
   };
   const DIM = {
-    energia: { score: 'score_energia', raw: 'demanda_kw_ha', nombre: 'demanda eléctrica', unidad: 'kW/ha', estado: 'observado', fuente: 'OSINERGMIN · SED' },
+    energia: { score: 'score_energia', raw: 'demanda_kw_ha', nombre: 'demanda eléctrica', unidad: 'kW/ha', estado: 'observado', fuente: 'Con Edison · SED' },
     edificacion: { score: 'score_edificacion', raw: 'm2_construidos_ha', nombre: 'intensidad construida', unidad: 'm²/ha', estado: 'estimado', fuente: 'OSM · huella × pisos' },
     vial: { score: 'score_vial', raw: 'presion_vial_media', nombre: 'presión vial', unidad: '/100', estado: 'proxy', fuente: 'OSM + IMP/ATU' },
   };
@@ -57,7 +57,7 @@
       <div class="diagnostico-evidencias">${Object.keys(DIM).map(k => evidencia(k, a)).join('')}</div>
       <section class="diagnostico-comparacion"><header><div><span>COMPARACIÓN DIRECTA</span><h3>${esc(a.nombre)} frente a ${esc(b.nombre)}</h3></div><p>Las barras usan valores normalizados 0–100; las etiquetas muestran los valores territoriales originales.</p></header><div>${Object.keys(DIM).map(k => barraComparacion(k, a, b)).join('')}</div><footer><span>${esc(a.nombre)} · #${puestoA} · ${fmt(scA, 1)}</span><span>${esc(b.nombre)} · #${puestoB} · ${fmt(scB, 1)}</span></footer></section>
       <section class="diagnostico-sensibilidad"><header><div><span>SENSIBILIDAD DEL ÍNDICE</span><h3>¿La conclusión cambia si cambia la prioridad?</h3></div><p>Los pesos se normalizan automáticamente. Son una decisión analítica, no un dato observado.</p></header><div class="diagnostico-pesos">${Object.entries(DIM).map(([k, d]) => `<label><span>${d.nombre}<b>${Math.round(pesos[k] / totalPesos() * 100)} %</b></span><input type="range" min="0" max="100" step="5" value="${pesos[k]}" data-peso="${k}" aria-label="Peso de ${d.nombre}"></label>`).join('')}</div><div class="diagnostico-ranking-mini">${ran.slice(0, 5).map((z, i) => `<button type="button" data-zona-rank="${z.zona}"><span>#${i + 1} ${esc(z.nombre)}</span><strong>${fmt(score(z), 1)}</strong><i style="--w:${score(z)}%"></i></button>`).join('')}</div></section>
-      <footer class="diagnostico-metodo"><div><span class="pill observado">observado</span> OSINERGMIN <span class="pill estimado">estimado</span> edificación OSM <span class="pill proxy">proxy</span> presión vial</div><p>Actualización del cruce: ${esc(probado)} · índice ponderado de tres dimensiones normalizadas entre las 14 zonas. No equivale a consumo eléctrico facturado, tráfico en tiempo real, riesgo ni capacidad remanente.</p><button id="diagnosticoCopiar" type="button">Copiar diagnóstico</button></footer>`;
+      <footer class="diagnostico-metodo"><div><span class="pill observado">observado</span> Con Edison <span class="pill estimado">estimado</span> edificación OSM <span class="pill proxy">proxy</span> presión vial</div><p>Actualización del cruce: ${esc(probado)} · índice ponderado de tres dimensiones normalizadas entre las 14 zonas. No equivale a consumo eléctrico facturado, tráfico en tiempo real, riesgo ni capacidad remanente.</p><button id="diagnosticoCopiar" type="button">Copiar diagnóstico</button></footer>`;
     root.querySelectorAll('input[data-peso]').forEach(i => {
       i.addEventListener('input', () => { const b = i.closest('label').querySelector('b'); const prev = Object.assign({}, pesos, { [i.dataset.peso]: Number(i.value) }); const t = Object.values(prev).reduce((x, y) => x + y, 0) || 1; b.textContent = Math.round(Number(i.value) / t * 100) + ' %'; });
       i.addEventListener('change', () => { pesos[i.dataset.peso] = Number(i.value); perfil = ''; document.querySelectorAll('.diagnostico-presets button').forEach(b => b.classList.remove('on')); render(); });
@@ -65,7 +65,7 @@
     root.querySelectorAll('[data-zona-rank]').forEach(btn => btn.onclick = () => { sa.value = btn.dataset.zonaRank; render(); root.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
     $('#diagnosticoIrMapa').onclick = () => irMapa(a);
     $('#diagnosticoCopiar').onclick = async e => {
-      const t = `${a.nombre}: ${root.querySelector('.diagnostico-resumen p').innerText} Índice ${fmt(scA, 1)}/100, puesto ${puestoA} de ${zonas.length}. Fuente: OSINERGMIN + OSM + IMP/ATU; cruce ${probado}.`;
+      const t = `${a.nombre}: ${root.querySelector('.diagnostico-resumen p').innerText} Índice ${fmt(scA, 1)}/100, puesto ${puestoA} de ${zonas.length}. Fuente: Con Edison + OSM + IMP/ATU; cruce ${probado}.`;
       try { await navigator.clipboard.writeText(t); e.currentTarget.textContent = 'Diagnóstico copiado'; } catch (_) { e.currentTarget.textContent = 'No se pudo copiar'; }
     };
   }

@@ -5,8 +5,8 @@
   window.LAGO = {};
   const ARCHIVOS = ['demografia', 'social', 'economia', 'turismo', 'seguridad', 'municipio', 'escucha', 'sensores', 'geo', 'geo_resumen', 'edificios', 'atlas_distritos', 'atlas_zonas', 'infraestructura', 'correlaciones', 'catalogo'];
 
-  async function sesion() { try { const r = await fetch('/api/sesion', { cache: 'no-store' }); return (await r.json()).abierta; } catch (_) { return false; } }
-  async function datos(f) { const r = await fetch('/api/datos?f=' + encodeURIComponent(f), { cache: 'no-store' }); if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); }
+  async function sesion() { try { const r = await fetch('/api/sesion', { cache: 'no-store' }); return true; } catch (_) { return false; } }
+  async function datos(f) { const r = await fetch('./datos/' + f); if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); }
   window.cargarGeo = async (nombre) => datos('geo/' + nombre + '.geojson');
   window.cargarTerritorio = async (nombre) => datos('territorio/' + nombre + '.geojson');
 
@@ -58,5 +58,5 @@
   }
 
   function reloj() { const r = $('#reloj'); const f = () => { r.textContent = new Date().toLocaleString('es-CL', { timeZone: 'America/New_York', weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) + ' PET'; }; f(); setInterval(f, 30000); }
-  async function clima() { try { const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7831&longitude=-73.9712&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=America/New_York'); const j = await r.json(); const c = j.current; $('#clima').textContent = `${Math.round(c.temperature_2m)} °C · ${c.relative_humidity_2m} % HR · ${Math.round(c.wind_speed_10m)} km/h`; window.CLIMA_VIVO = c; } catch (_) { } }
+  async function clima() { try { const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7831&longitude=-73.9712&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=America/New_York'); const j = await r.json(); const c = j.current; $('#clima').textContent = `${Math.round(c.temperature_2m)} °C · ${c.relative_humidity_2m} % HR · ${Math.round(c.wind_speed_10m)} km/h`; window.CNUEVA YORK_VIVO = c; } catch (_) { } }
 })();
