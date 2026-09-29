@@ -1,1 +1,34 @@
-{}
+{
+  "probado": "2026-09-29",
+  "fuentes": [
+    {
+      "id": "F04",
+      "nombre": "NYC Tourism + Conventions",
+      "url": "https://nyctourism.com"
+    }
+  ],
+  "cifras": {
+    "hospedajes_calificados_manhattan": {
+      "valor": 640,
+      "unidad": "hoteles",
+      "fuente": "F04",
+      "vigencia": "2025",
+      "etiqueta": "Hoteles registrados"
+    },
+    "visitantes_huaca_pucllana_2025": {
+      "valor": 4500000,
+      "unidad": "visitantes",
+      "fuente": "F04",
+      "vigencia": "2025",
+      "etiqueta": "Visitas Central Park / Museos"
+    },
+    "turistas_internacionales_2025": {
+      "valor": 12800000,
+      "unidad": "turistas",
+      "fuente": "F04",
+      "vigencia": "2025",
+      "etiqueta": "Turistas internacionales"
+    }
+  },
+  "series": {}
+}

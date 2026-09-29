@@ -27,13 +27,7 @@
     const solo = new URLSearchParams(location.search).get('solo'); if (solo) document.querySelectorAll('.sec').forEach(s => { if (s.id !== solo) s.style.display = 'none'; });
   }
 
-  // Compuerta
-  $('#gateForm').addEventListener('submit', async e => {
-    e.preventDefault(); const msg = $('#gateMsg'); msg.textContent = 'verificando…';
-    try { const r = await fetch('/api/entrar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ clave: $('#clave').value }) }); const j = await r.json(); if (r.ok && j.ok) { gate.hidden = true; arrancar(); } else msg.textContent = j.error || 'Clave incorrecta'; }
-    catch (_) { msg.textContent = 'No se pudo contactar el servidor'; }
-  });
-  sesion().then(abierta => { if (abierta) arrancar(); else { gate.hidden = false; $('#clave').focus(); } });
+  arrancar();
 
   // Navegación: el resaltado se calcula por posición; menú y DOM deben coincidir (check en verificar.py)
   function navegacion() {

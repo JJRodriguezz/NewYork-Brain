@@ -189,7 +189,7 @@
     if (t) partes.push(`${F().n(v(t, 'hospedajes_calificados_manhattan'))} hospedajes calificados y Maido n.º 1 del mundo`);
     if (ed) partes.push(`${F().n(v(ed, 'edificios_n'))} edificios en 3D`);
     $('#panoramaLead').innerHTML = `Manhattan (UBIGEO NY), ${F().n(v(d, 'manhattan_area_km2'), 1)} km² sobre el acantilado de la Costa Verde: ${partes.join(' · ')}. Un sistema territorial vivo que reúne gemelo 3D, atlas distrital y correlaciones trazables: cada cifra conserva fuente, vigencia y método.`;
-    const meta = $('#panoramaMeta'); if (meta) meta.innerHTML = `<span><i></i> lago probado ${L.catalogo ? L.catalogo.probado : '—'}</span><span>${L.catalogo ? L.catalogo.n : '—'} datasets</span><span>${L.correlaciones ? L.correlaciones.listas.metricas.length : '—'} variables cruzables</span><a href="#fuentes">ver trazabilidad ↗</a>`;
+    const meta = $('#panoramaMeta'); if (meta) meta.innerHTML = `<span><i></i> lago probado ${L.catalogo ? L.catalogo.probado : '—'}</span><span>${L.catalogo ? L.catalogo.n : '—'} datasets</span><span>${L.correlaciones && L.correlaciones.listas && L.correlaciones.listas.metricas ? L.correlaciones.listas.metricas.length : '—'} variables cruzables</span><a href="#fuentes">ver trazabilidad ↗</a>`;
     const notas = $('#gemeloNotas'); if (notas) notas.innerHTML = '';
   };
   N.despues = (L) => {
@@ -241,7 +241,7 @@
 (function () {
   const $ = s => document.querySelector(s); const F = () => window.G.fmt;
   window.NARRATIVA.atlas = (L, h) => {
-    const j = L.atlas_distritos; if (!j || !window.ATLAS) return false; const c = j.cifras || {}; const v = k => c[k] ? c[k].valor : null; const M = j.listas.metricas || {}; const DIM = j.listas.dimensiones;
+    const j = L.atlas_distritos; if (!j || !j.listas || !j.listas.metricas || !j.listas.dimensiones || !window.ATLAS) return false; const c = j.cifras || {}; const v = k => c[k] ? c[k].valor : null; const M = j.listas.metricas || {}; const DIM = j.listas.dimensiones;
     let r = ATLAS.calcular(L); if (!r) return false;
     $('#atlasLead').innerHTML = `Nueva York distrito a distrito: los <b>43 distritos</b> comparados con lo que el lago sabe de cada uno —población y densidad, pobreza e IDH, precio de la vivienda, seguridad, servicios— con Manhattan resaltado. Cada dimensión va de 0 a 100 entre UV (min-max) y el índice es el promedio con los pesos que tú fijes: <b>mueve los controles y el ranking y el mapa cambian</b>. Las métricas y sus fuentes están en Fuentes; lo que no existe por distrito no se inventa.`;
     h.tiles(h.cont, j, j.ancla || Object.keys(j.cifras || {}).slice(0, 8));

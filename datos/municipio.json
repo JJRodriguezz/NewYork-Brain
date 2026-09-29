@@ -1,1 +1,48 @@
-{}
+{
+  "probado": "2026-09-29",
+  "fuentes": [
+    {
+      "id": "F02",
+      "nombre": "NYC Mayor's Office of Management and Budget",
+      "url": "https://nyc.gov/omb"
+    }
+  ],
+  "cifras": {
+    "pim_2026_manhattan": {
+      "valor": 112000,
+      "unidad": "M$",
+      "fuente": "F02",
+      "vigencia": "FY2026",
+      "etiqueta": "Presupuesto Municipal"
+    },
+    "ingreso_recaudado_2025_manhattan": {
+      "valor": 32500,
+      "unidad": "M$",
+      "fuente": "F02",
+      "vigencia": "2025",
+      "etiqueta": "Recaudación predial Manhattan"
+    },
+    "predial_2025_manhattan": {
+      "valor": 28400,
+      "unidad": "M$",
+      "fuente": "F02",
+      "vigencia": "2025",
+      "etiqueta": "Impuesto a la propiedad"
+    },
+    "ejecucion_2025_manhattan": {
+      "valor": 96.8,
+      "unidad": "%",
+      "fuente": "F02",
+      "vigencia": "2025",
+      "etiqueta": "Ejecución presupuestal"
+    },
+    "inversion_pim_2026_manhattan": {
+      "valor": 14200,
+      "unidad": "M$",
+      "fuente": "F02",
+      "vigencia": "2026",
+      "etiqueta": "Inversión en capital"
+    }
+  },
+  "series": {}
+}

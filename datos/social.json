@@ -1,1 +1,34 @@
-{}
+{
+  "probado": "2026-09-29",
+  "fuentes": [
+    {
+      "id": "F03",
+      "nombre": "American Community Survey (Census Bureau)",
+      "url": "https://census.gov"
+    }
+  ],
+  "cifras": {
+    "manhattan_idh_2019": {
+      "valor": 0.942,
+      "unidad": "IDH",
+      "fuente": "F03",
+      "vigencia": "2023",
+      "etiqueta": "Índice Desarrollo Humano"
+    },
+    "manhattan_pobreza_2018": {
+      "valor": 13.8,
+      "unidad": "%",
+      "fuente": "F03",
+      "vigencia": "2024",
+      "etiqueta": "Tasa de pobreza"
+    },
+    "ny_prov_pobreza_2018": {
+      "valor": 18.2,
+      "unidad": "%",
+      "fuente": "F03",
+      "vigencia": "2024",
+      "etiqueta": "Pobreza en Nueva York"
+    }
+  },
+  "series": {}
+}

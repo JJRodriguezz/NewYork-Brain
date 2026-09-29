@@ -1,1 +1,70 @@
-{}
+{
+  "probado": "2026-09-29",
+  "n": 6,
+  "por_estado": {
+    "integrado": 4,
+    "candidato": 2
+  },
+  "datasets": [
+    {
+      "id": "F01",
+      "nombre": "NYPD Complaint Data Historic & Current",
+      "entidad": "NYPD",
+      "tema": "seguridad",
+      "vigencia": "2025",
+      "estado": "integrado",
+      "uso": "Denuncias y delitos",
+      "url": "https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i"
+    },
+    {
+      "id": "F02",
+      "nombre": "Property Valuation and Assessment Data",
+      "entidad": "NYC Department of Finance",
+      "tema": "economia",
+      "vigencia": "2025",
+      "estado": "integrado",
+      "uso": "Valoración fiscal y mercado inmobiliario",
+      "url": "https://data.cityofnewyork.us/City-Government/Property-Valuation-and-Assessment-Data/yjxr-fw8i"
+    },
+    {
+      "id": "F03",
+      "nombre": "New York City Population by Borough 1950-2040",
+      "entidad": "Department of City Planning",
+      "tema": "demografia",
+      "vigencia": "2024",
+      "estado": "integrado",
+      "uso": "Censos y proyecciones poblacionales",
+      "url": "https://data.cityofnewyork.us/City-Government/New-York-City-Population-by-Borough-1950-2040/xywu-7bv9"
+    },
+    {
+      "id": "F04",
+      "nombre": "311 Service Requests",
+      "entidad": "NYC 311",
+      "tema": "escucha",
+      "vigencia": "2026",
+      "estado": "integrado",
+      "uso": "Quejas ciudadanas de convivencia y servicios",
+      "url": "https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9"
+    },
+    {
+      "id": "F05",
+      "nombre": "2015 Street Tree Census",
+      "entidad": "NYC Parks",
+      "tema": "ambiente",
+      "vigencia": "2015",
+      "estado": "candidato",
+      "uso": "Censo arbóreo y cobertura verde",
+      "url": "https://data.cityofnewyork.us/Environment/2015-Street-Tree-Census-Tree-Data/uvpi-gqnh"
+    },
+    {
+      "id": "F06",
+      "nombre": "MTA Subway Turnstile and Passenger Data",
+      "entidad": "MTA",
+      "tema": "infraestructura",
+      "vigencia": "2025",
+      "estado": "candidato",
+      "uso": "Afluencia y tránsito de transporte masivo",
+      "url": "https://new.mta.info"
+    }
+  ]
+}

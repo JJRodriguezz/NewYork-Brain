@@ -1,1 +1,113 @@
-{}
+{
+  "probado": "2026-09-29",
+  "cifras": {
+    "manhattan_puesto_idh": {
+      "valor": 1,
+      "unidad": "puesto",
+      "etiqueta": "IDH en NYC"
+    },
+    "manhattan_puesto_denuncias": {
+      "valor": 2,
+      "unidad": "puesto",
+      "etiqueta": "Tasa denuncias en NYC"
+    }
+  },
+  "ancla": [
+    "manhattan_puesto_idh",
+    "manhattan_puesto_denuncias"
+  ],
+  "listas": {
+    "metricas": {
+      "poblacion": "Población total",
+      "denuncias": "Delitos x 1000 hab",
+      "precio": "Precio promedio USD/m²",
+      "verde": "% Área verde",
+      "transporte": "Estaciones de metro"
+    },
+    "dimensiones": {
+      "movilidad": {
+        "n": "Movilidad",
+        "metricas": [
+          [
+            "transporte",
+            "dir"
+          ]
+        ]
+      },
+      "servicios": {
+        "n": "Seguridad y Vida",
+        "metricas": [
+          [
+            "denuncias",
+            "inv"
+          ]
+        ]
+      },
+      "verde": {
+        "n": "Medio Ambiente",
+        "metricas": [
+          [
+            "verde",
+            "dir"
+          ]
+        ]
+      },
+      "edificacion": {
+        "n": "Economía",
+        "metricas": [
+          [
+            "precio",
+            "dir"
+          ]
+        ]
+      }
+    },
+    "uv": [
+      {
+        "uv": "MAN",
+        "nombre": "Manhattan",
+        "denuncias": 20.1,
+        "precio": 15800,
+        "verde": 17.8,
+        "transporte": 151,
+        "poblacion": 1694251
+      },
+      {
+        "uv": "BK",
+        "nombre": "Brooklyn",
+        "denuncias": 18.6,
+        "precio": 9200,
+        "verde": 14.2,
+        "transporte": 170,
+        "poblacion": 2590516
+      },
+      {
+        "uv": "QN",
+        "nombre": "Queens",
+        "denuncias": 16.9,
+        "precio": 7100,
+        "verde": 15.6,
+        "transporte": 81,
+        "poblacion": 2278029
+      },
+      {
+        "uv": "BX",
+        "nombre": "Bronx",
+        "denuncias": 28.7,
+        "precio": 4500,
+        "verde": 24.1,
+        "transporte": 70,
+        "poblacion": 1379946
+      },
+      {
+        "uv": "SI",
+        "nombre": "Staten Island",
+        "denuncias": 12.5,
+        "precio": 5200,
+        "verde": 28.5,
+        "transporte": 0,
+        "poblacion": 493494
+      }
+    ]
+  }
+}

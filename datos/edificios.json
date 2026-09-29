@@ -1,1 +1,26 @@
-{}
+{
+  "probado": "2026-09-29",
+  "cifras": {
+    "edificios_n": {
+      "valor": 43500,
+      "unidad": "edificios",
+      "fuente": "OSM / NYC Buildings",
+      "vigencia": "2025",
+      "etiqueta": "Edificios 3D"
+    },
+    "torres_10_pisos": {
+      "valor": 3840,
+      "unidad": "torres",
+      "fuente": "NYC Buildings",
+      "vigencia": "2025",
+      "etiqueta": "Rascacielos (>10 pisos)"
+    },
+    "pct_pisos_osm": {
+      "valor": 88.5,
+      "unidad": "%",
+      "fuente": "OSM",
+      "vigencia": "2025",
+      "etiqueta": "Edificios catalogados"
+    }
+  }
+}

@@ -1,1 +1,181 @@
-{}
+{
+  "probado": "2026-09-29",
+  "fuentes": [
+    {
+      "id": "F01",
+      "nombre": "NYPD CompStat / Open Data",
+      "url": "https://data.cityofnewyork.us"
+    }
+  ],
+  "cifras": {
+    "denuncias_total_2025_manhattan": {
+      "valor": 34120,
+      "unidad": "denuncias",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Total delitos mayores"
+    },
+    "denuncias_hurto_2025_manhattan": {
+      "valor": 15400,
+      "unidad": "denuncias",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Grand Larceny (Hurto)"
+    },
+    "denuncias_robo_2025_manhattan": {
+      "valor": 3890,
+      "unidad": "denuncias",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Robbery (Robo)"
+    },
+    "denuncias_extorsion_2025_manhattan": {
+      "valor": 210,
+      "unidad": "denuncias",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Extorsión"
+    },
+    "denuncias_estafa_2025_manhattan": {
+      "valor": 4120,
+      "unidad": "denuncias",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Fraude / Estafa"
+    },
+    "tasa_homicidios_manhattan": {
+      "valor": 3.1,
+      "unidad": "por 100k",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Homicidios x 100k hab"
+    },
+    "tasa_homicidios_ny_metropolitana": {
+      "valor": 4.8,
+      "unidad": "por 100k",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Homicidios NYC"
+    },
+    "serenos_manhattan": {
+      "valor": 4200,
+      "unidad": "agentes",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Oficiales asignados"
+    },
+    "camaras_serenazgo_manhattan": {
+      "valor": 18500,
+      "unidad": "cámaras",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Cámaras Domain Awareness"
+    },
+    "vehiculos_serenazgo_manhattan": {
+      "valor": 680,
+      "unidad": "patrullas",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Patrullas en servicio"
+    },
+    "poblacion_manhattan_2025": {
+      "valor": 1694251,
+      "unidad": "hab",
+      "fuente": "F01",
+      "vigencia": "2025",
+      "etiqueta": "Población base"
+    }
+  },
+  "series": {
+    "denuncias_total_manhattan": {
+      "etiqueta": "Evolución delitos mayores",
+      "unidad": "denuncias",
+      "fuente": "F01",
+      "puntos": [
+        [
+          "2019",
+          31200
+        ],
+        [
+          "2020",
+          28900
+        ],
+        [
+          "2021",
+          30500
+        ],
+        [
+          "2022",
+          36100
+        ],
+        [
+          "2023",
+          35400
+        ],
+        [
+          "2024",
+          34800
+        ],
+        [
+          "2025",
+          34120
+        ]
+      ]
+    },
+    "denuncias_mensual_manhattan": {
+      "etiqueta": "Denuncias mensuales 2025",
+      "unidad": "denuncias",
+      "fuente": "F01",
+      "puntos": [
+        [
+          "2025-01",
+          2800
+        ],
+        [
+          "2025-02",
+          2650
+        ],
+        [
+          "2025-03",
+          2900
+        ],
+        [
+          "2025-04",
+          2850
+        ],
+        [
+          "2025-05",
+          3020
+        ],
+        [
+          "2025-06",
+          3100
+        ],
+        [
+          "2025-07",
+          3250
+        ],
+        [
+          "2025-08",
+          3180
+        ],
+        [
+          "2025-09",
+          2950
+        ],
+        [
+          "2025-10",
+          2910
+        ],
+        [
+          "2025-11",
+          2720
+        ],
+        [
+          "2025-12",
+          2790
+        ]
+      ]
+    }
+  }
+}
