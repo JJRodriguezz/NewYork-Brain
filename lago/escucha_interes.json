@@ -1,0 +1,733 @@
+{
+ "_meta": {
+  "id_fuente": "F08",
+  "tabla": "escucha_interes",
+  "fecha_prueba": "2026-10-04",
+  "conjunto_de_datos": "Wikimedia Pageviews API (vistas mensuales por artículo)",
+  "entidad": "Wikimedia Foundation",
+  "url_api": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/New_York_City/monthly/2024100100/2026093000",
+  "licencia": "CC0 (dominio público)",
+  "trae_personas": false,
+  "cobertura": "Artículos de la ciudad y de los 5 boroughs (interés global, no geolocalizado)",
+  "periodo": "2024-10 a 2026-09",
+  "frecuencia_actualizacion": "Mensual",
+  "unidad": "vistas de página hechas por personas (agente 'user', excluye bots)",
+  "nota": "Proxy de interés externo, no de opinión: una vista no dice si el lector piensa bien o mal de la ciudad. Los picos suelen coincidir con noticias (elecciones, eventos, clima)."
+ },
+ "series": [
+  {
+   "articulo": "en:New_York_City",
+   "etiqueta": "Nueva York (inglés)",
+   "puntos": [
+    {
+     "mes": "2024-10",
+     "vistas": 505306
+    },
+    {
+     "mes": "2024-11",
+     "vistas": 528903
+    },
+    {
+     "mes": "2024-12",
+     "vistas": 486024
+    },
+    {
+     "mes": "2025-01",
+     "vistas": 493665
+    },
+    {
+     "mes": "2025-02",
+     "vistas": 403942
+    },
+    {
+     "mes": "2025-03",
+     "vistas": 565111
+    },
+    {
+     "mes": "2025-04",
+     "vistas": 401357
+    },
+    {
+     "mes": "2025-05",
+     "vistas": 430936
+    },
+    {
+     "mes": "2025-06",
+     "vistas": 450848
+    },
+    {
+     "mes": "2025-07",
+     "vistas": 427830
+    },
+    {
+     "mes": "2025-08",
+     "vistas": 422669
+    },
+    {
+     "mes": "2025-09",
+     "vistas": 421547
+    },
+    {
+     "mes": "2025-10",
+     "vistas": 447267
+    },
+    {
+     "mes": "2025-11",
+     "vistas": 636948
+    },
+    {
+     "mes": "2025-12",
+     "vistas": 426809
+    },
+    {
+     "mes": "2026-01",
+     "vistas": 476297
+    },
+    {
+     "mes": "2026-02",
+     "vistas": 371342
+    },
+    {
+     "mes": "2026-03",
+     "vistas": 389875
+    },
+    {
+     "mes": "2026-04",
+     "vistas": 357056
+    },
+    {
+     "mes": "2026-05",
+     "vistas": 367913
+    },
+    {
+     "mes": "2026-06",
+     "vistas": 385277
+    },
+    {
+     "mes": "2026-07",
+     "vistas": 360530
+    },
+    {
+     "mes": "2026-08",
+     "vistas": 343053
+    },
+    {
+     "mes": "2026-09",
+     "vistas": 362124
+    }
+   ]
+  },
+  {
+   "articulo": "es:Nueva_York",
+   "etiqueta": "Nueva York (español)",
+   "puntos": [
+    {
+     "mes": "2024-10",
+     "vistas": 66713
+    },
+    {
+     "mes": "2024-11",
+     "vistas": 68897
+    },
+    {
+     "mes": "2024-12",
+     "vistas": 53473
+    },
+    {
+     "mes": "2025-01",
+     "vistas": 63722
+    },
+    {
+     "mes": "2025-02",
+     "vistas": 51839
+    },
+    {
+     "mes": "2025-03",
+     "vistas": 56440
+    },
+    {
+     "mes": "2025-04",
+     "vistas": 43691
+    },
+    {
+     "mes": "2025-05",
+     "vistas": 43417
+    },
+    {
+     "mes": "2025-06",
+     "vistas": 40377
+    },
+    {
+     "mes": "2025-07",
+     "vistas": 42263
+    },
+    {
+     "mes": "2025-08",
+     "vistas": 40403
+    },
+    {
+     "mes": "2025-09",
+     "vistas": 43351
+    },
+    {
+     "mes": "2025-10",
+     "vistas": 42601
+    },
+    {
+     "mes": "2025-11",
+     "vistas": 62943
+    },
+    {
+     "mes": "2025-12",
+     "vistas": 39522
+    },
+    {
+     "mes": "2026-01",
+     "vistas": 48343
+    },
+    {
+     "mes": "2026-02",
+     "vistas": 38428
+    },
+    {
+     "mes": "2026-03",
+     "vistas": 35172
+    },
+    {
+     "mes": "2026-04",
+     "vistas": 37230
+    },
+    {
+     "mes": "2026-05",
+     "vistas": 34605
+    },
+    {
+     "mes": "2026-06",
+     "vistas": 37378
+    },
+    {
+     "mes": "2026-07",
+     "vistas": 48090
+    },
+    {
+     "mes": "2026-08",
+     "vistas": 34764
+    },
+    {
+     "mes": "2026-09",
+     "vistas": 36334
+    }
+   ]
+  },
+  {
+   "articulo": "en:Manhattan",
+   "etiqueta": "Manhattan",
+   "puntos": [
+    {
+     "mes": "2024-10",
+     "vistas": 118436
+    },
+    {
+     "mes": "2024-11",
+     "vistas": 123046
+    },
+    {
+     "mes": "2024-12",
+     "vistas": 119560
+    },
+    {
+     "mes": "2025-01",
+     "vistas": 120065
+    },
+    {
+     "mes": "2025-02",
+     "vistas": 94198
+    },
+    {
+     "mes": "2025-03",
+     "vistas": 103178
+    },
+    {
+     "mes": "2025-04",
+     "vistas": 91452
+    },
+    {
+     "mes": "2025-05",
+     "vistas": 105879
+    },
+    {
+     "mes": "2025-06",
+     "vistas": 98813
+    },
+    {
+     "mes": "2025-07",
+     "vistas": 107456
+    },
+    {
+     "mes": "2025-08",
+     "vistas": 99863
+    },
+    {
+     "mes": "2025-09",
+     "vistas": 94458
+    },
+    {
+     "mes": "2025-10",
+     "vistas": 99510
+    },
+    {
+     "mes": "2025-11",
+     "vistas": 116011
+    },
+    {
+     "mes": "2025-12",
+     "vistas": 93034
+    },
+    {
+     "mes": "2026-01",
+     "vistas": 95146
+    },
+    {
+     "mes": "2026-02",
+     "vistas": 77959
+    },
+    {
+     "mes": "2026-03",
+     "vistas": 87865
+    },
+    {
+     "mes": "2026-04",
+     "vistas": 88403
+    },
+    {
+     "mes": "2026-05",
+     "vistas": 93879
+    },
+    {
+     "mes": "2026-06",
+     "vistas": 94594
+    },
+    {
+     "mes": "2026-07",
+     "vistas": 85669
+    },
+    {
+     "mes": "2026-08",
+     "vistas": 88194
+    },
+    {
+     "mes": "2026-09",
+     "vistas": 93883
+    }
+   ]
+  },
+  {
+   "articulo": "en:Brooklyn",
+   "etiqueta": "Brooklyn",
+   "puntos": [
+    {
+     "mes": "2024-10",
+     "vistas": 158605
+    },
+    {
+     "mes": "2024-11",
+     "vistas": 227004
+    },
+    {
+     "mes": "2024-12",
+     "vistas": 284635
+    },
+    {
+     "mes": "2025-01",
+     "vistas": 887759
+    },
+    {
+     "mes": "2025-02",
+     "vistas": 300967
+    },
+    {
+     "mes": "2025-03",
+     "vistas": 238716
+    },
+    {
+     "mes": "2025-04",
+     "vistas": 329683
+    },
+    {
+     "mes": "2025-05",
+     "vistas": 304917
+    },
+    {
+     "mes": "2025-06",
+     "vistas": 285410
+    },
+    {
+     "mes": "2025-07",
+     "vistas": 333472
+    },
+    {
+     "mes": "2025-08",
+     "vistas": 272067
+    },
+    {
+     "mes": "2025-09",
+     "vistas": 294491
+    },
+    {
+     "mes": "2025-10",
+     "vistas": 257565
+    },
+    {
+     "mes": "2025-11",
+     "vistas": 237506
+    },
+    {
+     "mes": "2025-12",
+     "vistas": 296306
+    },
+    {
+     "mes": "2026-01",
+     "vistas": 330266
+    },
+    {
+     "mes": "2026-02",
+     "vistas": 223172
+    },
+    {
+     "mes": "2026-03",
+     "vistas": 262260
+    },
+    {
+     "mes": "2026-04",
+     "vistas": 509303
+    },
+    {
+     "mes": "2026-05",
+     "vistas": 246170
+    },
+    {
+     "mes": "2026-06",
+     "vistas": 187575
+    },
+    {
+     "mes": "2026-07",
+     "vistas": 178901
+    },
+    {
+     "mes": "2026-08",
+     "vistas": 171829
+    },
+    {
+     "mes": "2026-09",
+     "vistas": 161152
+    }
+   ]
+  },
+  {
+   "articulo": "en:Queens",
+   "etiqueta": "Queens",
+   "puntos": [
+    {
+     "mes": "2024-10",
+     "vistas": 58611
+    },
+    {
+     "mes": "2024-11",
+     "vistas": 70342
+    },
+    {
+     "mes": "2024-12",
+     "vistas": 52828
+    },
+    {
+     "mes": "2025-01",
+     "vistas": 64850
+    },
+    {
+     "mes": "2025-02",
+     "vistas": 49089
+    },
+    {
+     "mes": "2025-03",
+     "vistas": 54817
+    },
+    {
+     "mes": "2025-04",
+     "vistas": 47875
+    },
+    {
+     "mes": "2025-05",
+     "vistas": 50246
+    },
+    {
+     "mes": "2025-06",
+     "vistas": 59023
+    },
+    {
+     "mes": "2025-07",
+     "vistas": 52398
+    },
+    {
+     "mes": "2025-08",
+     "vistas": 53646
+    },
+    {
+     "mes": "2025-09",
+     "vistas": 52004
+    },
+    {
+     "mes": "2025-10",
+     "vistas": 52775
+    },
+    {
+     "mes": "2025-11",
+     "vistas": 77757
+    },
+    {
+     "mes": "2025-12",
+     "vistas": 44511
+    },
+    {
+     "mes": "2026-01",
+     "vistas": 52757
+    },
+    {
+     "mes": "2026-02",
+     "vistas": 38571
+    },
+    {
+     "mes": "2026-03",
+     "vistas": 44928
+    },
+    {
+     "mes": "2026-04",
+     "vistas": 43330
+    },
+    {
+     "mes": "2026-05",
+     "vistas": 42899
+    },
+    {
+     "mes": "2026-06",
+     "vistas": 49131
+    },
+    {
+     "mes": "2026-07",
+     "vistas": 43156
+    },
+    {
+     "mes": "2026-08",
+     "vistas": 49865
+    },
+    {
+     "mes": "2026-09",
+     "vistas": 46495
+    }
+   ]
+  },
+  {
+   "articulo": "en:The_Bronx",
+   "etiqueta": "Bronx",
+   "puntos": [
+    {
+     "mes": "2024-10",
+     "vistas": 80379
+    },
+    {
+     "mes": "2024-11",
+     "vistas": 72470
+    },
+    {
+     "mes": "2024-12",
+     "vistas": 62888
+    },
+    {
+     "mes": "2025-01",
+     "vistas": 67319
+    },
+    {
+     "mes": "2025-02",
+     "vistas": 54670
+    },
+    {
+     "mes": "2025-03",
+     "vistas": 66542
+    },
+    {
+     "mes": "2025-04",
+     "vistas": 54011
+    },
+    {
+     "mes": "2025-05",
+     "vistas": 58609
+    },
+    {
+     "mes": "2025-06",
+     "vistas": 62680
+    },
+    {
+     "mes": "2025-07",
+     "vistas": 58982
+    },
+    {
+     "mes": "2025-08",
+     "vistas": 59768
+    },
+    {
+     "mes": "2025-09",
+     "vistas": 54874
+    },
+    {
+     "mes": "2025-10",
+     "vistas": 63626
+    },
+    {
+     "mes": "2025-11",
+     "vistas": 71908
+    },
+    {
+     "mes": "2025-12",
+     "vistas": 53995
+    },
+    {
+     "mes": "2026-01",
+     "vistas": 53787
+    },
+    {
+     "mes": "2026-02",
+     "vistas": 44587
+    },
+    {
+     "mes": "2026-03",
+     "vistas": 46384
+    },
+    {
+     "mes": "2026-04",
+     "vistas": 48694
+    },
+    {
+     "mes": "2026-05",
+     "vistas": 49112
+    },
+    {
+     "mes": "2026-06",
+     "vistas": 55301
+    },
+    {
+     "mes": "2026-07",
+     "vistas": 47487
+    },
+    {
+     "mes": "2026-08",
+     "vistas": 51466
+    },
+    {
+     "mes": "2026-09",
+     "vistas": 48200
+    }
+   ]
+  },
+  {
+   "articulo": "en:Staten_Island",
+   "etiqueta": "Staten Island",
+   "puntos": [
+    {
+     "mes": "2024-10",
+     "vistas": 53014
+    },
+    {
+     "mes": "2024-11",
+     "vistas": 68757
+    },
+    {
+     "mes": "2024-12",
+     "vistas": 52091
+    },
+    {
+     "mes": "2025-01",
+     "vistas": 51226
+    },
+    {
+     "mes": "2025-02",
+     "vistas": 46260
+    },
+    {
+     "mes": "2025-03",
+     "vistas": 48239
+    },
+    {
+     "mes": "2025-04",
+     "vistas": 43845
+    },
+    {
+     "mes": "2025-05",
+     "vistas": 71781
+    },
+    {
+     "mes": "2025-06",
+     "vistas": 61449
+    },
+    {
+     "mes": "2025-07",
+     "vistas": 53959
+    },
+    {
+     "mes": "2025-08",
+     "vistas": 53842
+    },
+    {
+     "mes": "2025-09",
+     "vistas": 49639
+    },
+    {
+     "mes": "2025-10",
+     "vistas": 52747
+    },
+    {
+     "mes": "2025-11",
+     "vistas": 95789
+    },
+    {
+     "mes": "2025-12",
+     "vistas": 41070
+    },
+    {
+     "mes": "2026-01",
+     "vistas": 46143
+    },
+    {
+     "mes": "2026-02",
+     "vistas": 36252
+    },
+    {
+     "mes": "2026-03",
+     "vistas": 39519
+    },
+    {
+     "mes": "2026-04",
+     "vistas": 38446
+    },
+    {
+     "mes": "2026-05",
+     "vistas": 44673
+    },
+    {
+     "mes": "2026-06",
+     "vistas": 43218
+    },
+    {
+     "mes": "2026-07",
+     "vistas": 42911
+    },
+    {
+     "mes": "2026-08",
+     "vistas": 50052
+    },
+    {
+     "mes": "2026-09",
+     "vistas": 46745
+    }
+   ]
+  }
+ ]
+}

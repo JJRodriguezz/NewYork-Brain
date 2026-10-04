@@ -1,0 +1,229 @@
+{
+ "_meta": {
+  "id_fuente": "F04, F14",
+  "tabla": "seguridad_delitos",
+  "fecha_prueba": "2026-10-04",
+  "conjunto_de_datos": "NYPD Complaint Data Historic (2025) + NYPD Complaint Data Current (Year To Date, 2026)",
+  "entidad": "NYC Police Department (NYPD) vía NYC Open Data",
+  "url_api": "https://data.cityofnewyork.us/resource/qgea-i56i.json ; https://data.cityofnewyork.us/resource/5uac-w243.json",
+  "consulta_soql": "$select=boro_nm,law_cat_cd,count(*)&$where=rpt_dt between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'&$group=boro_nm,law_cat_cd",
+  "licencia": "no declara (el dataset no trae campo de licencia; el portal se rige por los Términos de Uso de NYC.gov y la Local Law 11 de 2012, que obliga a publicar sin registro ni restricciones de uso)",
+  "trae_personas": true,
+  "campos_personales_excluidos": [
+   "susp_age_group",
+   "susp_race",
+   "susp_sex",
+   "vic_age_group",
+   "vic_race",
+   "vic_sex",
+   "latitude/longitude (solo se usan para asignar distrito, no se guardan)"
+  ],
+  "cobertura": "Ciudad de Nueva York; borough y distrito",
+  "periodo": "Año de reporte 2025; comparación enero–junio 2025 vs 2026",
+  "frecuencia_actualizacion": "Trimestral",
+  "unidad": "denuncias (delitos reportados, no condenas)",
+  "nota": "Se cuenta por fecha de reporte (rpt_dt), como en las estadísticas del NYPD. La fuente trae edad, raza y sexo de víctima y sospechoso por fila: nada de eso entra al lago. Delitos sexuales vienen sin coordenadas por protección de víctimas, así que el conteo por distrito es algo menor que el del borough. En el dataset de año en curso hay fechas de inicio imposibles (año 1016): por eso se filtra por rpt_dt y no por cmplnt_fr_dt."
+ },
+ "total_2025": 579561,
+ "datos": [
+  {
+   "borough": "Manhattan",
+   "denuncias": 136768,
+   "graves": 44604,
+   "menos_graves": 74173,
+   "infracciones": 17991,
+   "por_1000_hab": 80.7,
+   "graves_por_1000_hab": 26.3
+  },
+  {
+   "borough": "Bronx",
+   "denuncias": 130360,
+   "graves": 44637,
+   "menos_graves": 65078,
+   "infracciones": 20645,
+   "por_1000_hab": 88.5,
+   "graves_por_1000_hab": 30.3
+  },
+  {
+   "borough": "Brooklyn",
+   "denuncias": 162387,
+   "graves": 51847,
+   "menos_graves": 82164,
+   "infracciones": 28376,
+   "por_1000_hab": 59.4,
+   "graves_por_1000_hab": 18.9
+  },
+  {
+   "borough": "Queens",
+   "denuncias": 124472,
+   "graves": 40593,
+   "menos_graves": 64069,
+   "infracciones": 19810,
+   "por_1000_hab": 51.7,
+   "graves_por_1000_hab": 16.9
+  },
+  {
+   "borough": "Staten Island",
+   "denuncias": 24215,
+   "graves": 6451,
+   "menos_graves": 13001,
+   "infracciones": 4763,
+   "por_1000_hab": 48.8,
+   "graves_por_1000_hab": 13.0
+  },
+  {
+   "borough": "No especificado",
+   "denuncias": 1359,
+   "graves": 10,
+   "menos_graves": 1347,
+   "infracciones": 2
+  }
+ ],
+ "top_ofensas_por_borough": {
+  "Manhattan": [
+   {
+    "ofensa": "Petit Larceny",
+    "denuncias": 32976
+   },
+   {
+    "ofensa": "Harrassment 2",
+    "denuncias": 17040
+   },
+   {
+    "ofensa": "Grand Larceny",
+    "denuncias": 16534
+   },
+   {
+    "ofensa": "Assault 3 & Related Offenses",
+    "denuncias": 12569
+   },
+   {
+    "ofensa": "Criminal Mischief & Related Of",
+    "denuncias": 7427
+   }
+  ],
+  "Brooklyn": [
+   {
+    "ofensa": "Petit Larceny",
+    "denuncias": 26135
+   },
+   {
+    "ofensa": "Harrassment 2",
+    "denuncias": 25580
+   },
+   {
+    "ofensa": "Assault 3 & Related Offenses",
+    "denuncias": 17043
+   },
+   {
+    "ofensa": "Grand Larceny",
+    "denuncias": 11519
+   },
+   {
+    "ofensa": "Criminal Mischief & Related Of",
+    "denuncias": 10245
+   }
+  ],
+  "Queens": [
+   {
+    "ofensa": "Petit Larceny",
+    "denuncias": 23479
+   },
+   {
+    "ofensa": "Harrassment 2",
+    "denuncias": 18720
+   },
+   {
+    "ofensa": "Assault 3 & Related Offenses",
+    "denuncias": 13281
+   },
+   {
+    "ofensa": "Grand Larceny",
+    "denuncias": 9464
+   },
+   {
+    "ofensa": "Criminal Mischief & Related Of",
+    "denuncias": 7852
+   }
+  ],
+  "Bronx": [
+   {
+    "ofensa": "Harrassment 2",
+    "denuncias": 20200
+   },
+   {
+    "ofensa": "Petit Larceny",
+    "denuncias": 17612
+   },
+   {
+    "ofensa": "Assault 3 & Related Offenses",
+    "denuncias": 15544
+   },
+   {
+    "ofensa": "Grand Larceny",
+    "denuncias": 9103
+   },
+   {
+    "ofensa": "Felony Assault",
+    "denuncias": 8949
+   }
+  ],
+  "Staten Island": [
+   {
+    "ofensa": "Harrassment 2",
+    "denuncias": 4713
+   },
+   {
+    "ofensa": "Petit Larceny",
+    "denuncias": 3918
+   },
+   {
+    "ofensa": "Assault 3 & Related Offenses",
+    "denuncias": 2460
+   },
+   {
+    "ofensa": "Criminal Mischief & Related Of",
+    "denuncias": 1674
+   },
+   {
+    "ofensa": "Grand Larceny",
+    "denuncias": 1481
+   }
+  ]
+ },
+ "primer_semestre": {
+  "disponible_hasta": "2026-06-30",
+  "datos": [
+   {
+    "borough": "Manhattan",
+    "denuncias_2025": 68469,
+    "denuncias_2026": 64242,
+    "variacion_pct": -6.2
+   },
+   {
+    "borough": "Bronx",
+    "denuncias_2025": 65630,
+    "denuncias_2026": 63163,
+    "variacion_pct": -3.8
+   },
+   {
+    "borough": "Brooklyn",
+    "denuncias_2025": 79751,
+    "denuncias_2026": 80653,
+    "variacion_pct": 1.1
+   },
+   {
+    "borough": "Queens",
+    "denuncias_2025": 61641,
+    "denuncias_2026": 59862,
+    "variacion_pct": -2.9
+   },
+   {
+    "borough": "Staten Island",
+    "denuncias_2025": 12481,
+    "denuncias_2026": 10807,
+    "variacion_pct": -13.4
+   }
+  ]
+ }
+}

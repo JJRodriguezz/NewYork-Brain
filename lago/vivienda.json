@@ -1,0 +1,166 @@
+{
+ "_meta": {
+  "id_fuente": "F05, F16",
+  "tabla": "vivienda",
+  "fecha_prueba": "2026-10-04",
+  "conjunto_de_datos": "DOB NOW: Build – Job Application Filings (obra nueva 2025) + Housing New York Units by Building",
+  "entidad": "NYC Department of Buildings (F05); NYC Dept. of Housing Preservation and Development, HPD (F16)",
+  "url_api": "https://data.cityofnewyork.us/resource/w9ak-ipjd.json ; https://data.cityofnewyork.us/resource/hg8x-zxpr.json",
+  "consulta_soql": "$select=upper(borough),commmunity_board,count(*),sum(proposed_dwelling_units::number)&$where=job_type='New Building' AND job_filing_number like '%-I1' AND filing_date between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'",
+  "licencia": "no declara (el dataset no trae campo de licencia; el portal se rige por los Términos de Uso de NYC.gov y la Local Law 11 de 2012, que obliga a publicar sin registro ni restricciones de uso)",
+  "trae_personas": true,
+  "campos_personales_excluidos": [
+   "owner_first_name",
+   "owner_last_name",
+   "owner_s_business_name",
+   "applicant_first_name",
+   "applicant_last_name",
+   "applicant_license",
+   "filing_representative_first_name",
+   "filing_representative_last_name",
+   "filing_representative_street_name"
+  ],
+  "cobertura": "Ciudad de Nueva York; borough y distrito comunitario",
+  "periodo": "DOB: radicaciones de 2025. HPD: acumulado desde 2014 (planes Housing New York / Housing Our Neighbors).",
+  "frecuencia_actualizacion": "DOB: diaria. HPD: trimestral",
+  "unidad": "solicitudes, viviendas",
+  "nota": "Calidad: cada obra nueva genera varias filas (radicación inicial -I1 y trámites posteriores -P1, -S8, -Z1…) que repiten las viviendas propuestas. Sin filtrar, 2025 suma 562,235 viviendas en 13,329 filas; contando solo -I1 quedan 42,341. Además el campo de distrito se llama \"commmunity_board\" (con triple m) en la fuente. Los nombres de propietarios y solicitantes no se descargan."
+ },
+ "obra_nueva_2025": [
+  {
+   "borough": "Manhattan",
+   "solicitudes_obra_nueva": 73,
+   "viviendas_propuestas": 4340,
+   "viviendas_por_1000_hab": 2.6
+  },
+  {
+   "borough": "Bronx",
+   "solicitudes_obra_nueva": 313,
+   "viviendas_propuestas": 12003,
+   "viviendas_por_1000_hab": 8.2
+  },
+  {
+   "borough": "Brooklyn",
+   "solicitudes_obra_nueva": 442,
+   "viviendas_propuestas": 13426,
+   "viviendas_por_1000_hab": 4.9
+  },
+  {
+   "borough": "Queens",
+   "solicitudes_obra_nueva": 614,
+   "viviendas_propuestas": 11758,
+   "viviendas_por_1000_hab": 4.9
+  },
+  {
+   "borough": "Staten Island",
+   "solicitudes_obra_nueva": 319,
+   "viviendas_propuestas": 814,
+   "viviendas_por_1000_hab": 1.6
+  }
+ ],
+ "filas_sin_filtrar_2025": {
+  "filas": 13329,
+  "viviendas": 562235
+ },
+ "asequible_hpd": [
+  {
+   "borough": "Manhattan",
+   "viviendas_asequibles": 74338,
+   "ingreso_extremadamente_bajo": 15115,
+   "ingreso_muy_bajo": 19563,
+   "ingreso_bajo": 21600,
+   "ingreso_moderado": 7149,
+   "ingreso_medio": 10564
+  },
+  {
+   "borough": "Bronx",
+   "viviendas_asequibles": 106661,
+   "ingreso_extremadamente_bajo": 19214,
+   "ingreso_muy_bajo": 33002,
+   "ingreso_bajo": 37893,
+   "ingreso_moderado": 3309,
+   "ingreso_medio": 12654
+  },
+  {
+   "borough": "Brooklyn",
+   "viviendas_asequibles": 90784,
+   "ingreso_extremadamente_bajo": 16834,
+   "ingreso_muy_bajo": 20428,
+   "ingreso_bajo": 34388,
+   "ingreso_moderado": 4776,
+   "ingreso_medio": 13996
+  },
+  {
+   "borough": "Queens",
+   "viviendas_asequibles": 42952,
+   "ingreso_extremadamente_bajo": 5238,
+   "ingreso_muy_bajo": 12865,
+   "ingreso_bajo": 12578,
+   "ingreso_moderado": 4065,
+   "ingreso_medio": 8107
+  },
+  {
+   "borough": "Staten Island",
+   "viviendas_asequibles": 6211,
+   "ingreso_extremadamente_bajo": 2463,
+   "ingreso_muy_bajo": 827,
+   "ingreso_bajo": 2509,
+   "ingreso_moderado": 306,
+   "ingreso_medio": 88
+  }
+ ],
+ "asequible_por_anio_inicio": [
+  {
+   "anio": 2014,
+   "viviendas": 19629
+  },
+  {
+   "anio": 2015,
+   "viviendas": 21153
+  },
+  {
+   "anio": 2016,
+   "viviendas": 22344
+  },
+  {
+   "anio": 2017,
+   "viviendas": 24789
+  },
+  {
+   "anio": 2018,
+   "viviendas": 34794
+  },
+  {
+   "anio": 2019,
+   "viviendas": 25430
+  },
+  {
+   "anio": 2020,
+   "viviendas": 30076
+  },
+  {
+   "anio": 2021,
+   "viviendas": 27234
+  },
+  {
+   "anio": 2022,
+   "viviendas": 16557
+  },
+  {
+   "anio": 2023,
+   "viviendas": 29113
+  },
+  {
+   "anio": 2024,
+   "viviendas": 28965
+  },
+  {
+   "anio": 2025,
+   "viviendas": 29277
+  },
+  {
+   "anio": 2026,
+   "viviendas": 11585
+  }
+ ]
+}

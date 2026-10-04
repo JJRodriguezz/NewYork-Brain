@@ -1,0 +1,82 @@
+{
+ "_meta": {
+  "id_fuente": "F11, F12, F21, F22, F23, F25, F32",
+  "tabla": "verificaciones",
+  "fecha_prueba": "2026-10-04",
+  "nota": "Pruebas de vida de las fuentes que NO alimentan el tablero, para dejar evidencia de por qué quedaron fuera."
+ },
+ "resultados": {
+  "F11_acris": [
+   {
+    "recorded_borough": "1",
+    "n": "54036",
+    "con_monto": "32228"
+   },
+   {
+    "recorded_borough": "2",
+    "n": "245",
+    "con_monto": "23"
+   },
+   {
+    "recorded_borough": "4",
+    "n": "2251",
+    "con_monto": "1229"
+   },
+   {
+    "recorded_borough": "3",
+    "n": "1112",
+    "con_monto": "446"
+   }
+  ],
+  "F12_calls": [
+   {
+    "n": "10484258"
+   }
+  ],
+  "F21_census_api": {
+   "status": 302,
+   "location": "https://api.census.gov/data/missing_key.html"
+  },
+  "F22_mta_viejo": [
+   {
+    "ultima": "2025-01-09T00:00:00.000"
+   }
+  ],
+  "F23_dob_bis": [
+   {
+    "n": "3349"
+   }
+  ],
+  "F32_dob_permisos": [
+   {
+    "n": "10065"
+   }
+  ],
+  "F25_pob_proyeccion": [
+   {
+    "borough": "NYC Total",
+    "_2020": "8550971"
+   },
+   {
+    "borough": "   Bronx",
+    "_2020": "1446788"
+   },
+   {
+    "borough": "   Brooklyn",
+    "_2020": "2648452"
+   },
+   {
+    "borough": "   Manhattan",
+    "_2020": "1638281"
+   },
+   {
+    "borough": "   Queens",
+    "_2020": "2330295"
+   },
+   {
+    "borough": "   Staten Island",
+    "_2020": "487155"
+   }
+  ]
+ }
+}

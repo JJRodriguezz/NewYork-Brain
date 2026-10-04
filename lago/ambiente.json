@@ -1,0 +1,644 @@
+{
+ "_meta": {
+  "id_fuente": "F07, F15",
+  "tabla": "ambiente",
+  "fecha_prueba": "2026-10-04",
+  "conjunto_de_datos": "2015 Street Tree Census - Tree Data + NYC Air Quality (NYCCAS)",
+  "entidad": "NYC Parks (F07); NYC Department of Health and Mental Hygiene, NYC Community Air Survey (F15)",
+  "url_api": "https://data.cityofnewyork.us/resource/uvpi-gqnh.json ; https://data.cityofnewyork.us/resource/c3uy-2p5r.json",
+  "licencia": "no declara (el dataset no trae campo de licencia; el portal se rige por los Términos de Uso de NYC.gov y la Local Law 11 de 2012, que obliga a publicar sin registro ni restricciones de uso)",
+  "trae_personas": false,
+  "consulta_soql": "F07: $select=boroname,health,count(*)&$group=boroname,health · F15: $where=measure='Annual mean' AND name like 'Fine particles%' OR 'Nitrogen dioxide%'",
+  "cobertura": "Árboles de calle (no parques); aire por borough y distrito comunitario",
+  "periodo": "Árboles: censo 2015. Aire: serie anual hasta 2024.",
+  "frecuencia_actualizacion": "Árboles: única vez (censo decenal; el de 2025 aún no está publicado). Aire: anual.",
+  "unidad": "árboles; µg/m³ (PM2,5); ppb (NO2)",
+  "nota": "El censo de árboles es de 2015: sirve como referencia estructural, no como estado actual. \"Sin registro\" son tocones o árboles muertos, que no tienen estado de salud. La fuente de aire trae para cada año tres filas por lugar (media anual, verano e invierno) con la misma etiqueta de periodo; aquí se filtra measure = \"Annual mean\" para no mezclarlas."
+ },
+ "arboles_por_borough": [
+  {
+   "borough": "Manhattan",
+   "arboles": 65423,
+   "buena": 47358,
+   "regular": 11460,
+   "mala": 3609,
+   "sin_registro": 2996,
+   "arboles_por_km2": 1106.0
+  },
+  {
+   "borough": "Bronx",
+   "arboles": 85203,
+   "buena": 66603,
+   "regular": 10887,
+   "mala": 3095,
+   "sin_registro": 4618,
+   "arboles_por_km2": 772.6
+  },
+  {
+   "borough": "Brooklyn",
+   "arboles": 177293,
+   "buena": 138212,
+   "regular": 25073,
+   "mala": 6459,
+   "sin_registro": 7549,
+   "arboles_por_km2": 986.5
+  },
+  {
+   "borough": "Queens",
+   "arboles": 250551,
+   "buena": 194008,
+   "regular": 34549,
+   "mala": 9417,
+   "sin_registro": 12577,
+   "arboles_por_km2": 886.7
+  },
+  {
+   "borough": "Staten Island",
+   "arboles": 105318,
+   "buena": 82669,
+   "regular": 14535,
+   "mala": 4238,
+   "sin_registro": 3876,
+   "arboles_por_km2": 698.2
+  }
+ ],
+ "aire_ultimo_anio": "2024",
+ "aire_serie": [
+  {
+   "lugar": "Bronx",
+   "anio": 2009,
+   "no2": 24.52,
+   "pm25": 11.05
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2010,
+   "no2": 22.16,
+   "pm25": 10.14
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2011,
+   "no2": 22.73,
+   "pm25": 10.82
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2012,
+   "no2": 20.99,
+   "pm25": 9.54
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2013,
+   "no2": 19.86,
+   "pm25": 9.1
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2014,
+   "no2": 19.8,
+   "pm25": 9.27
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2015,
+   "pm25": 9.24,
+   "no2": 19.97
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2016,
+   "pm25": 7.75,
+   "no2": 18.42
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2017,
+   "pm25": 7.72,
+   "no2": 19.35
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2018,
+   "no2": 17.73,
+   "pm25": 7.25
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2019,
+   "no2": 16.01,
+   "pm25": 6.91
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2020,
+   "no2": 17.1,
+   "pm25": 6.11
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2021,
+   "no2": 16.54,
+   "pm25": 6.64
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2022,
+   "pm25": 6.1,
+   "no2": 16.0
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2023,
+   "pm25": 6.9,
+   "no2": 15.76
+  },
+  {
+   "lugar": "Bronx",
+   "anio": 2024,
+   "pm25": 6.39,
+   "no2": 14.62
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2009,
+   "no2": 24.11,
+   "pm25": 10.5
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2010,
+   "no2": 22.7,
+   "pm25": 9.69
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2011,
+   "no2": 22.84,
+   "pm25": 10.2
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2012,
+   "no2": 20.56,
+   "pm25": 9.02
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2013,
+   "no2": 19.92,
+   "pm25": 8.7
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2014,
+   "no2": 19.95,
+   "pm25": 9.09
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2015,
+   "pm25": 8.74,
+   "no2": 19.29
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2016,
+   "pm25": 7.76,
+   "no2": 18.48
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2017,
+   "pm25": 7.52,
+   "no2": 18.46
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2018,
+   "no2": 17.83,
+   "pm25": 7.19
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2019,
+   "no2": 16.53,
+   "pm25": 6.66
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2020,
+   "no2": 16.0,
+   "pm25": 6.12
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2021,
+   "no2": 16.68,
+   "pm25": 6.63
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2022,
+   "pm25": 5.81,
+   "no2": 15.43
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2023,
+   "pm25": 6.73,
+   "no2": 16.62
+  },
+  {
+   "lugar": "Brooklyn",
+   "anio": 2024,
+   "pm25": 6.44,
+   "no2": 14.55
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2009,
+   "no2": 22.72,
+   "pm25": 10.43
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2010,
+   "no2": 21.11,
+   "pm25": 9.54
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2011,
+   "no2": 21.58,
+   "pm25": 10.1
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2012,
+   "no2": 19.58,
+   "pm25": 8.95
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2013,
+   "no2": 18.83,
+   "pm25": 8.63
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2014,
+   "no2": 18.89,
+   "pm25": 8.93
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2015,
+   "pm25": 8.56,
+   "no2": 18.4
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2016,
+   "pm25": 7.45,
+   "no2": 17.58
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2017,
+   "pm25": 7.38,
+   "no2": 17.77
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2018,
+   "no2": 17.0,
+   "pm25": 7.0
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2019,
+   "no2": 15.59,
+   "pm25": 6.6
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2020,
+   "no2": 15.17,
+   "pm25": 6.06
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2021,
+   "no2": 15.68,
+   "pm25": 6.54
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2022,
+   "pm25": 5.76,
+   "no2": 14.73
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2023,
+   "pm25": 6.66,
+   "no2": 15.51
+  },
+  {
+   "lugar": "Ciudad",
+   "anio": 2024,
+   "pm25": 6.26,
+   "no2": 14.11
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2009,
+   "no2": 33.89,
+   "pm25": 12.63
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2010,
+   "no2": 30.58,
+   "pm25": 11.61
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2011,
+   "no2": 30.96,
+   "pm25": 11.94
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2012,
+   "no2": 28.74,
+   "pm25": 10.92
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2013,
+   "no2": 28.02,
+   "pm25": 10.73
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2014,
+   "no2": 26.7,
+   "pm25": 10.85
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2015,
+   "pm25": 10.19,
+   "no2": 25.18
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2016,
+   "pm25": 8.97,
+   "no2": 24.35
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2017,
+   "pm25": 8.72,
+   "no2": 24.55
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2018,
+   "no2": 23.43,
+   "pm25": 8.46
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2019,
+   "no2": 21.71,
+   "pm25": 8.31
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2020,
+   "no2": 20.54,
+   "pm25": 7.16
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2021,
+   "no2": 19.97,
+   "pm25": 7.41
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2022,
+   "pm25": 6.96,
+   "no2": 19.06
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2023,
+   "pm25": 7.31,
+   "no2": 19.52
+  },
+  {
+   "lugar": "Manhattan",
+   "anio": 2024,
+   "pm25": 7.71,
+   "no2": 18.63
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2009,
+   "no2": 22.19,
+   "pm25": 10.05
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2010,
+   "no2": 21.01,
+   "pm25": 9.2
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2011,
+   "no2": 21.47,
+   "pm25": 9.75
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2012,
+   "no2": 19.41,
+   "pm25": 8.63
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2013,
+   "no2": 18.71,
+   "pm25": 8.36
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2014,
+   "no2": 18.93,
+   "pm25": 8.6
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2015,
+   "pm25": 8.35,
+   "no2": 18.51
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2016,
+   "pm25": 7.17,
+   "no2": 17.65
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2017,
+   "pm25": 7.19,
+   "no2": 17.85
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2018,
+   "no2": 17.18,
+   "pm25": 6.82
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2019,
+   "no2": 15.66,
+   "pm25": 6.47
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2020,
+   "no2": 14.82,
+   "pm25": 6.06
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2021,
+   "no2": 15.46,
+   "pm25": 6.48
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2022,
+   "pm25": 5.7,
+   "no2": 14.91
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2023,
+   "pm25": 6.63,
+   "no2": 15.47
+  },
+  {
+   "lugar": "Queens",
+   "anio": 2024,
+   "pm25": 5.95,
+   "no2": 13.99
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2009,
+   "no2": 16.84,
+   "pm25": 9.81
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2010,
+   "no2": 15.35,
+   "pm25": 8.8
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2011,
+   "no2": 16.17,
+   "pm25": 9.44
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2012,
+   "no2": 14.54,
+   "pm25": 8.35
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2013,
+   "no2": 13.8,
+   "pm25": 7.98
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2014,
+   "no2": 14.18,
+   "pm25": 8.41
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2015,
+   "pm25": 7.69,
+   "no2": 13.72
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2016,
+   "pm25": 6.84,
+   "no2": 13.47
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2017,
+   "pm25": 6.81,
+   "no2": 13.37
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2018,
+   "no2": 12.92,
+   "pm25": 6.4
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2019,
+   "no2": 11.92,
+   "pm25": 5.92
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2020,
+   "no2": 11.63,
+   "pm25": 5.54
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2021,
+   "no2": 12.84,
+   "pm25": 6.15
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2022,
+   "pm25": 5.18,
+   "no2": 11.24
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2023,
+   "pm25": 6.24,
+   "no2": 12.72
+  },
+  {
+   "lugar": "Staten Island",
+   "anio": 2024,
+   "pm25": 5.95,
+   "no2": 11.9
+  }
+ ]
+}

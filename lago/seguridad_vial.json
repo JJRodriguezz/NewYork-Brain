@@ -1,0 +1,178 @@
+{
+ "_meta": {
+  "id_fuente": "F02",
+  "tabla": "seguridad_vial",
+  "fecha_prueba": "2026-10-04",
+  "conjunto_de_datos": "Motor Vehicle Collisions - Crashes",
+  "entidad": "NYC Police Department (NYPD) vía NYC Open Data",
+  "url_api": "https://data.cityofnewyork.us/resource/h9gi-nx95.json",
+  "consulta_soql": "$select=borough,latitude,longitude,number_of_persons_injured,number_of_persons_killed,number_of_pedestrians_injured,number_of_pedestrians_killed,number_of_cyclist_injured,number_of_cyclist_killed,number_of_motorist_injured,number_of_motorist_killed,crash_date&$where=crash_date between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'",
+  "licencia": "no declara (el dataset no trae campo de licencia; el portal se rige por los Términos de Uso de NYC.gov y la Local Law 11 de 2012, que obliga a publicar sin registro ni restricciones de uso)",
+  "trae_personas": false,
+  "cobertura": "Ciudad de Nueva York; borough y punto (lat/lon) de cada choque",
+  "periodo": "2025-01-01 a 2025-12-31",
+  "frecuencia_actualizacion": "Diaria",
+  "unidad": "colisiones y personas",
+  "nota": "Se descargan solo campos de conteo y coordenadas (85546 choques). 15636 choques sin borough en la fuente se ubicaron por coordenadas (punto en polígono contra los PUMA oficiales); los que no tienen coordenadas válidas quedan como \"No especificado\". Fuente con reporte obligatorio solo si hay herido, fallecido o daño > USD 1.000."
+ },
+ "total_colisiones": 85546,
+ "recuperados_por_coordenadas": 15636,
+ "datos": [
+  {
+   "borough": "Manhattan",
+   "colisiones": 14772,
+   "heridos": 7418,
+   "fallecidos": 38,
+   "peatones_heridos": 1831,
+   "peatones_fallecidos": 22,
+   "ciclistas_heridos": 1791,
+   "ciclistas_fallecidos": 7,
+   "ocupantes_heridos": 3567,
+   "ocupantes_fallecidos": 8,
+   "heridos_por_100k": 437.8,
+   "fallecidos_por_100k": 2.24
+  },
+  {
+   "borough": "Bronx",
+   "colisiones": 12846,
+   "heridos": 8233,
+   "fallecidos": 32,
+   "peatones_heridos": 1508,
+   "peatones_fallecidos": 17,
+   "ciclistas_heridos": 587,
+   "ciclistas_fallecidos": 3,
+   "ocupantes_heridos": 5878,
+   "ocupantes_fallecidos": 12,
+   "heridos_por_100k": 559.1,
+   "fallecidos_por_100k": 2.17
+  },
+  {
+   "borough": "Brooklyn",
+   "colisiones": 27256,
+   "heridos": 16185,
+   "fallecidos": 73,
+   "peatones_heridos": 2940,
+   "peatones_fallecidos": 40,
+   "ciclistas_heridos": 1753,
+   "ciclistas_fallecidos": 2,
+   "ocupantes_heridos": 10994,
+   "ocupantes_fallecidos": 29,
+   "heridos_por_100k": 591.5,
+   "fallecidos_por_100k": 2.67
+  },
+  {
+   "borough": "Queens",
+   "colisiones": 24593,
+   "heridos": 14374,
+   "fallecidos": 62,
+   "peatones_heridos": 2385,
+   "peatones_fallecidos": 29,
+   "ciclistas_heridos": 1083,
+   "ciclistas_fallecidos": 9,
+   "ocupantes_heridos": 10526,
+   "ocupantes_fallecidos": 22,
+   "heridos_por_100k": 597.6,
+   "fallecidos_por_100k": 2.58
+  },
+  {
+   "borough": "Staten Island",
+   "colisiones": 4684,
+   "heridos": 2500,
+   "fallecidos": 10,
+   "peatones_heridos": 400,
+   "peatones_fallecidos": 7,
+   "ciclistas_heridos": 102,
+   "ciclistas_fallecidos": 0,
+   "ocupantes_heridos": 1968,
+   "ocupantes_fallecidos": 2,
+   "heridos_por_100k": 504.3,
+   "fallecidos_por_100k": 2.02
+  },
+  {
+   "borough": "No especificado",
+   "colisiones": 1395,
+   "heridos": 924,
+   "fallecidos": 14,
+   "peatones_heridos": 70,
+   "peatones_fallecidos": 4,
+   "ciclistas_heridos": 42,
+   "ciclistas_fallecidos": 2,
+   "ocupantes_heridos": 804,
+   "ocupantes_fallecidos": 8
+  }
+ ],
+ "serie_mensual": [
+  {
+   "mes": "2025-01",
+   "colisiones": 6482,
+   "heridos": 3556,
+   "fallecidos": 16
+  },
+  {
+   "mes": "2025-02",
+   "colisiones": 5988,
+   "heridos": 3088,
+   "fallecidos": 17
+  },
+  {
+   "mes": "2025-03",
+   "colisiones": 7035,
+   "heridos": 4010,
+   "fallecidos": 15
+  },
+  {
+   "mes": "2025-04",
+   "colisiones": 6924,
+   "heridos": 3934,
+   "fallecidos": 18
+  },
+  {
+   "mes": "2025-05",
+   "colisiones": 7636,
+   "heridos": 4370,
+   "fallecidos": 13
+  },
+  {
+   "mes": "2025-06",
+   "colisiones": 7483,
+   "heridos": 4397,
+   "fallecidos": 23
+  },
+  {
+   "mes": "2025-07",
+   "colisiones": 7410,
+   "heridos": 4582,
+   "fallecidos": 29
+  },
+  {
+   "mes": "2025-08",
+   "colisiones": 6989,
+   "heridos": 4351,
+   "fallecidos": 23
+  },
+  {
+   "mes": "2025-09",
+   "colisiones": 7537,
+   "heridos": 4701,
+   "fallecidos": 23
+  },
+  {
+   "mes": "2025-10",
+   "colisiones": 7537,
+   "heridos": 4528,
+   "fallecidos": 26
+  },
+  {
+   "mes": "2025-11",
+   "colisiones": 7148,
+   "heridos": 4073,
+   "fallecidos": 7
+  },
+  {
+   "mes": "2025-12",
+   "colisiones": 7377,
+   "heridos": 4044,
+   "fallecidos": 19
+  }
+ ]
+}

@@ -1,0 +1,129 @@
+{
+ "_meta": {
+  "id_fuente": "F06",
+  "tabla": "economia_rodajes",
+  "fecha_prueba": "2026-10-04",
+  "conjunto_de_datos": "Film Permits",
+  "entidad": "NYC Mayor's Office of Media and Entertainment (MOME) vía NYC Open Data",
+  "url_api": "https://data.cityofnewyork.us/resource/tg4x-b46p.json",
+  "consulta_soql": "$select=borough,category,count(*)&$where=startdatetime between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'&$group=borough,category",
+  "licencia": "no declara (el dataset no trae campo de licencia; el portal se rige por los Términos de Uso de NYC.gov y la Local Law 11 de 2012, que obliga a publicar sin registro ni restricciones de uso)",
+  "trae_personas": false,
+  "cobertura": "Ciudad de Nueva York; borough",
+  "periodo": "Permisos con inicio en 2025",
+  "frecuencia_actualizacion": "Diaria",
+  "unidad": "permisos de rodaje y eventos",
+  "nota": "Las filas cuyo campo borough trae un valor que no es un borough (errores de captura en la fuente) se cuentan aparte y no se suman."
+ },
+ "por_borough": [
+  {
+   "borough": "Manhattan",
+   "permisos": 2860
+  },
+  {
+   "borough": "Bronx",
+   "permisos": 108
+  },
+  {
+   "borough": "Brooklyn",
+   "permisos": 1787
+  },
+  {
+   "borough": "Queens",
+   "permisos": 657
+  },
+  {
+   "borough": "Staten Island",
+   "permisos": 79
+  }
+ ],
+ "por_categoria": [
+  {
+   "categoria": "Television",
+   "permisos": 2036
+  },
+  {
+   "categoria": "Theater",
+   "permisos": 1087
+  },
+  {
+   "categoria": "Film",
+   "permisos": 861
+  },
+  {
+   "categoria": "Commercial",
+   "permisos": 707
+  },
+  {
+   "categoria": "Still Photography",
+   "permisos": 370
+  },
+  {
+   "categoria": "WEB",
+   "permisos": 302
+  },
+  {
+   "categoria": "Documentary",
+   "permisos": 61
+  },
+  {
+   "categoria": "Student",
+   "permisos": 43
+  },
+  {
+   "categoria": "Music Video",
+   "permisos": 24
+  }
+ ],
+ "serie_mensual": [
+  {
+   "mes": "2025-01",
+   "permisos": 282
+  },
+  {
+   "mes": "2025-02",
+   "permisos": 317
+  },
+  {
+   "mes": "2025-03",
+   "permisos": 451
+  },
+  {
+   "mes": "2025-04",
+   "permisos": 523
+  },
+  {
+   "mes": "2025-05",
+   "permisos": 459
+  },
+  {
+   "mes": "2025-06",
+   "permisos": 413
+  },
+  {
+   "mes": "2025-07",
+   "permisos": 398
+  },
+  {
+   "mes": "2025-08",
+   "permisos": 495
+  },
+  {
+   "mes": "2025-09",
+   "permisos": 572
+  },
+  {
+   "mes": "2025-10",
+   "permisos": 683
+  },
+  {
+   "mes": "2025-11",
+   "permisos": 548
+  },
+  {
+   "mes": "2025-12",
+   "permisos": 350
+  }
+ ],
+ "filas_descartadas_por_codificacion": []
+}

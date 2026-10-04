@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cerebro NYC</title>
+<meta name="description" content="Gemelo territorial de la Ciudad de Nueva York construido con datos abiertos trazables: 5 boroughs, 55 distritos comunitarios, cada cifra con fuente y fecha de prueba.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230a0d12' stroke='%23e8a33d' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23e8a33d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="app">
+  <div class="menu-toggle"><button id="navToggle" aria-label="Abrir menú" aria-expanded="false">☰</button><span class="dot"></span>CEREBRO NYC<span id="migas" class="mono" style="font-size:11px;font-family:'IBM Plex Mono';font-weight:400;color:var(--muted);margin-left:auto"></span></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="dot"></span><div><div class="brand-name">CEREBRO NYC</div><div class="brand-sub">Nueva York · 5 boroughs · 55 distritos · FIPS 3651000</div></div></div>
+    <nav id="menu" aria-label="Secciones">
+      <a href="#panorama" data-sec="panorama"><span class="n">◎</span>Panorama</a>
+      <a href="#gemelo" data-sec="gemelo"><span class="n">▲</span>Gemelo 3D</a>
+      <a href="#gente" data-sec="gente"><span class="n">●</span>Gente</a>
+      <a href="#economia" data-sec="economia"><span class="n">$</span>Economía y vivienda</a>
+      <a href="#turismo" data-sec="turismo"><span class="n">✈</span>Turismo y rodajes</a>
+      <a href="#municipio" data-sec="municipio"><span class="n">⌂</span>Municipio y 311</a>
+      <a href="#seguridad" data-sec="seguridad"><span class="n">⚠</span>Seguridad</a>
+      <a href="#movilidad" data-sec="movilidad"><span class="n">≋</span>Movilidad y territorio</a>
+      <a href="#correlaciones" data-sec="correlaciones"><span class="n">↗</span>Correlaciones</a>
+      <a href="#atlas" data-sec="atlas"><span class="n">▦</span>Atlas 55 distritos</a>
+      <a href="#ambiente" data-sec="ambiente"><span class="n">☁</span>Ambiente y aire</a>
+      <a href="#escucha" data-sec="escucha"><span class="n">◉</span>Escucha</a>
+      <a href="#fuentes" data-sec="fuentes"><span class="n">≡</span>Fuentes y gobernanza</a>
+    </nav>
+    <div class="side-tools">
+      <button id="btnBuscar" title="Buscar (Ctrl+K o /)">⌘K buscar</button>
+      <button id="btnPresentar" title="Modo presentación">▶ presentar</button>
+      <button id="btnTema" title="Cambiar tema">◐ tema</button>
+    </div>
+    <div class="live" aria-live="polite">
+      <div id="reloj">—</div>
+      <div id="clima">clima en vivo…</div>
+      <div id="estadoDatos">cargando lago…</div>
+    </div>
+    <div class="side-foot">Cerebro NYC · datos abiertos federados · cada cifra con fuente y fecha de prueba · réplica de Cerebro Lima para el Taller de Datos</div>
+  </aside>
+
+  <main id="main">
+    <section class="sec hero" id="panorama">
+      <div class="hero-top" id="heroTop">Nueva York · 5 boroughs · 55 distritos comunitarios</div>
+      <h1>Entiende un distrito. <em>Decide con evidencia.</em></h1>
+      <p class="lede">Un gemelo territorial de la Ciudad de Nueva York hecho solo con datos abiertos que se pueden rastrear hasta su API. Compara los <b>55 distritos comunitarios</b> en calidad de vida, seguridad, vivienda y ambiente; cambia la prioridad del diagnóstico y observa si la conclusión se sostiene.</p>
+      <div class="diag" id="diagnostico"></div>
+      <div class="tiles" id="panoramaTiles"></div>
+    </section>
+
+    <section class="sec" id="gemelo">
+      <div class="eyebrow">Gemelo territorial 3D</div>
+      <h1>La ciudad, por preguntas</h1>
+      <p class="lede">Elige una lente y haz clic en cualquier distrito para ver su ficha. Inclina el mapa (clic derecho + arrastrar, o el botón 3D) para ver los edificios en volumen o convertir el indicador en altura. Límites oficiales del DCP; edificios de OpenStreetMap.</p>
+      <div class="gemelo">
+        <div class="mapa-col">
+          <div id="mapa" role="application" aria-label="Mapa 3D de Nueva York"></div>
+          <div class="lentes" id="lentes"></div>
+          <div class="telemetria" id="telemetria"></div>
+          <div class="leyenda-mapa" id="leyendaMapa"></div>
+          <div class="capas" id="capas"></div>
+        </div>
+        <aside class="ficha" id="ficha" aria-live="polite"></aside>
+      </div>
+    </section>
+
+    <section class="sec" id="gente"><div class="eyebrow">Gente</div><h1 id="genteTitulo">Gente</h1><p class="lede" id="genteLead"></p><div class="tiles" id="genteTiles"></div><div class="grid" id="genteGrid"></div></section>
+    <section class="sec" id="economia"><div class="eyebrow">Economía y vivienda</div><h1>El alquiler pesa distinto en cada borough</h1><p class="lede" id="economiaLead"></p><div class="pregunta">¿Dónde se cruza la presión del alquiler con bajo ingreso, y cuánta vivienda nueva y asequible se está produciendo allí?</div><div class="tiles" id="economiaTiles"></div><div class="grid" id="economiaGrid"></div></section>
+    <section class="sec" id="turismo"><div class="eyebrow">Turismo y economía creativa</div><h1>65 millones de visitantes y una ciudad que es plató</h1><p class="lede" id="turismoLead"></p><div class="tiles" id="turismoTiles"></div><div class="grid" id="turismoGrid"></div></section>
+    <section class="sec" id="municipio"><div class="eyebrow">Municipio y servicio 311</div><h1>Lo que la ciudadanía le pide a la ciudad</h1><p class="lede" id="municipioLead"></p><div class="pregunta">¿Qué distrito concentra más carga de calidad de vida por habitante, y de qué se queja?</div><div class="tiles" id="municipioTiles"></div><div class="grid" id="municipioGrid"></div></section>
+    <section class="sec" id="seguridad"><div class="eyebrow">Seguridad</div><h1>Delitos y siniestralidad vial, por habitante</h1><p class="lede" id="seguridadLead"></p><div class="pregunta">¿Está bajando el delito este año frente al anterior? ¿Quiénes son las víctimas del tránsito y dónde?</div><div class="tiles" id="seguridadTiles"></div><div class="grid" id="seguridadGrid"></div></section>
+    <section class="sec" id="movilidad"><div class="eyebrow">Movilidad y territorio</div><h1>Una ciudad que se mueve en subte</h1><p class="lede" id="movilidadLead"></p><div class="pregunta">¿Cuánto se ha recuperado el transporte público desde la pandemia y qué se observa desde el peaje de congestión?</div><div class="tiles" id="movilidadTiles"></div><div class="grid" id="movilidadGrid"></div></section>
+    <section class="sec" id="correlaciones"><div class="eyebrow">Lectura cruzada · 55 distritos</div><h1>Correlaciones</h1><p class="lede" id="correlacionesLead"></p><div class="grid" id="correlacionesGrid"></div></section>
+    <section class="sec" id="atlas"><div class="eyebrow">Atlas</div><h1>Los 55 distritos, lado a lado</h1><p class="lede" id="atlasLead"></p><div class="grid" id="atlasGrid"></div></section>
+    <section class="sec" id="ambiente"><div class="eyebrow">Ambiente y aire</div><h1>El aire mejora, pero no para todos igual</h1><p class="lede" id="ambienteLead"></p><div class="pregunta">¿Dónde es peor el aire y hay menos árboles? ¿Coincide con los distritos de menor ingreso?</div><div class="tiles" id="ambienteTiles"></div><div class="grid" id="ambienteGrid"></div></section>
+    <section class="sec" id="escucha"><div class="eyebrow">Escucha</div><h1>Cuánta atención despierta Nueva York</h1><p class="lede" id="escuchaLead"></p><div class="tiles" id="escuchaTiles"></div><div class="grid" id="escuchaGrid"></div></section>
+    <section class="sec" id="fuentes"><div class="eyebrow">Fuentes y gobernanza</div><h1>Cada cifra, con su origen</h1><p class="lede" id="fuentesLead"></p><div class="tiles" id="fuentesTiles"></div><div class="grid" id="fuentesGrid"></div></section>
+    <footer class="footer" id="pie">Cerebro NYC · datos abiertos federados</footer>
+  </main>
+</div>
+
+<div class="buscador" id="buscador" hidden role="dialog" aria-modal="true" aria-label="Buscar">
+  <div class="caja"><input type="search" id="buscadorInput" placeholder="Busca una sección, una cifra o un distrito…" aria-controls="buscadorLista" autocomplete="off"><div class="lista" id="buscadorLista" role="listbox"></div></div>
+</div>
+<div class="pres-bar" id="presBar"><button id="presAnt">← anterior</button><span id="presPos">1/13</span><button id="presSig">siguiente →</button><button id="presSalir">✕ salir</button></div>
+
+<script src="lago/lago.js"></script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="js/graficos.js"></script>
+<script src="js/diagnostico.js"></script>
+<script src="js/mapa.js"></script>
+<script src="js/secciones.js"></script>
+<script src="js/correlaciones.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

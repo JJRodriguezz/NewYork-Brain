@@ -1,0 +1,275 @@
+{
+ "_meta": {
+  "id_fuente": "F03",
+  "tabla": "calidad_de_vida_311",
+  "fecha_prueba": "2026-10-04",
+  "conjunto_de_datos": "311 Service Requests from 2010 to Present",
+  "entidad": "NYC Office of Technology and Innovation (OTI) / NYC311 vía NYC Open Data",
+  "url_api": "https://data.cityofnewyork.us/resource/erm2-nwe9.json",
+  "consulta_soql": "$select=borough,community_board,complaint_type,count(*) as n&$where=created_date >= 'AAAA-MM-01' and created_date < 'mes siguiente'&$group=borough,community_board,complaint_type  (12 consultas, una por mes de 2025)",
+  "licencia": "no declara (el dataset no trae campo de licencia; el portal se rige por los Términos de Uso de NYC.gov y la Local Law 11 de 2012, que obliga a publicar sin registro ni restricciones de uso)",
+  "trae_personas": false,
+  "cobertura": "Ciudad de Nueva York; borough, distrito comunitario y tipo de solicitud",
+  "periodo": "2025-01-01 a 2025-12-31",
+  "frecuencia_actualizacion": "Diaria",
+  "unidad": "solicitudes de servicio",
+  "nota": "El dataset tiene más de 40 millones de filas: una sola consulta anual agregada agota el tiempo de la API, por eso se consulta mes a mes. Las solicitudes en distritos \"Unspecified\" o parques (CD 55+) cuentan para el borough pero no para el atlas de distritos. Los nombres de tipo en MAYÚSCULAS se pasan a tipo oración para no duplicar categorías visualmente."
+ },
+ "total_2025": 3655041,
+ "por_borough": [
+  {
+   "borough": "Manhattan",
+   "solicitudes": 725059,
+   "por_1000_hab": 428.0
+  },
+  {
+   "borough": "Bronx",
+   "solicitudes": 836527,
+   "por_1000_hab": 568.0
+  },
+  {
+   "borough": "Brooklyn",
+   "solicitudes": 1078334,
+   "por_1000_hab": 394.1
+  },
+  {
+   "borough": "Queens",
+   "solicitudes": 878213,
+   "por_1000_hab": 365.1
+  },
+  {
+   "borough": "Staten Island",
+   "solicitudes": 134301,
+   "por_1000_hab": 270.9
+  },
+  {
+   "borough": "No especificado",
+   "solicitudes": 2607,
+   "por_1000_hab": null
+  }
+ ],
+ "top_tipos": [
+  {
+   "tipo": "Illegal Parking",
+   "solicitudes": 577257
+  },
+  {
+   "tipo": "Noise - Residential",
+   "solicitudes": 463349
+  },
+  {
+   "tipo": "Heat/hot water",
+   "solicitudes": 315946
+  },
+  {
+   "tipo": "Noise - Street/Sidewalk",
+   "solicitudes": 173049
+  },
+  {
+   "tipo": "Blocked Driveway",
+   "solicitudes": 172723
+  },
+  {
+   "tipo": "Unsanitary condition",
+   "solicitudes": 117749
+  },
+  {
+   "tipo": "Water System",
+   "solicitudes": 77463
+  },
+  {
+   "tipo": "Plumbing",
+   "solicitudes": 72657
+  },
+  {
+   "tipo": "Street Condition",
+   "solicitudes": 70330
+  },
+  {
+   "tipo": "Abandoned Vehicle",
+   "solicitudes": 67903
+  },
+  {
+   "tipo": "Noise - Commercial",
+   "solicitudes": 63958
+  },
+  {
+   "tipo": "Dirty Condition",
+   "solicitudes": 61047
+  },
+  {
+   "tipo": "Paint/plaster",
+   "solicitudes": 59242
+  },
+  {
+   "tipo": "Noise",
+   "solicitudes": 55721
+  },
+  {
+   "tipo": "Traffic Signal Condition",
+   "solicitudes": 47998
+  }
+ ],
+ "top_tipos_por_borough": {
+  "Manhattan": [
+   {
+    "tipo": "Heat/hot water",
+    "solicitudes": 76747
+   },
+   {
+    "tipo": "Noise - Residential",
+    "solicitudes": 65335
+   },
+   {
+    "tipo": "Illegal Parking",
+    "solicitudes": 64634
+   },
+   {
+    "tipo": "Noise - Street/Sidewalk",
+    "solicitudes": 52047
+   },
+   {
+    "tipo": "Encampment",
+    "solicitudes": 34723
+   }
+  ],
+  "Bronx": [
+   {
+    "tipo": "Noise - Residential",
+    "solicitudes": 209381
+   },
+   {
+    "tipo": "Heat/hot water",
+    "solicitudes": 112368
+   },
+   {
+    "tipo": "Illegal Parking",
+    "solicitudes": 84418
+   },
+   {
+    "tipo": "Noise - Street/Sidewalk",
+    "solicitudes": 46762
+   },
+   {
+    "tipo": "Unsanitary condition",
+    "solicitudes": 38833
+   }
+  ],
+  "Brooklyn": [
+   {
+    "tipo": "Illegal Parking",
+    "solicitudes": 228558
+   },
+   {
+    "tipo": "Noise - Residential",
+    "solicitudes": 103686
+   },
+   {
+    "tipo": "Heat/hot water",
+    "solicitudes": 82248
+   },
+   {
+    "tipo": "Blocked Driveway",
+    "solicitudes": 61840
+   },
+   {
+    "tipo": "Noise - Street/Sidewalk",
+    "solicitudes": 40689
+   }
+  ],
+  "Queens": [
+   {
+    "tipo": "Illegal Parking",
+    "solicitudes": 182173
+   },
+   {
+    "tipo": "Noise - Residential",
+    "solicitudes": 74632
+   },
+   {
+    "tipo": "Blocked Driveway",
+    "solicitudes": 74217
+   },
+   {
+    "tipo": "Heat/hot water",
+    "solicitudes": 41395
+   },
+   {
+    "tipo": "Noise - Street/Sidewalk",
+    "solicitudes": 31339
+   }
+  ],
+  "Staten Island": [
+   {
+    "tipo": "Illegal Parking",
+    "solicitudes": 17456
+   },
+   {
+    "tipo": "Noise - Residential",
+    "solicitudes": 10292
+   },
+   {
+    "tipo": "Street Condition",
+    "solicitudes": 6497
+   },
+   {
+    "tipo": "Missed Collection",
+    "solicitudes": 6397
+   },
+   {
+    "tipo": "Water System",
+    "solicitudes": 5878
+   }
+  ]
+ },
+ "serie_mensual": [
+  {
+   "mes": "2025-01",
+   "solicitudes": 348180
+  },
+  {
+   "mes": "2025-02",
+   "solicitudes": 255364
+  },
+  {
+   "mes": "2025-03",
+   "solicitudes": 281221
+  },
+  {
+   "mes": "2025-04",
+   "solicitudes": 272549
+  },
+  {
+   "mes": "2025-05",
+   "solicitudes": 295059
+  },
+  {
+   "mes": "2025-06",
+   "solicitudes": 306442
+  },
+  {
+   "mes": "2025-07",
+   "solicitudes": 315883
+  },
+  {
+   "mes": "2025-08",
+   "solicitudes": 304039
+  },
+  {
+   "mes": "2025-09",
+   "solicitudes": 302684
+  },
+  {
+   "mes": "2025-10",
+   "solicitudes": 336612
+  },
+  {
+   "mes": "2025-11",
+   "solicitudes": 304905
+  },
+  {
+   "mes": "2025-12",
+   "solicitudes": 332103
+  }
+ ]
+}
