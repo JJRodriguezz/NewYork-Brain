@@ -3,8 +3,8 @@ Solo se registran episodios de los que hay evidencia (consultas re-ejecutables y
 La bitácora de la primera versión (Kiro) se retiró porque no fue posible comprobar sus episodios."""
 
 GRUPO = {
-    'ciudad': 'Nueva York (Ciudad de Nueva York, EE. UU.) · 5 boroughs, 55 distritos comunitarios (PUMA)',
-    'integrantes': '[COMPLETAR con los nombres de los integrantes del grupo]',
+    'ciudad': 'Nueva York (Ciudad de Nueva York, EE. UU.) · 5 boroughs; 55 áreas PUMA, que agrupan los 59 distritos comunitarios',
+    'integrantes': 'Isabella Idarraga Botero, Juan Camilo Ramón, Juan José Rodriguez Restrepo, Esteban Jacob Romero Ríos',
     'repo': 'https://github.com/JJRodriguezz/NewYork-Brain (carpeta /lago; se reconstruye con scripts/construir_lago.py)',
 }
 
@@ -57,4 +57,8 @@ BITACORA = [
       'Propuso deducir los distritos del código PUMA (41xx Manhattan… 45xx Staten Island; 21 = CD 1&2, 65 = 5&6, 63 = 3&6)',
       'Se contrastó con los 55 nombres oficiales del ACS ("Community Districts 1 & 2", etc.): la regla acierta en todos.',
       'Correcto', 'F19, F10', 'Una regla inferida por la IA se acepta solo después de compararla con la lista oficial completa, no con un ejemplo.'),
+    B('Antigravity (Gemini)', 'Llenar los JSON del primer prototipo (carpeta datos/) con cifras de NYC para que el tablero mostrara gráficos',
+      'Generó cifras con apariencia oficial y con «fuente» al lado (p. ej. 34.120 delitos mayores en Manhattan en 2025, US$15.800/m², 18.500 cámaras) sin haber consultado ninguna API',
+      'Las comparamos con NYPD Complaint Data (F04): Manhattan tuvo 136.768 denuncias en 2025, 44.604 de ellas graves. Ninguna de las cifras salía de una consulta que se pudiera repetir.',
+      'Inventado', 'F04', 'Que un número tenga una fuente escrita al lado no lo hace cierto. Se borró la carpeta datos/ y el lago se rehízo con scripts que consultan las APIs.'),
 ]
