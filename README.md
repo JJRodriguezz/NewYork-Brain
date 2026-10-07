@@ -1,5 +1,19 @@
 # Cerebro NYC
 
+## Laboratorio territorial
+
+La nueva sección conecta cinco funciones con el lago existente, sin llaves de API ni un servicio de IA:
+
+- **Personalizado** en Panorama: seis pesos, normalizados a 100 %, ranking actualizado y mapa de atención sincronizado. Los empates usan rango medio. Todos los pesos en cero o un valor ausente en una dimensión activa dejan el índice sin resultado; no se imputan valores.
+- **Comparador**: doce indicadores, diferencias B − A, puntos porcentuales para porcentajes y lectura automática descriptiva. Incluye fuentes, periodos y márgenes de error del ingreso ACS.
+- **Punto/radio** en Gemelo: clic o coordenadas, radios de 500 m, 1 km y 2 km, identificación del PUMA y conteo de filas geográficas MTA. Son registros por andén/línea, no complejos únicos. El contexto distrital no se convierte en un conteo dentro del radio.
+- **Temporal**: selector y cursor de periodos reales de aire, MTA y denuncias. Aire y denuncias admiten mapa de valor final o cambio porcentual **por borough**, repetido en sus PUMA. MTA corresponde a la red y no se distribuye sobre distritos. NYPD compara enero–junio de 2025 y 2026.
+- **Pregúntale a NYC**: preguntas guiadas que configuran pesos, ranking y mapa mediante reglas locales transparentes; no interpreta texto libre ni consume una API de IA.
+
+La cartografía requiere conexión y WebGL; comparación, cálculos, coordenadas y series funcionan con el paquete local del lago. No hay puntos de incidentes, árboles ni 311 en este lago y no se simulan. El color verde del cambio significa disminución, no una valoración automática de mejora.
+
+Validación: `node tests/analisis.test.cjs` (pesos, empates, ausencias, bases cero, huecos de polígonos y radios sobre geometrías reales). `python scripts/verificar_lago.py` verifica el diccionario; en Windows puede requerir `PYTHONIOENCODING=utf-8`. También se comprobó la interacción en Chrome de escritorio y móvil: preguntas, sliders, comparación, coordenadas y mapas temporales.
+
 Gemelo territorial de la Ciudad de Nueva York construido solo con datos abiertos trazables. Es la réplica, para Nueva York, del [Cerebro Lima](https://cerebro-lima.vercel.app) del Taller de Datos (Gestión y Gobernanza de Datos).
 
 **Abrir:** doble clic en `index.html` (funciona sin servidor gracias a `lago/lago.js`) o publicar la carpeta en Vercel / GitHub Pages.

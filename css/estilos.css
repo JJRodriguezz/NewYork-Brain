@@ -222,3 +222,20 @@ body.presentando .pres-bar{display:flex;}
   .telemetria{display:none;}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;} *{transition:none !important;}}
+/* Laboratorio: conserva la tipografía, colores y tarjetas del sitio. */
+.pesos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:16px; }
+.pesos label { display:grid; grid-template-columns:1fr 65px; gap:6px; font-size:12px; }
+.pesos input { grid-row:2; grid-column:1 / -1; width:100%; accent-color:var(--accent); }
+.pesos output { text-align:right; font-family:'IBM Plex Mono'; }
+#analizar > .card { margin-bottom:20px; }
+#espacialControles { margin-bottom:16px; }
+#resultadoPunto { margin-top:12px; font-size:13px; }
+#analizar th small { display:block; color:var(--muted); font-size:10px; font-weight:400; }
+.tabla-scroll { overflow-x:auto; margin-top:16px; }
+.tabla-scroll table { width:100%; border-collapse:collapse; font-size:12px; }
+.tabla-scroll th,.tabla-scroll td { padding:10px; border-bottom:1px solid var(--border); text-align:left; }
+.tabla-scroll td { white-space:nowrap; font-family:'IBM Plex Mono'; }
+#analizar .nota, #espacialControles .nota { font-size:12px; color:var(--muted); }
+.campo input { padding:8px; border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:6px; max-width:170px; }
+button:disabled { opacity:.5; cursor:not-allowed; }
+@media(max-width:700px) { .pesos { grid-template-columns:1fr; } #analizar .fila-ctrl { flex-wrap:wrap; } }

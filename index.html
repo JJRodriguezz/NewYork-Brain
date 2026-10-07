@@ -21,6 +21,7 @@
     <nav id="menu" aria-label="Secciones">
       <a href="#panorama" data-sec="panorama"><span class="n">◎</span>Panorama</a>
       <a href="#gemelo" data-sec="gemelo"><span class="n">▲</span>Gemelo 3D</a>
+      <a href="#analizar" data-sec="analizar"><span class="n">↔</span>Laboratorio territorial</a>
       <a href="#gente" data-sec="gente"><span class="n">●</span>Gente</a>
       <a href="#economia" data-sec="economia"><span class="n">$</span>Economía y vivienda</a>
       <a href="#turismo" data-sec="turismo"><span class="n">✈</span>Turismo y rodajes</a>
@@ -59,6 +60,7 @@
       <div class="eyebrow">Gemelo territorial 3D</div>
       <h1>La ciudad, por preguntas</h1>
       <p class="lede">Elige una lente y haz clic en cualquier distrito para ver su ficha. Inclina el mapa (clic derecho + arrastrar, o el botón 3D) para ver los edificios en volumen o convertir el indicador en altura. Límites oficiales del DCP; edificios de OpenStreetMap.</p>
+      <div class="card" id="espacialControles"></div>
       <div class="gemelo">
         <div class="mapa-col">
           <div id="mapa" role="application" aria-label="Mapa 3D de Nueva York"></div>
@@ -71,6 +73,7 @@
       </div>
     </section>
 
+    <section class="sec" id="analizar"><div class="eyebrow">Laboratorio territorial</div><h1>Pregunta, compara y explora cambios</h1><p class="lede">Análisis reproducible con el lago actual. Cada resultado conserva su fuente, periodo y escala geográfica.</p><div class="card" id="preguntasNYC"></div><div class="card" id="comparador"></div><div class="card" id="temporal"></div></section>
     <section class="sec" id="gente"><div class="eyebrow">Gente</div><h1 id="genteTitulo">Gente</h1><p class="lede" id="genteLead"></p><div class="tiles" id="genteTiles"></div><div class="grid" id="genteGrid"></div></section>
     <section class="sec" id="economia"><div class="eyebrow">Economía y vivienda</div><h1>El alquiler pesa distinto en cada borough</h1><p class="lede" id="economiaLead"></p><div class="pregunta">¿Dónde se cruza la presión del alquiler con bajo ingreso, y cuánta vivienda nueva y asequible se está produciendo allí?</div><div class="tiles" id="economiaTiles"></div><div class="grid" id="economiaGrid"></div></section>
     <section class="sec" id="turismo"><div class="eyebrow">Turismo y economía creativa</div><h1>65 millones de visitantes y una ciudad que es plató</h1><p class="lede" id="turismoLead"></p><div class="tiles" id="turismoTiles"></div><div class="grid" id="turismoGrid"></div></section>
@@ -94,10 +97,12 @@
 <script src="lago/lago.js"></script>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="js/graficos.js"></script>
+<script src="js/analisis.js"></script>
 <script src="js/diagnostico.js"></script>
 <script src="js/mapa.js"></script>
 <script src="js/secciones.js"></script>
 <script src="js/correlaciones.js"></script>
+<script src="js/laboratorio.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
