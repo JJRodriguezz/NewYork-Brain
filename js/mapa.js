@@ -13,13 +13,13 @@
   };
   const RAMPA = ['#fbf0d9', '#f2c879', '#e0913a', '#b45a1c', '#6e2c0e'];
   const ESTILO = { claro: 'https://tiles.openfreemap.org/styles/liberty', oscuro: 'https://tiles.openfreemap.org/styles/dark' };
-  let map, L, lente = 'atencion', sel = null, capas = { edificios: true, extruir: false, estaciones: false, precintos: false, barrios: false, satelite: false }, D = {};
+  let map, L, lente = 'atencion', sel = null, capas = { edificios: true, extruir: false, estaciones: false, precintos: false, barrios: false, satelite: false }, D = {}, temporal = null, punto = null, radio = 1000;
 
   const oscuro = () => { const t = document.documentElement.dataset.theme; return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
-  const valor = (p, k) => k === 'atencion' ? DIAGNOSTICO.puntaje(p.puma) : p[k];
-  const fmtV = (v, k) => v == null ? '—' : LENTES[k].usd ? G.fmt.usd(v) : G.fmt.n(v, LENTES[k].d) + (LENTES[k].unidad === '%' ? ' %' : '');
+  const valor = (p, k) => temporal ? (temporal.valores[p.borough] ?? null) : k === 'atencion' ? DIAGNOSTICO.puntaje(p.puma) : p[k];
+  const fmtV = (v, k) => v == null ? '—' : temporal ? G.fmt.n(v, 2) + ' ' + temporal.unidad : LENTES[k].usd ? G.fmt.usd(v) : G.fmt.n(v, LENTES[k].d) + (LENTES[k].unidad === '%' ? ' %' : '');
 
-  function cortes(k) { const v = Object.values(D).map(p => valor(p, k)).filter(x => x != null).sort((a, b) => a - b); return [0, .25, .5, .75, 1].map(q => v[Math.round(q * (v.length - 1))]); }
+  function cortes(k) { const v = Object.values(D).map(p => valor(p, k)).filter(x => x != null).sort((a, b) => a - b); if (!v.length) return [0, 0, 0, 0, 0]; return [0, .25, .5, .75, 1].map(q => v[Math.round(q * (v.length - 1))]); }
 
   function geojsonDistritos() {
     const g = JSON.parse(JSON.stringify(L.geo.distritos_puma));
@@ -28,9 +28,10 @@
   }
 
   function colorExpr() {
+    if (temporal && temporal.cambio) return ['case', ['==', ['get', 'v'], null], '#89909a', ['interpolate', ['linear'], ['get', 'v'], -temporal.max, '#287d68', 0, '#eeeeee', temporal.max, '#bd4839']];
     const c = cortes(lente); const e = ['interpolate', ['linear'], ['coalesce', ['get', 'v'], c[0]]];
     c.forEach((x, i) => { if (i && x <= c[i - 1]) x = c[i - 1] + 1e-6; c[i] = x; e.push(x, RAMPA[i]); });
-    return e;
+    return ['case', ['==', ['get', 'v'], null], '#89909a', e];
   }
 
   // las capas propias van sobre calles y edificios del mapa base pero bajo las etiquetas
@@ -69,6 +70,8 @@
 
   function leyenda() {
     const c = cortes(lente), l = LENTES[lente];
+    if (temporal) { $('#leyendaMapa').innerHTML = `<b>${G.esc(temporal.titulo)}</b><p>${temporal.cambio ? 'Verde: disminuye · gris: sin cambio · rojo: aumenta' : 'Escala de menor a mayor'} · ${G.esc(temporal.unidad)}</p><small>${G.esc(temporal.fuente)} · datos por borough, repetidos en sus PUMA. Gris oscuro: sin dato.</small>`; return; }
+    if (lente === 'atencion') l.titulo = 'Índice de atención · ' + DIAGNOSTICO.perfil();
     $('#leyendaMapa').innerHTML = `<b style="color:var(--text)">${l.titulo}</b><div class="esc" style="background:linear-gradient(90deg,${RAMPA.join(',')})"></div><div class="ext"><span>${fmtV(c[0], lente)}</span><span>${fmtV(c[2], lente)}</span><span>${fmtV(c[4], lente)}</span></div><div style="margin-top:4px;font-size:10px">${l.fuente} · cortes por cuartil · 55 distritos</div>`;
   }
 
@@ -77,7 +80,7 @@
     const rk = DIAGNOSTICO.rango(puma);
     const kv = (t, v, s) => `<div class="kv"><span>${t}${s ? ` <small>${s}</small>` : ''}</span><span>${v}</span></div>`;
     $('#ficha').innerHTML = `<div class="diag-tag">Distrito seleccionado · PUMA ${p.puma}</div><h3>${G.esc(p.nombre)}</h3><div class="sub" style="font-size:11.5px;color:var(--muted);font-family:'IBM Plex Mono'">${G.esc(p.etiqueta)}</div>
-      <div class="veredicto" style="margin:10px 0"><span class="rk" style="font-size:22px">#${rk}</span> de 55 en atención (equilibrio)</div>
+      <div class="veredicto" style="margin:10px 0"><span class="rk" style="font-size:22px">${rk == null ? '—' : '#' + rk}</span> de 55 en atención (${DIAGNOSTICO.perfil()})</div>
       ${kv('Población', G.fmt.n(p.poblacion_acs), 'ACS')}${kv('Densidad', G.fmt.n(p.densidad_hab_km2) + ' /km²')}
       ${kv('Ingreso mediano', G.fmt.usd(p.ingreso_mediano), '± ' + G.fmt.n(p.ingreso_mediano_moe))}${kv('Alquiler mediano', G.fmt.usd(p.alquiler_mediano) + '/mes')}
       ${kv('Hogares con carga de alquiler', G.fmt.pct(p.pct_hogares_con_carga_alquiler))}${kv('Pobreza', G.fmt.pct(p.pct_pobreza))}
@@ -101,7 +104,7 @@
 
   function controles() {
     $('#lentes').innerHTML = Object.entries(LENTES).map(([k, l]) => `<button data-l="${k}" class="${k === lente ? 'on' : ''}" title="${l.titulo}">${l.nombre}</button>`).join('');
-    $('#lentes').querySelectorAll('button').forEach(b => b.onclick = () => { lente = b.dataset.l; $('#lentes').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); refrescar(); telemetria(); });
+    $('#lentes').querySelectorAll('button').forEach(b => b.onclick = () => { temporal = null; lente = b.dataset.l; $('#lentes').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); refrescar(); telemetria(); });
     const C = { edificios: '▥ edificios 3D', extruir: '▲ indicador en 3D', estaciones: '● estaciones subte', precintos: '▢ precintos NYPD', barrios: '⬚ barrios (NTA)', satelite: '◐ satélite' };
     $('#capas').innerHTML = Object.entries(C).map(([k, t]) => `<button data-c="${k}" class="${capas[k] ? 'on' : ''}" aria-pressed="${capas[k]}">${t}</button>`).join('') + '<button data-c="vista3d">⟳ vista 3D</button>';
     $('#capas').querySelectorAll('button').forEach(b => b.onclick = () => {
@@ -114,6 +117,14 @@
     });
   }
 
+  function dibujarRadio() {
+    if (!map || !map.getSource('distritos') || !punto) return;
+    const data = ANALISIS.circulo(punto, radio);
+    if (map.getSource('radio-analisis')) { map.getSource('radio-analisis').setData(data); return; }
+    map.addSource('radio-analisis', {type:'geojson', data});
+    map.addLayer({id:'radio-fill',type:'fill',source:'radio-analisis',paint:{'fill-color':'#267c96','fill-opacity':0.12}});
+    map.addLayer({id:'radio-line',type:'line',source:'radio-analisis',paint:{'line-color':'#267c96','line-width':2}});
+  }
   window.MAPA = {
     init(lago) {
       L = lago; (lago.datos.distritos ? lago.datos.distritos.datos : []).forEach(p => D[p.puma] = p);
@@ -123,8 +134,9 @@
         map = new maplibregl.Map({ container: 'mapa', style: oscuro() ? ESTILO.oscuro : ESTILO.claro, center: [-73.94, 40.70], zoom: 9.6, pitch: 0, attributionControl: { compact: true }, cooperativeGestures: matchMedia('(pointer:coarse)').matches });
       } catch (e) { $('#mapa').innerHTML = '<div class="mapa-aviso">Tu navegador no soporta WebGL: el mapa 3D no está disponible.</div>'; return; }
       map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
-      map.on('style.load', () => { agregarCapas(); telemetria(); });
+      map.on('style.load', () => { agregarCapas(); dibujarRadio(); telemetria(); });
       map.on('move', telemetria);
+      map.on('click', e => window.LABORATORIO && LABORATORIO.punto([e.lngLat.lng, e.lngLat.lat]));
       let hov = null;
       map.on('mousemove', 'dist-fill', e => { map.getCanvas().style.cursor = 'pointer'; const f = e.features[0]; if (hov !== null) map.setFeatureState({ source: 'distritos', id: hov }, { hover: false }); hov = f.id; map.setFeatureState({ source: 'distritos', id: hov }, { hover: true }); });
       map.on('mouseleave', 'dist-fill', () => { map.getCanvas().style.cursor = ''; if (hov !== null) map.setFeatureState({ source: 'distritos', id: hov }, { hover: false }); hov = null; });
@@ -134,6 +146,10 @@
       seleccionar(Object.keys(D).sort((a, b) => DIAGNOSTICO.rango(a) - DIAGNOSTICO.rango(b))[0]);
     },
     seleccionar,
+    actualizarIndice() { if (lente === 'atencion' && !temporal) refrescar(); if (sel) ficha(sel); },
+    indice() { temporal = null; lente = 'atencion'; controles(); refrescar(); },
+    temporal(t) { temporal = t; refrescar(); },
+    radio(p, metros) { punto = p; radio = metros; dibujarRadio(); },
     tema() { if (!map) return; map.setStyle(oscuro() ? ESTILO.oscuro : ESTILO.claro); },
     redimensionar() { map && map.resize(); },
     lugares() { return Object.values(D).map(p => ({ nombre: `${p.nombre} (${p.etiqueta})`, tipo: 'distrito', puma: p.puma })); },

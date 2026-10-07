@@ -24,6 +24,7 @@
     paso('secciones', () => SECCIONES.render(L));
     paso('correlaciones', () => CORRELACIONES.render(L));
     paso('mapa', () => MAPA.init(L));
+    paso('laboratorio', () => LABORATORIO.init(L));
     navegacion(); buscador(); reloj(); clima(); tema(); presentacion();
     if (location.hash) { const s = document.querySelector(location.hash); s && s.scrollIntoView(); }
   }
