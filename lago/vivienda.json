@@ -1,166 +1,706 @@
 {
- "_meta": {
-  "id_fuente": "F05, F16",
-  "tabla": "vivienda",
-  "fecha_prueba": "2026-10-04",
-  "conjunto_de_datos": "DOB NOW: Build – Job Application Filings (obra nueva 2025) + Housing New York Units by Building",
-  "entidad": "NYC Department of Buildings (F05); NYC Dept. of Housing Preservation and Development, HPD (F16)",
-  "url_api": "https://data.cityofnewyork.us/resource/w9ak-ipjd.json ; https://data.cityofnewyork.us/resource/hg8x-zxpr.json",
-  "consulta_soql": "$select=upper(borough),commmunity_board,count(*),sum(proposed_dwelling_units::number)&$where=job_type='New Building' AND job_filing_number like '%-I1' AND filing_date between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'",
-  "licencia": "no declara (el dataset no trae campo de licencia; el portal se rige por los Términos de Uso de NYC.gov y la Local Law 11 de 2012, que obliga a publicar sin registro ni restricciones de uso)",
-  "trae_personas": true,
-  "campos_personales_excluidos": [
-   "owner_first_name",
-   "owner_last_name",
-   "owner_s_business_name",
-   "applicant_first_name",
-   "applicant_last_name",
-   "applicant_license",
-   "filing_representative_first_name",
-   "filing_representative_last_name",
-   "filing_representative_street_name"
-  ],
-  "cobertura": "Ciudad de Nueva York; borough y distrito comunitario",
-  "periodo": "DOB: radicaciones de 2025. HPD: acumulado desde 2014 (planes Housing New York / Housing Our Neighbors).",
-  "frecuencia_actualizacion": "DOB: diaria. HPD: trimestral",
-  "unidad": "solicitudes, viviendas",
-  "nota": "Calidad: cada obra nueva genera varias filas (radicación inicial -I1 y trámites posteriores -P1, -S8, -Z1…) que repiten las viviendas propuestas. Sin filtrar, 2025 suma 562,235 viviendas en 13,329 filas; contando solo -I1 quedan 42,341. Además el campo de distrito se llama \"commmunity_board\" (con triple m) en la fuente. Los nombres de propietarios y solicitantes no se descargan."
- },
- "obra_nueva_2025": [
+ "tema": "vivienda",
+ "titulo": "Vivienda: obra nueva y vivienda asequible",
+ "probado": "2026-10-20",
+ "fuentes": [
   {
-   "borough": "Manhattan",
-   "solicitudes_obra_nueva": 73,
-   "viviendas_propuestas": 4340,
-   "viviendas_por_1000_hab": 2.6
+   "id": "F05",
+   "nombre": "DOB NOW: Build – Job Application Filings",
+   "entidad": "NYC Department of Buildings (DOB)",
+   "url": "https://data.cityofnewyork.us/resource/w9ak-ipjd.json",
+   "consulta": "$select=upper(borough) as b,commmunity_board as cd,count(*) as n,sum(proposed_dwelling_units::number) as u&$where=job_type='New Building' AND job_filing_number like '%-I1' AND filing_date between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'&$group=b,cd",
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "Personas identificables",
+   "vigencia": "radicaciones de 2025",
+   "probado": "2026-10-20"
   },
   {
-   "borough": "Bronx",
-   "solicitudes_obra_nueva": 313,
-   "viviendas_propuestas": 12003,
-   "viviendas_por_1000_hab": 8.2
-  },
-  {
-   "borough": "Brooklyn",
-   "solicitudes_obra_nueva": 442,
-   "viviendas_propuestas": 13426,
-   "viviendas_por_1000_hab": 4.9
-  },
-  {
-   "borough": "Queens",
-   "solicitudes_obra_nueva": 614,
-   "viviendas_propuestas": 11758,
-   "viviendas_por_1000_hab": 4.9
-  },
-  {
-   "borough": "Staten Island",
-   "solicitudes_obra_nueva": 319,
-   "viviendas_propuestas": 814,
-   "viviendas_por_1000_hab": 1.6
+   "id": "F16",
+   "nombre": "Affordable Housing Production by Building (Housing New York)",
+   "entidad": "NYC Department of Housing Preservation and Development (HPD)",
+   "url": "https://data.cityofnewyork.us/resource/hg8x-zxpr.json",
+   "consulta": "$select=borough,community_board,sum(all_counted_units) as u,sum(extremely_low_income_units) as eli,sum(very_low_income_units) as vli,sum(low_income_units) as li,sum(moderate_income_units) as mi,sum(middle_income_units) as mid&$group=borough,community_board",
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "acumulado desde 2014",
+   "probado": "2026-10-20"
   }
  ],
- "filas_sin_filtrar_2025": {
-  "filas": 13329,
-  "viviendas": 562235
- },
- "asequible_hpd": [
-  {
-   "borough": "Manhattan",
-   "viviendas_asequibles": 74338,
-   "ingreso_extremadamente_bajo": 15115,
-   "ingreso_muy_bajo": 19563,
-   "ingreso_bajo": 21600,
-   "ingreso_moderado": 7149,
-   "ingreso_medio": 10564
+ "cifras": {
+  "viviendas_propuestas_2025": {
+   "valor": 42345,
+   "unidad": "viviendas",
+   "vigencia": "radicaciones de 2025",
+   "fuente": "F05",
+   "tipo": "medido",
+   "descripcion": "Viviendas propuestas en obras nuevas radicadas en 2025 (solo -I1)",
+   "pregunta": "P2"
   },
-  {
-   "borough": "Bronx",
-   "viviendas_asequibles": 106661,
-   "ingreso_extremadamente_bajo": 19214,
-   "ingreso_muy_bajo": 33002,
-   "ingreso_bajo": 37893,
-   "ingreso_moderado": 3309,
-   "ingreso_medio": 12654
+  "viviendas_sin_depurar_2025": {
+   "valor": 562243,
+   "unidad": "viviendas",
+   "vigencia": "radicaciones de 2025",
+   "fuente": "F05",
+   "tipo": "medido",
+   "descripcion": "Lo que sumaría la misma consulta sin filtrar los trámites repetidos",
+   "pregunta": "G"
   },
-  {
-   "borough": "Brooklyn",
-   "viviendas_asequibles": 90784,
-   "ingreso_extremadamente_bajo": 16834,
-   "ingreso_muy_bajo": 20428,
-   "ingreso_bajo": 34388,
-   "ingreso_moderado": 4776,
-   "ingreso_medio": 13996
+  "filas_sin_depurar_2025": {
+   "valor": 13330,
+   "unidad": "filas",
+   "vigencia": "radicaciones de 2025",
+   "fuente": "F05",
+   "tipo": "medido",
+   "descripcion": "Filas de obra nueva de 2025 sin filtrar los trámites repetidos",
+   "pregunta": "G"
   },
-  {
-   "borough": "Queens",
-   "viviendas_asequibles": 42952,
-   "ingreso_extremadamente_bajo": 5238,
-   "ingreso_muy_bajo": 12865,
-   "ingreso_bajo": 12578,
-   "ingreso_moderado": 4065,
-   "ingreso_medio": 8107
-  },
-  {
-   "borough": "Staten Island",
-   "viviendas_asequibles": 6211,
-   "ingreso_extremadamente_bajo": 2463,
-   "ingreso_muy_bajo": 827,
-   "ingreso_bajo": 2509,
-   "ingreso_moderado": 306,
-   "ingreso_medio": 88
+  "viviendas_asequibles_total": {
+   "valor": 320946,
+   "unidad": "viviendas",
+   "vigencia": "acumulado desde 2014",
+   "fuente": "F16",
+   "tipo": "medido",
+   "descripcion": "Viviendas asequibles financiadas por HPD desde 2014",
+   "pregunta": "P2"
   }
+ },
+ "series": {
+  "asequibles_por_anio": {
+   "descripcion": "Viviendas asequibles HPD por año de inicio de obra (el año en curso está incompleto)",
+   "unidad": "viviendas",
+   "vigencia": "desde 2014",
+   "fuente": "F16",
+   "tipo": "medido",
+   "x": "año",
+   "pregunta": "P2",
+   "puntos": [
+    [
+     2014,
+     19629
+    ],
+    [
+     2015,
+     21153
+    ],
+    [
+     2016,
+     22344
+    ],
+    [
+     2017,
+     24789
+    ],
+    [
+     2018,
+     34794
+    ],
+    [
+     2019,
+     25430
+    ],
+    [
+     2020,
+     30076
+    ],
+    [
+     2021,
+     27234
+    ],
+    [
+     2022,
+     16557
+    ],
+    [
+     2023,
+     29113
+    ],
+    [
+     2024,
+     28965
+    ],
+    [
+     2025,
+     29277
+    ],
+    [
+     2026,
+     11585
+    ]
+   ]
+  }
+ },
+ "listas": {
+  "obra_nueva": {
+   "descripcion": "Obra nueva radicada en 2025, por borough",
+   "vigencia": "radicaciones de 2025",
+   "fuente": "F05",
+   "tipo": "medido",
+   "columnas": {
+    "borough": {
+     "descripcion": "Borough (distrito) de la Ciudad de Nueva York",
+     "unidad": "nombre",
+     "tipo_dato": "Texto",
+     "tipo": "medido",
+     "original": "borough",
+     "transformacion": "Mayúsculas, códigos 1–5 y nombres de condado se unifican al nombre del borough",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F05",
+     "vigencia": "radicaciones de 2025"
+    },
+    "obras_nuevas": {
+     "descripcion": "Obras nuevas radicadas en 2025 (solo radicación inicial -I1)",
+     "unidad": "obras",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "count(*) job_type='New Building'",
+     "transformacion": "Filtro -I1 para no contar trámites repetidos",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F05",
+     "vigencia": "radicaciones de 2025"
+    },
+    "viviendas_propuestas": {
+     "descripcion": "Viviendas propuestas en esas obras",
+     "unidad": "viviendas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "sum(proposed_dwelling_units)",
+     "transformacion": "Texto convertido a número (::number) y sumado",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F05",
+     "vigencia": "radicaciones de 2025"
+    },
+    "viviendas_por_1000_hab": {
+     "descripcion": "Viviendas propuestas por cada 1.000 habitantes (Censo 2020)",
+     "unidad": "por 1.000 hab.",
+     "tipo_dato": "Decimal",
+     "tipo": "derivado",
+     "original": "(calculado)",
+     "transformacion": "viviendas ÷ poblacion_2020 × 1.000",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": [
+      "F05",
+      "F09"
+     ],
+     "decimales": 1,
+     "vigencia": "radicaciones de 2025"
+    }
+   },
+   "filas": [
+    {
+     "borough": "Manhattan",
+     "obras_nuevas": 73,
+     "viviendas_propuestas": 4344,
+     "viviendas_por_1000_hab": 2.6
+    },
+    {
+     "borough": "Bronx",
+     "obras_nuevas": 313,
+     "viviendas_propuestas": 12003,
+     "viviendas_por_1000_hab": 8.2
+    },
+    {
+     "borough": "Brooklyn",
+     "obras_nuevas": 442,
+     "viviendas_propuestas": 13426,
+     "viviendas_por_1000_hab": 4.9
+    },
+    {
+     "borough": "Queens",
+     "obras_nuevas": 614,
+     "viviendas_propuestas": 11758,
+     "viviendas_por_1000_hab": 4.9
+    },
+    {
+     "borough": "Staten Island",
+     "obras_nuevas": 319,
+     "viviendas_propuestas": 814,
+     "viviendas_por_1000_hab": 1.6
+    }
+   ]
+  },
+  "asequible": {
+   "descripcion": "Vivienda asequible por borough y nivel de ingreso (AMI = ingreso mediano del área, HUD)",
+   "vigencia": "acumulado desde 2014",
+   "fuente": "F16",
+   "tipo": "medido",
+   "columnas": {
+    "borough": {
+     "descripcion": "Borough (distrito) de la Ciudad de Nueva York",
+     "unidad": "nombre",
+     "tipo_dato": "Texto",
+     "tipo": "medido",
+     "original": "borough",
+     "transformacion": "Mayúsculas, códigos 1–5 y nombres de condado se unifican al nombre del borough",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F16",
+     "vigencia": "acumulado desde 2014"
+    },
+    "viviendas_asequibles": {
+     "descripcion": "Viviendas asequibles contadas por HPD desde 2014",
+     "unidad": "viviendas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "sum(all_counted_units)",
+     "transformacion": "SUM por borough",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F16",
+     "vigencia": "acumulado desde 2014"
+    },
+    "ingreso_extremadamente_bajo": {
+     "descripcion": "Unidades para hogares con ≤30 % del AMI",
+     "unidad": "viviendas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "extremely_low_income_units",
+     "transformacion": "SUM por borough",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F16",
+     "vigencia": "acumulado desde 2014"
+    },
+    "ingreso_muy_bajo": {
+     "descripcion": "Unidades para hogares con 31–50 % del AMI",
+     "unidad": "viviendas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "very_low_income_units",
+     "transformacion": "SUM por borough",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F16",
+     "vigencia": "acumulado desde 2014"
+    },
+    "ingreso_bajo": {
+     "descripcion": "Unidades para hogares con 51–80 % del AMI",
+     "unidad": "viviendas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "low_income_units",
+     "transformacion": "SUM por borough",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F16",
+     "vigencia": "acumulado desde 2014"
+    },
+    "ingreso_moderado": {
+     "descripcion": "Unidades para hogares con 81–120 % del AMI",
+     "unidad": "viviendas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "moderate_income_units",
+     "transformacion": "SUM por borough",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F16",
+     "vigencia": "acumulado desde 2014"
+    },
+    "ingreso_medio": {
+     "descripcion": "Unidades para hogares con 121–165 % del AMI",
+     "unidad": "viviendas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "middle_income_units",
+     "transformacion": "SUM por borough",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F16",
+     "vigencia": "acumulado desde 2014"
+    }
+   },
+   "filas": [
+    {
+     "borough": "Manhattan",
+     "viviendas_asequibles": 74338,
+     "ingreso_extremadamente_bajo": 15115,
+     "ingreso_muy_bajo": 19563,
+     "ingreso_bajo": 21600,
+     "ingreso_moderado": 7149,
+     "ingreso_medio": 10564
+    },
+    {
+     "borough": "Bronx",
+     "viviendas_asequibles": 106661,
+     "ingreso_extremadamente_bajo": 19214,
+     "ingreso_muy_bajo": 33002,
+     "ingreso_bajo": 37893,
+     "ingreso_moderado": 3309,
+     "ingreso_medio": 12654
+    },
+    {
+     "borough": "Brooklyn",
+     "viviendas_asequibles": 90784,
+     "ingreso_extremadamente_bajo": 16834,
+     "ingreso_muy_bajo": 20428,
+     "ingreso_bajo": 34388,
+     "ingreso_moderado": 4776,
+     "ingreso_medio": 13996
+    },
+    {
+     "borough": "Queens",
+     "viviendas_asequibles": 42952,
+     "ingreso_extremadamente_bajo": 5238,
+     "ingreso_muy_bajo": 12865,
+     "ingreso_bajo": 12578,
+     "ingreso_moderado": 4065,
+     "ingreso_medio": 8107
+    },
+    {
+     "borough": "Staten Island",
+     "viviendas_asequibles": 6211,
+     "ingreso_extremadamente_bajo": 2463,
+     "ingreso_muy_bajo": 827,
+     "ingreso_bajo": 2509,
+     "ingreso_moderado": 306,
+     "ingreso_medio": 88
+    }
+   ]
+  },
+  "distritos": {
+   "descripcion": "Vivienda por distrito (PUMA)",
+   "vigencia": "2025 y acumulado desde 2014",
+   "fuente": [
+    "F05",
+    "F16"
+   ],
+   "tipo": "medido",
+   "columnas": {
+    "puma": {
+     "descripcion": "Código PUMA del distrito",
+     "unidad": "código",
+     "tipo_dato": "Código",
+     "tipo": "derivado",
+     "original": "commmunity_board / community_board",
+     "transformacion": "Distrito comunitario → PUMA",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": [
+      "F05",
+      "F16"
+     ],
+     "vigencia": "2025 y acumulado desde 2014"
+    },
+    "viviendas_propuestas": {
+     "descripcion": "Viviendas propuestas en obra nueva radicada en 2025",
+     "unidad": "viviendas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "sum(proposed_dwelling_units)",
+     "transformacion": "Solo -I1; SUM por PUMA",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F05",
+     "vigencia": "radicaciones de 2025"
+    },
+    "viviendas_asequibles": {
+     "descripcion": "Viviendas asequibles HPD desde 2014",
+     "unidad": "viviendas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "sum(all_counted_units)",
+     "transformacion": "SUM por PUMA",
+     "clasificacion": "Pública",
+     "pregunta": "P2",
+     "fuente": "F16",
+     "vigencia": "acumulado desde 2014"
+    }
+   },
+   "filas": [
+    {
+     "puma": "4103",
+     "viviendas_propuestas": 606,
+     "viviendas_asequibles": 10403
+    },
+    {
+     "puma": "4104",
+     "viviendas_propuestas": 1310,
+     "viviendas_asequibles": 8375
+    },
+    {
+     "puma": "4107",
+     "viviendas_propuestas": 68,
+     "viviendas_asequibles": 5367
+    },
+    {
+     "puma": "4108",
+     "viviendas_propuestas": 168,
+     "viviendas_asequibles": 1916
+    },
+    {
+     "puma": "4109",
+     "viviendas_propuestas": 86,
+     "viviendas_asequibles": 4045
+    },
+    {
+     "puma": "4110",
+     "viviendas_propuestas": 291,
+     "viviendas_asequibles": 11843
+    },
+    {
+     "puma": "4111",
+     "viviendas_propuestas": 704,
+     "viviendas_asequibles": 14734
+    },
+    {
+     "puma": "4112",
+     "viviendas_propuestas": 580,
+     "viviendas_asequibles": 6474
+    },
+    {
+     "puma": "4121",
+     "viviendas_propuestas": 273,
+     "viviendas_asequibles": 2050
+    },
+    {
+     "puma": "4165",
+     "viviendas_propuestas": 258,
+     "viviendas_asequibles": 9131
+    },
+    {
+     "puma": "4204",
+     "viviendas_propuestas": 2046,
+     "viviendas_asequibles": 15980
+    },
+    {
+     "puma": "4205",
+     "viviendas_propuestas": 1316,
+     "viviendas_asequibles": 11021
+    },
+    {
+     "puma": "4207",
+     "viviendas_propuestas": 1921,
+     "viviendas_asequibles": 8774
+    },
+    {
+     "puma": "4208",
+     "viviendas_propuestas": 588,
+     "viviendas_asequibles": 1902
+    },
+    {
+     "puma": "4209",
+     "viviendas_propuestas": 411,
+     "viviendas_asequibles": 7823
+    },
+    {
+     "puma": "4210",
+     "viviendas_propuestas": 115,
+     "viviendas_asequibles": 16035
+    },
+    {
+     "puma": "4211",
+     "viviendas_propuestas": 268,
+     "viviendas_asequibles": 1750
+    },
+    {
+     "puma": "4212",
+     "viviendas_propuestas": 785,
+     "viviendas_asequibles": 5502
+    },
+    {
+     "puma": "4221",
+     "viviendas_propuestas": 1574,
+     "viviendas_asequibles": 17162
+    },
+    {
+     "puma": "4263",
+     "viviendas_propuestas": 2979,
+     "viviendas_asequibles": 20712
+    },
+    {
+     "puma": "4301",
+     "viviendas_propuestas": 3251,
+     "viviendas_asequibles": 11146
+    },
+    {
+     "puma": "4302",
+     "viviendas_propuestas": 1045,
+     "viviendas_asequibles": 9332
+    },
+    {
+     "puma": "4303",
+     "viviendas_propuestas": 726,
+     "viviendas_asequibles": 6875
+    },
+    {
+     "puma": "4304",
+     "viviendas_propuestas": 592,
+     "viviendas_asequibles": 2867
+    },
+    {
+     "puma": "4305",
+     "viviendas_propuestas": 1669,
+     "viviendas_asequibles": 20723
+    },
+    {
+     "puma": "4306",
+     "viviendas_propuestas": 921,
+     "viviendas_asequibles": 3329
+    },
+    {
+     "puma": "4307",
+     "viviendas_propuestas": 66,
+     "viviendas_asequibles": 1444
+    },
+    {
+     "puma": "4308",
+     "viviendas_propuestas": 787,
+     "viviendas_asequibles": 4307
+    },
+    {
+     "puma": "4309",
+     "viviendas_propuestas": 1480,
+     "viviendas_asequibles": 4133
+    },
+    {
+     "puma": "4310",
+     "viviendas_propuestas": 12,
+     "viviendas_asequibles": 852
+    },
+    {
+     "puma": "4311",
+     "viviendas_propuestas": 199,
+     "viviendas_asequibles": 646
+    },
+    {
+     "puma": "4312",
+     "viviendas_propuestas": 270,
+     "viviendas_asequibles": 579
+    },
+    {
+     "puma": "4313",
+     "viviendas_propuestas": 355,
+     "viviendas_asequibles": 5815
+    },
+    {
+     "puma": "4314",
+     "viviendas_propuestas": 122,
+     "viviendas_asequibles": 1735
+    },
+    {
+     "puma": "4315",
+     "viviendas_propuestas": 215,
+     "viviendas_asequibles": 2313
+    },
+    {
+     "puma": "4316",
+     "viviendas_propuestas": 870,
+     "viviendas_asequibles": 9174
+    },
+    {
+     "puma": "4317",
+     "viviendas_propuestas": 518,
+     "viviendas_asequibles": 5113
+    },
+    {
+     "puma": "4318",
+     "viviendas_propuestas": 328,
+     "viviendas_asequibles": 401
+    },
+    {
+     "puma": "4401",
+     "viviendas_propuestas": 2370,
+     "viviendas_asequibles": 3438
+    },
+    {
+     "puma": "4402",
+     "viviendas_propuestas": 1038,
+     "viviendas_asequibles": 5573
+    },
+    {
+     "puma": "4403",
+     "viviendas_propuestas": 90,
+     "viviendas_asequibles": 540
+    },
+    {
+     "puma": "4404",
+     "viviendas_propuestas": 718,
+     "viviendas_asequibles": 1122
+    },
+    {
+     "puma": "4405",
+     "viviendas_propuestas": 221,
+     "viviendas_asequibles": 310
+    },
+    {
+     "puma": "4406",
+     "viviendas_propuestas": 744,
+     "viviendas_asequibles": 2073
+    },
+    {
+     "puma": "4407",
+     "viviendas_propuestas": 519,
+     "viviendas_asequibles": 2107
+    },
+    {
+     "puma": "4408",
+     "viviendas_propuestas": 388,
+     "viviendas_asequibles": 3008
+    },
+    {
+     "puma": "4409",
+     "viviendas_propuestas": 308,
+     "viviendas_asequibles": 554
+    },
+    {
+     "puma": "4410",
+     "viviendas_propuestas": 193,
+     "viviendas_asequibles": 56
+    },
+    {
+     "puma": "4411",
+     "viviendas_propuestas": 89,
+     "viviendas_asequibles": 71
+    },
+    {
+     "puma": "4412",
+     "viviendas_propuestas": 2012,
+     "viviendas_asequibles": 12414
+    },
+    {
+     "puma": "4413",
+     "viviendas_propuestas": 355,
+     "viviendas_asequibles": 132
+    },
+    {
+     "puma": "4414",
+     "viviendas_propuestas": 1653,
+     "viviendas_asequibles": 11554
+    },
+    {
+     "puma": "4501",
+     "viviendas_propuestas": 480,
+     "viviendas_asequibles": 4619
+    },
+    {
+     "puma": "4502",
+     "viviendas_propuestas": 121,
+     "viviendas_asequibles": 510
+    },
+    {
+     "puma": "4503",
+     "viviendas_propuestas": 213,
+     "viviendas_asequibles": 1082
+    }
+   ]
+  }
+ },
+ "notas": [],
+ "calidad": [
+  "Cada obra nueva aparece varias veces en DOB NOW (radicación inicial -I1 y trámites -P1, -S8, -Z1…) repitiendo sus viviendas; se cuenta solo -I1.",
+  "El campo de distrito de DOB NOW se llama \"commmunity_board\" (con triple m)."
  ],
- "asequible_por_anio_inicio": [
+ "excluido": [
   {
-   "anio": 2014,
-   "viviendas": 19629
-  },
-  {
-   "anio": 2015,
-   "viviendas": 21153
-  },
-  {
-   "anio": 2016,
-   "viviendas": 22344
-  },
-  {
-   "anio": 2017,
-   "viviendas": 24789
-  },
-  {
-   "anio": 2018,
-   "viviendas": 34794
-  },
-  {
-   "anio": 2019,
-   "viviendas": 25430
-  },
-  {
-   "anio": 2020,
-   "viviendas": 30076
-  },
-  {
-   "anio": 2021,
-   "viviendas": 27234
-  },
-  {
-   "anio": 2022,
-   "viviendas": 16557
-  },
-  {
-   "anio": 2023,
-   "viviendas": 29113
-  },
-  {
-   "anio": 2024,
-   "viviendas": 28965
-  },
-  {
-   "anio": 2025,
-   "viviendas": 29277
-  },
-  {
-   "anio": 2026,
-   "viviendas": 11585
+   "campo": "owner_first_name, owner_last_name, owner_s_business_name, applicant_first_name, applicant_last_name, applicant_license, filing_representative_*",
+   "fuente": "F05",
+   "razon": "Nombres y licencias de personas: no responden ninguna pregunta del sistema y no se piden en la consulta"
   }
  ]
 }

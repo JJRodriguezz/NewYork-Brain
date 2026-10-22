@@ -1,0 +1,103 @@
+{
+ "tema": "declarados",
+ "titulo": "Cifras declaradas en comunicados oficiales",
+ "probado": "2026-10-20",
+ "fuentes": [
+  {
+   "id": "F29",
+   "nombre": "NYC Tourism + Conventions: informe anual 2025 (comunicado de prensa)",
+   "entidad": "New York City Tourism + Conventions",
+   "url": "https://www.business.nyctourism.com/press-media/press-releases/NYC-Tourism-Annual-Report-March-2026",
+   "consulta": null,
+   "estado": "declarado",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "2025 (publicado el 24-mar-2026)",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F30",
+   "nombre": "NYC Council: aprobación del presupuesto FY2027 (comunicado)",
+   "entidad": "New York City Council",
+   "url": "https://council.nyc.gov/press/2026/06/30/3166/",
+   "consulta": null,
+   "estado": "declarado",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "año fiscal 2027 (adoptado el 30-jun-2026)",
+   "probado": "2026-10-20"
+  }
+ ],
+ "cifras": {
+  "visitantes_2025": {
+   "valor": 65000000.0,
+   "unidad": "visitantes",
+   "vigencia": "2025",
+   "fuente": "F29",
+   "tipo": "declarado",
+   "descripcion": "Visitantes a la ciudad en 2025",
+   "pregunta": "P9"
+  },
+  "visitantes_nacionales_2025": {
+   "valor": 52400000.0,
+   "unidad": "visitantes",
+   "vigencia": "2025",
+   "fuente": "F29",
+   "tipo": "declarado",
+   "descripcion": "Visitantes nacionales en 2025 (+1,7 %)",
+   "pregunta": "P9"
+  },
+  "visitantes_internacionales_2025": {
+   "valor": 12500000.0,
+   "unidad": "visitantes",
+   "vigencia": "2025",
+   "fuente": "F29",
+   "tipo": "declarado",
+   "descripcion": "Visitantes internacionales en 2025 (−3,2 %)",
+   "pregunta": "P9"
+  },
+  "gasto_directo_2025": {
+   "valor": 55600000000.0,
+   "unidad": "US$",
+   "vigencia": "2025",
+   "fuente": "F29",
+   "tipo": "declarado",
+   "descripcion": "Gasto directo de los visitantes en 2025",
+   "pregunta": "P9"
+  },
+  "impacto_economico_2025": {
+   "valor": 84700000000.0,
+   "unidad": "US$",
+   "vigencia": "2025",
+   "fuente": "F29",
+   "tipo": "declarado",
+   "descripcion": "Impacto económico total del turismo en 2025",
+   "pregunta": "P9"
+  },
+  "impuestos_turismo_2025": {
+   "valor": 7500000000.0,
+   "unidad": "US$",
+   "vigencia": "2025",
+   "fuente": "F29",
+   "tipo": "declarado",
+   "descripcion": "Recaudo tributario atribuido al turismo en 2025",
+   "pregunta": "P9"
+  },
+  "presupuesto_fy2027": {
+   "valor": 125800000000.0,
+   "unidad": "US$",
+   "vigencia": "FY2027 (jul-2026 a jun-2027)",
+   "fuente": "F30",
+   "tipo": "declarado",
+   "descripcion": "Presupuesto municipal adoptado para el año fiscal 2027",
+   "pregunta": "G"
+  }
+ },
+ "series": {},
+ "listas": {},
+ "notas": [
+  "Cifras declaradas: las afirma la entidad que las publica y no se pueden verificar con microdatos abiertos. El script solo comprueba que el comunicado sigue diciendo lo mismo."
+ ],
+ "calidad": [],
+ "excluido": []
+}

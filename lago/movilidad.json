@@ -1,869 +1,2624 @@
 {
- "_meta": {
-  "id_fuente": "F17, F18",
-  "tabla": "movilidad",
-  "fecha_prueba": "2026-10-04",
-  "conjunto_de_datos": "MTA Daily Ridership and Traffic: Beginning 2020 + MTA Subway Stations",
-  "entidad": "Metropolitan Transportation Authority (MTA) vía Open NY (data.ny.gov)",
-  "url_api": "https://data.ny.gov/resource/sayj-mze2.json ; https://data.ny.gov/resource/39hk-dx4f.json",
-  "consulta_soql": "$select=date_trunc_ym(date),mode,sum(count),count(count)&$where=date >= '2020-03-01'&$group=m,mode",
-  "licencia": "Open NY: términos de uso de datos del Estado de Nueva York (uso libre con atribución; ver data.ny.gov/download/77gx-ii52)",
-  "trae_personas": false,
-  "cobertura": "Red MTA (subte, bus, trenes, puentes y túneles); estaciones con borough y coordenadas",
-  "periodo": "2020-03 a 2026-09",
-  "frecuencia_actualizacion": "Diaria",
-  "unidad": "promedio diario de viajes del mes",
-  "nota": "Se publica el promedio diario por mes (suma/días con dato) para que meses de distinta duración sean comparables. El conjunto anterior (vxuj-8kew) dejó de actualizarse en enero de 2025 y se reemplazó por este. \"ingresos_zona_congestion\" existe desde el peaje de congestión (5-ene-2025). Estaciones: filas del dataset MTA (una por andén/línea); la MTA comunica 472 estaciones porque cuenta complejos de otra forma."
- },
- "serie_mensual": [
-  {
-   "mes": "2020-03",
-   "subte": 2375007,
-   "bus": 1028122,
-   "ferrocarril_staten": 6470,
-   "puentes_tuneles": 542927,
-   "metro_north": 125509,
-   "access_a_ride": 18011,
-   "lirr": 116943
-  },
-  {
-   "mes": "2020-04",
-   "access_a_ride": 6062,
-   "puentes_tuneles": 280982,
-   "lirr": 7244,
-   "bus": 15717,
-   "metro_north": 8145,
-   "ferrocarril_staten": 656,
-   "subte": 391016
-  },
-  {
-   "mes": "2020-05",
-   "metro_north": 10834,
-   "puentes_tuneles": 419747,
-   "access_a_ride": 7634,
-   "bus": 13249,
-   "subte": 492769,
-   "ferrocarril_staten": 757,
-   "lirr": 16191
-  },
-  {
-   "mes": "2020-06",
-   "lirr": 39888,
-   "metro_north": 20593,
-   "subte": 797610,
-   "access_a_ride": 11548,
-   "bus": 21946,
-   "puentes_tuneles": 586092,
-   "ferrocarril_staten": 1420
-  },
-  {
-   "mes": "2020-07",
-   "bus": 26713,
-   "subte": 1048676,
-   "access_a_ride": 14366,
-   "puentes_tuneles": 663501,
-   "lirr": 57693,
-   "ferrocarril_staten": 2010,
-   "metro_north": 29492
-  },
-  {
-   "mes": "2020-08",
-   "puentes_tuneles": 696484,
-   "subte": 1135411,
-   "access_a_ride": 15619,
-   "metro_north": 30803,
-   "bus": 51907,
-   "ferrocarril_staten": 2190,
-   "lirr": 60589
-  },
-  {
-   "mes": "2020-09",
-   "metro_north": 38740,
-   "lirr": 75265,
-   "puentes_tuneles": 707059,
-   "subte": 1426352,
-   "bus": 935570,
-   "access_a_ride": 17600,
-   "ferrocarril_staten": 2567
-  },
-  {
-   "mes": "2020-10",
-   "bus": 971428,
-   "lirr": 72387,
-   "access_a_ride": 18566,
-   "metro_north": 41659,
-   "puentes_tuneles": 696240,
-   "ferrocarril_staten": 2970,
-   "subte": 1546681
-  },
-  {
-   "mes": "2020-11",
-   "subte": 1454147,
-   "metro_north": 35704,
-   "bus": 901655,
-   "access_a_ride": 18048,
-   "lirr": 70902,
-   "ferrocarril_staten": 2397,
-   "puentes_tuneles": 644470
-  },
-  {
-   "mes": "2020-12",
-   "puentes_tuneles": 703071,
-   "subte": 1402199,
-   "lirr": 63867,
-   "metro_north": 32450,
-   "access_a_ride": 17540,
-   "ferrocarril_staten": 2315,
-   "bus": 848616
-  },
-  {
-   "mes": "2021-01",
-   "ferrocarril_staten": 2303,
-   "metro_north": 30323,
-   "lirr": 54403,
-   "access_a_ride": 16654,
-   "subte": 1325851,
-   "bus": 807609,
-   "puentes_tuneles": 683529
-  },
-  {
-   "mes": "2021-02",
-   "ferrocarril_staten": 2381,
-   "subte": 1397985,
-   "puentes_tuneles": 655315,
-   "lirr": 53821,
-   "metro_north": 31230,
-   "bus": 816975,
-   "access_a_ride": 15930
-  },
-  {
-   "mes": "2021-03",
-   "subte": 1637082,
-   "access_a_ride": 18573,
-   "lirr": 69220,
-   "bus": 958082,
-   "ferrocarril_staten": 3224,
-   "puentes_tuneles": 791048,
-   "metro_north": 38498
-  },
-  {
-   "mes": "2021-04",
-   "metro_north": 43960,
-   "access_a_ride": 19234,
-   "puentes_tuneles": 834103,
-   "ferrocarril_staten": 3350,
-   "subte": 1775399,
-   "lirr": 74942,
-   "bus": 1019115
-  },
-  {
-   "mes": "2021-05",
-   "access_a_ride": 18953,
-   "ferrocarril_staten": 3268,
-   "subte": 1885021,
-   "bus": 1025735,
-   "lirr": 86928,
-   "metro_north": 50571,
-   "puentes_tuneles": 870360
-  },
-  {
-   "mes": "2021-06",
-   "metro_north": 85904,
-   "access_a_ride": 20224,
-   "puentes_tuneles": 933790,
-   "ferrocarril_staten": 4383,
-   "lirr": 104308,
-   "bus": 1091504,
-   "subte": 2181459
-  },
-  {
-   "mes": "2021-07",
-   "bus": 1058531,
-   "lirr": 106911,
-   "puentes_tuneles": 907731,
-   "metro_north": 87429,
-   "subte": 2159360,
-   "ferrocarril_staten": 4251,
-   "access_a_ride": 19102
-  },
-  {
-   "mes": "2021-08",
-   "access_a_ride": 18992,
-   "metro_north": 83725,
-   "subte": 2142143,
-   "ferrocarril_staten": 4323,
-   "lirr": 105882,
-   "bus": 1055073,
-   "puentes_tuneles": 913354
-  },
-  {
-   "mes": "2021-09",
-   "subte": 2459426,
-   "ferrocarril_staten": 4759,
-   "lirr": 120726,
-   "bus": 1191209,
-   "metro_north": 96911,
-   "puentes_tuneles": 907322,
-   "access_a_ride": 19449
-  },
-  {
-   "mes": "2021-10",
-   "metro_north": 107302,
-   "subte": 2691843,
-   "bus": 1230240,
-   "lirr": 126258,
-   "access_a_ride": 19786,
-   "ferrocarril_staten": 5133,
-   "puentes_tuneles": 911110
-  },
-  {
-   "mes": "2021-11",
-   "subte": 2744948,
-   "metro_north": 112434,
-   "puentes_tuneles": 899437,
-   "access_a_ride": 19187,
-   "bus": 1191724,
-   "lirr": 134584,
-   "ferrocarril_staten": 5357
-  },
-  {
-   "mes": "2021-12",
-   "subte": 2540304,
-   "puentes_tuneles": 845712,
-   "lirr": 118980,
-   "bus": 1089117,
-   "access_a_ride": 18085,
-   "metro_north": 99279,
-   "ferrocarril_staten": 4640
-  },
-  {
-   "mes": "2022-01",
-   "subte": 2055965,
-   "lirr": 90543,
-   "metro_north": 72681,
-   "bus": 929685,
-   "access_a_ride": 15096,
-   "puentes_tuneles": 715277,
-   "ferrocarril_staten": 3694
-  },
-  {
-   "mes": "2022-02",
-   "access_a_ride": 18532,
-   "metro_north": 94530,
-   "subte": 2506481,
-   "lirr": 113324,
-   "ferrocarril_staten": 4567,
-   "bus": 1094929,
-   "puentes_tuneles": 842809
-  },
-  {
-   "mes": "2022-03",
-   "access_a_ride": 20703,
-   "ferrocarril_staten": 5348,
-   "bus": 1230983,
-   "subte": 2815933,
-   "puentes_tuneles": 889171,
-   "lirr": 135996,
-   "metro_north": 118554
-  },
-  {
-   "mes": "2022-04",
-   "bus": 1190578,
-   "lirr": 136994,
-   "ferrocarril_staten": 4717,
-   "metro_north": 123449,
-   "subte": 2775781,
-   "puentes_tuneles": 917314,
-   "access_a_ride": 20749
-  },
-  {
-   "mes": "2022-05",
-   "metro_north": 125241,
-   "access_a_ride": 20657,
-   "subte": 2828895,
-   "bus": 1214222,
-   "puentes_tuneles": 938831,
-   "lirr": 142464,
-   "ferrocarril_staten": 5003
-  },
-  {
-   "mes": "2022-06",
-   "metro_north": 140995,
-   "lirr": 160064,
-   "ferrocarril_staten": 5203,
-   "subte": 2932597,
-   "access_a_ride": 21866,
-   "puentes_tuneles": 966719,
-   "bus": 1223507
-  },
-  {
-   "mes": "2022-07",
-   "subte": 2597253,
-   "ferrocarril_staten": 4278,
-   "bus": 1116479,
-   "lirr": 142450,
-   "access_a_ride": 20648,
-   "metro_north": 125592,
-   "puentes_tuneles": 931335
-  },
-  {
-   "mes": "2022-08",
-   "subte": 2675771,
-   "lirr": 152376,
-   "bus": 1154077,
-   "ferrocarril_staten": 4597,
-   "access_a_ride": 22100,
-   "metro_north": 129954,
-   "puentes_tuneles": 948777
-  },
-  {
-   "mes": "2022-09",
-   "lirr": 163689,
-   "subte": 3033986,
-   "metro_north": 145104,
-   "bus": 1247307,
-   "access_a_ride": 22558,
-   "puentes_tuneles": 943876,
-   "ferrocarril_staten": 5504
-  },
-  {
-   "mes": "2022-10",
-   "metro_north": 146767,
-   "bus": 1231421,
-   "puentes_tuneles": 921411,
-   "subte": 3068417,
-   "lirr": 156830,
-   "ferrocarril_staten": 5194,
-   "access_a_ride": 22475
-  },
-  {
-   "mes": "2022-11",
-   "ferrocarril_staten": 5506,
-   "access_a_ride": 22883,
-   "bus": 1201337,
-   "subte": 3030177,
-   "metro_north": 149222,
-   "lirr": 160891,
-   "puentes_tuneles": 901737
-  },
-  {
-   "mes": "2022-12",
-   "access_a_ride": 22175,
-   "puentes_tuneles": 878353,
-   "lirr": 152777,
-   "subte": 2962547,
-   "bus": 1104001,
-   "metro_north": 140263,
-   "ferrocarril_staten": 4927
-  },
-  {
-   "mes": "2023-01",
-   "subte": 2870945,
-   "metro_north": 134095,
-   "ferrocarril_staten": 5165,
-   "lirr": 146120,
-   "bus": 1136285,
-   "puentes_tuneles": 836687,
-   "access_a_ride": 22321
-  },
-  {
-   "mes": "2023-02",
-   "bus": 1186281,
-   "access_a_ride": 23732,
-   "subte": 3010695,
-   "puentes_tuneles": 860628,
-   "ferrocarril_staten": 5092,
-   "lirr": 152017,
-   "metro_north": 136081
-  },
-  {
-   "mes": "2023-03",
-   "puentes_tuneles": 905454,
-   "subte": 3259055,
-   "metro_north": 150779,
-   "lirr": 167806,
-   "bus": 1285788,
-   "ferrocarril_staten": 5660,
-   "access_a_ride": 25422
-  },
-  {
-   "mes": "2023-04",
-   "puentes_tuneles": 919403,
-   "access_a_ride": 24394,
-   "subte": 3139964,
-   "ferrocarril_staten": 5162,
-   "metro_north": 149060,
-   "lirr": 163918,
-   "bus": 1189049
-  },
-  {
-   "mes": "2023-05",
-   "bus": 1276862,
-   "access_a_ride": 25715,
-   "ferrocarril_staten": 5835,
-   "lirr": 181174,
-   "subte": 3368876,
-   "metro_north": 167164,
-   "puentes_tuneles": 964967
-  },
-  {
-   "mes": "2023-06",
-   "bus": 1206937,
-   "lirr": 193539,
-   "subte": 3248567,
-   "ferrocarril_staten": 5474,
-   "metro_north": 171413,
-   "access_a_ride": 25755,
-   "puentes_tuneles": 983410
-  },
-  {
-   "mes": "2023-07",
-   "access_a_ride": 24480,
-   "ferrocarril_staten": 4884,
-   "puentes_tuneles": 952422,
-   "subte": 2928968,
-   "lirr": 174803,
-   "metro_north": 152298,
-   "bus": 1108614
-  },
-  {
-   "mes": "2023-08",
-   "lirr": 188429,
-   "access_a_ride": 26158,
-   "ferrocarril_staten": 5329,
-   "bus": 1144506,
-   "subte": 3032171,
-   "puentes_tuneles": 962255,
-   "metro_north": 161051
-  },
-  {
-   "mes": "2023-09",
-   "metro_north": 163803,
-   "puentes_tuneles": 932374,
-   "lirr": 186886,
-   "access_a_ride": 26073,
-   "subte": 3177674,
-   "ferrocarril_staten": 5512,
-   "bus": 1162681
-  },
-  {
-   "mes": "2023-10",
-   "lirr": 194021,
-   "subte": 3364393,
-   "bus": 1186190,
-   "puentes_tuneles": 943168,
-   "metro_north": 175706,
-   "ferrocarril_staten": 6028,
-   "access_a_ride": 27341
-  },
-  {
-   "mes": "2023-11",
-   "puentes_tuneles": 926057,
-   "bus": 1109674,
-   "lirr": 196313,
-   "ferrocarril_staten": 5845,
-   "metro_north": 177979,
-   "access_a_ride": 27098,
-   "subte": 3282908
-  },
-  {
-   "mes": "2023-12",
-   "metro_north": 167419,
-   "access_a_ride": 26326,
-   "bus": 999615,
-   "ferrocarril_staten": 5160,
-   "lirr": 186561,
-   "subte": 3125408,
-   "puentes_tuneles": 899726
-  },
-  {
-   "mes": "2024-01",
-   "subte": 2958436,
-   "access_a_ride": 26155,
-   "bus": 1026145,
-   "puentes_tuneles": 824572,
-   "lirr": 174866,
-   "metro_north": 154947,
-   "ferrocarril_staten": 5253
-  },
-  {
-   "mes": "2024-02",
-   "ferrocarril_staten": 5376,
-   "lirr": 182497,
-   "subte": 3114675,
-   "bus": 1081219,
-   "access_a_ride": 28271,
-   "puentes_tuneles": 868932,
-   "metro_north": 159827
-  },
-  {
-   "mes": "2024-03",
-   "ferrocarril_staten": 5531,
-   "lirr": 190495,
-   "puentes_tuneles": 911462,
-   "subte": 3221477,
-   "metro_north": 164506,
-   "access_a_ride": 29667,
-   "bus": 1100740
-  },
-  {
-   "mes": "2024-04",
-   "lirr": 200561,
-   "bus": 1110578,
-   "ferrocarril_staten": 5677,
-   "puentes_tuneles": 928418,
-   "metro_north": 179620,
-   "access_a_ride": 30241,
-   "subte": 3331715
-  },
-  {
-   "mes": "2024-05",
-   "subte": 3416232,
-   "puentes_tuneles": 962725,
-   "bus": 1131256,
-   "lirr": 208539,
-   "metro_north": 184829,
-   "ferrocarril_staten": 5949,
-   "access_a_ride": 31134
-  },
-  {
-   "mes": "2024-06",
-   "ferrocarril_staten": 5602,
-   "subte": 3225398,
-   "access_a_ride": 30725,
-   "puentes_tuneles": 988082,
-   "bus": 1084220,
-   "lirr": 211755,
-   "metro_north": 184411
-  },
-  {
-   "mes": "2024-07",
-   "access_a_ride": 30708,
-   "bus": 1048495,
-   "puentes_tuneles": 952082,
-   "lirr": 206423,
-   "metro_north": 179697,
-   "subte": 3031862,
-   "ferrocarril_staten": 5476
-  },
-  {
-   "mes": "2024-08",
-   "ferrocarril_staten": 5259,
-   "bus": 1010986,
-   "lirr": 207510,
-   "metro_north": 169481,
-   "subte": 2977661,
-   "access_a_ride": 31066,
-   "puentes_tuneles": 956425
-  },
-  {
-   "mes": "2024-09",
-   "lirr": 219771,
-   "subte": 3452625,
-   "puentes_tuneles": 957446,
-   "bus": 1234678,
-   "access_a_ride": 32210,
-   "ferrocarril_staten": 6217,
-   "metro_north": 186668
-  },
-  {
-   "mes": "2024-10",
-   "puentes_tuneles": 952396,
-   "access_a_ride": 33769,
-   "ferrocarril_staten": 7432,
-   "metro_north": 204956,
-   "bus": 1301323,
-   "subte": 3655181,
-   "lirr": 229105
-  },
-  {
-   "mes": "2024-11",
-   "subte": 3418435,
-   "lirr": 210595,
-   "bus": 1181953,
-   "puentes_tuneles": 920324,
-   "ferrocarril_staten": 5915,
-   "access_a_ride": 32668,
-   "metro_north": 186935
-  },
-  {
-   "mes": "2024-12",
-   "ferrocarril_staten": 5583,
-   "bus": 1096432,
-   "access_a_ride": 32368,
-   "puentes_tuneles": 915645,
-   "metro_north": 183752,
-   "lirr": 211314,
-   "subte": 3353056
-  },
-  {
-   "mes": "2025-01",
-   "subte": 3188048,
-   "puentes_tuneles": 830056,
-   "lirr": 194140,
-   "ingresos_cbd": 533434,
-   "ingresos_zona_congestion": 471794,
-   "metro_north": 165473,
-   "bus": 1137670,
-   "ferrocarril_staten": 5379,
-   "access_a_ride": 33644
-  },
-  {
-   "mes": "2025-02",
-   "subte": 3361130,
-   "ingresos_zona_congestion": 477354,
-   "lirr": 198429,
-   "puentes_tuneles": 852240,
-   "ferrocarril_staten": 5532,
-   "bus": 1207013,
-   "ingresos_cbd": 541229,
-   "metro_north": 166343,
-   "access_a_ride": 35029
-  },
-  {
-   "mes": "2025-03",
-   "ferrocarril_staten": 5799,
-   "lirr": 210706,
-   "subte": 3494515,
-   "access_a_ride": 35859,
-   "bus": 1272042,
-   "ingresos_cbd": 560255,
-   "ingresos_zona_congestion": 493047,
-   "metro_north": 179774,
-   "puentes_tuneles": 915003
-  },
-  {
-   "mes": "2025-04",
-   "bus": 1293927,
-   "ingresos_zona_congestion": 501873,
-   "access_a_ride": 37063,
-   "puentes_tuneles": 941606,
-   "subte": 3666954,
-   "ferrocarril_staten": 6092,
-   "lirr": 225282,
-   "ingresos_cbd": 568143,
-   "metro_north": 195444
-  },
-  {
-   "mes": "2025-05",
-   "ferrocarril_staten": 6003,
-   "access_a_ride": 36905,
-   "bus": 1241224,
-   "puentes_tuneles": 972229,
-   "ingresos_zona_congestion": 512925,
-   "metro_north": 193600,
-   "subte": 3627925,
-   "ingresos_cbd": 580226,
-   "lirr": 224925
-  },
-  {
-   "mes": "2025-06",
-   "ingresos_zona_congestion": 502433,
-   "subte": 3551575,
-   "ingresos_cbd": 570327,
-   "metro_north": 197374,
-   "ferrocarril_staten": 5856,
-   "lirr": 227175,
-   "puentes_tuneles": 986823,
-   "access_a_ride": 37400,
-   "bus": 1236519
-  },
-  {
-   "mes": "2025-07",
-   "ferrocarril_staten": 5795,
-   "lirr": 233377,
-   "access_a_ride": 37724,
-   "metro_north": 196918,
-   "ingresos_zona_congestion": 488965,
-   "bus": 1218970,
-   "subte": 3424240,
-   "ingresos_cbd": 553291,
-   "puentes_tuneles": 970350
-  },
-  {
-   "mes": "2025-08",
-   "puentes_tuneles": 979190,
-   "ferrocarril_staten": 5423,
-   "bus": 1175212,
-   "ingresos_cbd": 553218,
-   "access_a_ride": 37345,
-   "metro_north": 182093,
-   "ingresos_zona_congestion": 484030,
-   "lirr": 229329,
-   "subte": 3303441
-  },
-  {
-   "mes": "2025-09",
-   "metro_north": 203647,
-   "ingresos_cbd": 570357,
-   "bus": 1270999,
-   "subte": 3690550,
-   "ingresos_zona_congestion": 503934,
-   "puentes_tuneles": 964639,
-   "lirr": 243329,
-   "ferrocarril_staten": 6040,
-   "access_a_ride": 38869
-  },
-  {
-   "mes": "2025-10",
-   "ingresos_cbd": 571770,
-   "access_a_ride": 39906,
-   "puentes_tuneles": 946391,
-   "bus": 1221387,
-   "metro_north": 212720,
-   "ferrocarril_staten": 5742,
-   "ingresos_zona_congestion": 507964,
-   "lirr": 237780,
-   "subte": 3737087
-  },
-  {
-   "mes": "2025-11",
-   "access_a_ride": 38289,
-   "ingresos_zona_congestion": 496765,
-   "metro_north": 191769,
-   "bus": 1101007,
-   "subte": 3548921,
-   "ferrocarril_staten": 5315,
-   "ingresos_cbd": 559403,
-   "lirr": 220552,
-   "puentes_tuneles": 930194
-  },
-  {
-   "mes": "2025-12",
-   "access_a_ride": 38736,
-   "bus": 1053232,
-   "subte": 3567151,
-   "ingresos_zona_congestion": 479158,
-   "lirr": 230843,
-   "metro_north": 196299,
-   "ferrocarril_staten": 5354,
-   "puentes_tuneles": 896018,
-   "ingresos_cbd": 538033
-  },
-  {
-   "mes": "2026-01",
-   "metro_north": 160353,
-   "lirr": 190250,
-   "access_a_ride": 35854,
-   "puentes_tuneles": 798326,
-   "ferrocarril_staten": 5127,
-   "ingresos_cbd": 484555,
-   "bus": 1021233,
-   "ingresos_zona_congestion": 431188,
-   "subte": 3226559
-  },
-  {
-   "mes": "2026-02",
-   "ferrocarril_staten": 5408,
-   "subte": 3395325,
-   "ingresos_cbd": 484952,
-   "metro_north": 165730,
-   "lirr": 194545,
-   "ingresos_zona_congestion": 431152,
-   "puentes_tuneles": 807235,
-   "access_a_ride": 37824,
-   "bus": 1022247
-  },
-  {
-   "mes": "2026-03",
-   "puentes_tuneles": 911817,
-   "access_a_ride": 42393,
-   "ingresos_zona_congestion": 475608,
-   "lirr": 228457,
-   "ferrocarril_staten": 6418,
-   "ingresos_cbd": 536877,
-   "subte": 3709214,
-   "metro_north": 192850,
-   "bus": 1165659
-  },
-  {
-   "mes": "2026-04",
-   "bus": 1178580,
-   "metro_north": 206294,
-   "subte": 3758999,
-   "ingresos_cbd": 553853,
-   "lirr": 235454,
-   "ingresos_zona_congestion": 489988,
-   "access_a_ride": 42569,
-   "puentes_tuneles": 927782,
-   "ferrocarril_staten": 6334
-  },
-  {
-   "mes": "2026-05",
-   "ingresos_zona_congestion": 494334,
-   "access_a_ride": 41833,
-   "lirr": 201489,
-   "bus": 1157352,
-   "puentes_tuneles": 955327,
-   "metro_north": 199042,
-   "ferrocarril_staten": 6136,
-   "ingresos_cbd": 558222,
-   "subte": 3684720
-  },
-  {
-   "mes": "2026-06",
-   "ingresos_cbd": 558857,
-   "lirr": 260234,
-   "ferrocarril_staten": 6370,
-   "bus": 1173502,
-   "metro_north": 223378,
-   "access_a_ride": 43373,
-   "subte": 3777388,
-   "ingresos_zona_congestion": 492966,
-   "puentes_tuneles": 991480
-  },
-  {
-   "mes": "2026-07",
-   "ingresos_zona_congestion": 475462,
-   "access_a_ride": 41729,
-   "bus": 1119227,
-   "lirr": 245287,
-   "puentes_tuneles": 954221,
-   "ferrocarril_staten": 5907,
-   "ingresos_cbd": 539375,
-   "subte": 3484967,
-   "metro_north": 206784
-  },
-  {
-   "mes": "2026-08",
-   "subte": 3343948,
-   "ferrocarril_staten": 5490,
-   "access_a_ride": 41776,
-   "lirr": 239379,
-   "ingresos_zona_congestion": 468135,
-   "bus": 1093958,
-   "ingresos_cbd": 533056,
-   "puentes_tuneles": 959954,
-   "metro_north": 194191
-  },
-  {
-   "mes": "2026-09",
-   "ingresos_cbd": 543433,
-   "ferrocarril_staten": 6256,
-   "subte": 3678030,
-   "access_a_ride": 43227,
-   "bus": 1202868,
-   "puentes_tuneles": 934748,
-   "lirr": 252642,
-   "metro_north": 208814,
-   "ingresos_zona_congestion": 480081
+ "tema": "movilidad",
+ "titulo": "Movilidad: transporte público y peaje de congestión",
+ "probado": "2026-10-20",
+ "fuentes": [
+  {
+   "id": "F17",
+   "nombre": "MTA Daily Ridership and Traffic: Beginning 2020",
+   "entidad": "Metropolitan Transportation Authority (MTA)",
+   "url": "https://data.ny.gov/resource/sayj-mze2.json",
+   "consulta": "$select=date_trunc_ym(date) as m,mode,sum(count) as n,count(count) as dias&$where=date >= '2020-03-01T00:00:00'&$group=m,mode",
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "2020-03 a 2026-09",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F18",
+   "nombre": "MTA Subway Stations",
+   "entidad": "Metropolitan Transportation Authority (MTA)",
+   "url": "https://data.ny.gov/resource/39hk-dx4f.json",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "vigente",
+   "probado": "2026-10-20"
   }
  ],
- "estaciones": {
-  "filas_dataset": 496,
-  "por_borough": {
-   "Brooklyn": 169,
-   "Queens": 83,
-   "Manhattan": 153,
-   "Staten Island": 21,
-   "Bronx": 70
+ "cifras": {
+  "subte_ultimo_mes": {
+   "valor": 3679070,
+   "unidad": "viajes por día",
+   "vigencia": "2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "descripcion": "Viajes diarios promedio en subte en el último mes completo",
+   "pregunta": "P5"
   },
-  "complejos_por_borough": {
-   "Brooklyn": 156,
-   "Queens": 79,
-   "Manhattan": 121,
-   "Staten Island": 21,
-   "Bronx": 68
+  "subte_variacion_anual": {
+   "valor": -0.3,
+   "unidad": "%",
+   "vigencia": "2026-09 vs mismo mes del año anterior",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "descripcion": "Cambio del subte frente al mismo mes del año anterior",
+   "pregunta": "P5",
+   "formula": "(mes ÷ mismo mes año anterior − 1) × 100"
+  },
+  "congestion_ultimo_mes": {
+   "valor": 480657,
+   "unidad": "vehículos por día",
+   "vigencia": "2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "descripcion": "Vehículos diarios que entran a la zona de congestión, último mes",
+   "pregunta": "P5"
+  },
+  "congestion_primer_mes": {
+   "valor": 471794,
+   "unidad": "vehículos por día",
+   "vigencia": "2025-01",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "descripcion": "Vehículos diarios que entraron a la zona de congestión el primer mes con peaje",
+   "pregunta": "P5"
+  },
+  "paradas_total": {
+   "valor": 496,
+   "unidad": "paradas",
+   "vigencia": "vigente",
+   "fuente": "F18",
+   "tipo": "medido",
+   "descripcion": "Filas del dataset de estaciones MTA (subte + ferrocarril de Staten Island)",
+   "pregunta": "P5"
   }
- }
+ },
+ "series": {
+  "subte": {
+   "descripcion": "Viajes diarios promedio en subte (suma del mes ÷ días con dato)",
+   "unidad": "viajes por día (promedio del mes)",
+   "vigencia": "2020-03 a 2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "x": "mes",
+   "pregunta": "P5",
+   "puntos": [
+    [
+     "2020-03",
+     2375007
+    ],
+    [
+     "2020-04",
+     391016
+    ],
+    [
+     "2020-05",
+     492769
+    ],
+    [
+     "2020-06",
+     797610
+    ],
+    [
+     "2020-07",
+     1048676
+    ],
+    [
+     "2020-08",
+     1135411
+    ],
+    [
+     "2020-09",
+     1426352
+    ],
+    [
+     "2020-10",
+     1546681
+    ],
+    [
+     "2020-11",
+     1454147
+    ],
+    [
+     "2020-12",
+     1402199
+    ],
+    [
+     "2021-01",
+     1325851
+    ],
+    [
+     "2021-02",
+     1397985
+    ],
+    [
+     "2021-03",
+     1637082
+    ],
+    [
+     "2021-04",
+     1775399
+    ],
+    [
+     "2021-05",
+     1885021
+    ],
+    [
+     "2021-06",
+     2181459
+    ],
+    [
+     "2021-07",
+     2159360
+    ],
+    [
+     "2021-08",
+     2142143
+    ],
+    [
+     "2021-09",
+     2459426
+    ],
+    [
+     "2021-10",
+     2691843
+    ],
+    [
+     "2021-11",
+     2744948
+    ],
+    [
+     "2021-12",
+     2540304
+    ],
+    [
+     "2022-01",
+     2055965
+    ],
+    [
+     "2022-02",
+     2506481
+    ],
+    [
+     "2022-03",
+     2815933
+    ],
+    [
+     "2022-04",
+     2775781
+    ],
+    [
+     "2022-05",
+     2828895
+    ],
+    [
+     "2022-06",
+     2932597
+    ],
+    [
+     "2022-07",
+     2597253
+    ],
+    [
+     "2022-08",
+     2675771
+    ],
+    [
+     "2022-09",
+     3033986
+    ],
+    [
+     "2022-10",
+     3068417
+    ],
+    [
+     "2022-11",
+     3030177
+    ],
+    [
+     "2022-12",
+     2962547
+    ],
+    [
+     "2023-01",
+     2870945
+    ],
+    [
+     "2023-02",
+     3010695
+    ],
+    [
+     "2023-03",
+     3259055
+    ],
+    [
+     "2023-04",
+     3139964
+    ],
+    [
+     "2023-05",
+     3368876
+    ],
+    [
+     "2023-06",
+     3248567
+    ],
+    [
+     "2023-07",
+     2928968
+    ],
+    [
+     "2023-08",
+     3032171
+    ],
+    [
+     "2023-09",
+     3177674
+    ],
+    [
+     "2023-10",
+     3364393
+    ],
+    [
+     "2023-11",
+     3282908
+    ],
+    [
+     "2023-12",
+     3125408
+    ],
+    [
+     "2024-01",
+     2958436
+    ],
+    [
+     "2024-02",
+     3114675
+    ],
+    [
+     "2024-03",
+     3221477
+    ],
+    [
+     "2024-04",
+     3331715
+    ],
+    [
+     "2024-05",
+     3416232
+    ],
+    [
+     "2024-06",
+     3225398
+    ],
+    [
+     "2024-07",
+     3031862
+    ],
+    [
+     "2024-08",
+     2977661
+    ],
+    [
+     "2024-09",
+     3452625
+    ],
+    [
+     "2024-10",
+     3655181
+    ],
+    [
+     "2024-11",
+     3418435
+    ],
+    [
+     "2024-12",
+     3353056
+    ],
+    [
+     "2025-01",
+     3188048
+    ],
+    [
+     "2025-02",
+     3361130
+    ],
+    [
+     "2025-03",
+     3494515
+    ],
+    [
+     "2025-04",
+     3666954
+    ],
+    [
+     "2025-05",
+     3627925
+    ],
+    [
+     "2025-06",
+     3551575
+    ],
+    [
+     "2025-07",
+     3424240
+    ],
+    [
+     "2025-08",
+     3303441
+    ],
+    [
+     "2025-09",
+     3690550
+    ],
+    [
+     "2025-10",
+     3737087
+    ],
+    [
+     "2025-11",
+     3548921
+    ],
+    [
+     "2025-12",
+     3567151
+    ],
+    [
+     "2026-01",
+     3226559
+    ],
+    [
+     "2026-02",
+     3395325
+    ],
+    [
+     "2026-03",
+     3709214
+    ],
+    [
+     "2026-04",
+     3758999
+    ],
+    [
+     "2026-05",
+     3684720
+    ],
+    [
+     "2026-06",
+     3777388
+    ],
+    [
+     "2026-07",
+     3484967
+    ],
+    [
+     "2026-08",
+     3343948
+    ],
+    [
+     "2026-09",
+     3679070
+    ]
+   ]
+  },
+  "bus": {
+   "descripcion": "Viajes diarios promedio en bus (suma del mes ÷ días con dato)",
+   "unidad": "viajes por día (promedio del mes)",
+   "vigencia": "2020-03 a 2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "x": "mes",
+   "pregunta": "P5",
+   "puntos": [
+    [
+     "2020-03",
+     1028122
+    ],
+    [
+     "2020-04",
+     15717
+    ],
+    [
+     "2020-05",
+     13249
+    ],
+    [
+     "2020-06",
+     21946
+    ],
+    [
+     "2020-07",
+     26713
+    ],
+    [
+     "2020-08",
+     51907
+    ],
+    [
+     "2020-09",
+     935570
+    ],
+    [
+     "2020-10",
+     971428
+    ],
+    [
+     "2020-11",
+     901655
+    ],
+    [
+     "2020-12",
+     848616
+    ],
+    [
+     "2021-01",
+     807609
+    ],
+    [
+     "2021-02",
+     816975
+    ],
+    [
+     "2021-03",
+     958082
+    ],
+    [
+     "2021-04",
+     1019115
+    ],
+    [
+     "2021-05",
+     1025735
+    ],
+    [
+     "2021-06",
+     1091504
+    ],
+    [
+     "2021-07",
+     1058531
+    ],
+    [
+     "2021-08",
+     1055073
+    ],
+    [
+     "2021-09",
+     1191209
+    ],
+    [
+     "2021-10",
+     1230240
+    ],
+    [
+     "2021-11",
+     1191724
+    ],
+    [
+     "2021-12",
+     1089117
+    ],
+    [
+     "2022-01",
+     929685
+    ],
+    [
+     "2022-02",
+     1094929
+    ],
+    [
+     "2022-03",
+     1230983
+    ],
+    [
+     "2022-04",
+     1190578
+    ],
+    [
+     "2022-05",
+     1214222
+    ],
+    [
+     "2022-06",
+     1223507
+    ],
+    [
+     "2022-07",
+     1116479
+    ],
+    [
+     "2022-08",
+     1154077
+    ],
+    [
+     "2022-09",
+     1247307
+    ],
+    [
+     "2022-10",
+     1231421
+    ],
+    [
+     "2022-11",
+     1201337
+    ],
+    [
+     "2022-12",
+     1104001
+    ],
+    [
+     "2023-01",
+     1136285
+    ],
+    [
+     "2023-02",
+     1186281
+    ],
+    [
+     "2023-03",
+     1285788
+    ],
+    [
+     "2023-04",
+     1189049
+    ],
+    [
+     "2023-05",
+     1276862
+    ],
+    [
+     "2023-06",
+     1206937
+    ],
+    [
+     "2023-07",
+     1108614
+    ],
+    [
+     "2023-08",
+     1144506
+    ],
+    [
+     "2023-09",
+     1162681
+    ],
+    [
+     "2023-10",
+     1186190
+    ],
+    [
+     "2023-11",
+     1109674
+    ],
+    [
+     "2023-12",
+     999615
+    ],
+    [
+     "2024-01",
+     1026145
+    ],
+    [
+     "2024-02",
+     1081219
+    ],
+    [
+     "2024-03",
+     1100740
+    ],
+    [
+     "2024-04",
+     1110578
+    ],
+    [
+     "2024-05",
+     1131256
+    ],
+    [
+     "2024-06",
+     1084220
+    ],
+    [
+     "2024-07",
+     1048495
+    ],
+    [
+     "2024-08",
+     1010986
+    ],
+    [
+     "2024-09",
+     1234678
+    ],
+    [
+     "2024-10",
+     1301323
+    ],
+    [
+     "2024-11",
+     1181953
+    ],
+    [
+     "2024-12",
+     1096432
+    ],
+    [
+     "2025-01",
+     1137670
+    ],
+    [
+     "2025-02",
+     1207013
+    ],
+    [
+     "2025-03",
+     1272042
+    ],
+    [
+     "2025-04",
+     1293927
+    ],
+    [
+     "2025-05",
+     1241224
+    ],
+    [
+     "2025-06",
+     1236519
+    ],
+    [
+     "2025-07",
+     1218970
+    ],
+    [
+     "2025-08",
+     1175212
+    ],
+    [
+     "2025-09",
+     1270999
+    ],
+    [
+     "2025-10",
+     1221387
+    ],
+    [
+     "2025-11",
+     1101007
+    ],
+    [
+     "2025-12",
+     1053232
+    ],
+    [
+     "2026-01",
+     1021233
+    ],
+    [
+     "2026-02",
+     1022247
+    ],
+    [
+     "2026-03",
+     1165659
+    ],
+    [
+     "2026-04",
+     1178580
+    ],
+    [
+     "2026-05",
+     1157352
+    ],
+    [
+     "2026-06",
+     1173502
+    ],
+    [
+     "2026-07",
+     1119227
+    ],
+    [
+     "2026-08",
+     1093958
+    ],
+    [
+     "2026-09",
+     1203398
+    ]
+   ]
+  },
+  "lirr": {
+   "descripcion": "Viajes diarios promedio en Long Island Rail Road (suma del mes ÷ días con dato)",
+   "unidad": "viajes por día (promedio del mes)",
+   "vigencia": "2020-03 a 2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "x": "mes",
+   "pregunta": "P5",
+   "puntos": [
+    [
+     "2020-03",
+     116943
+    ],
+    [
+     "2020-04",
+     7244
+    ],
+    [
+     "2020-05",
+     16191
+    ],
+    [
+     "2020-06",
+     39888
+    ],
+    [
+     "2020-07",
+     57693
+    ],
+    [
+     "2020-08",
+     60589
+    ],
+    [
+     "2020-09",
+     75265
+    ],
+    [
+     "2020-10",
+     72387
+    ],
+    [
+     "2020-11",
+     70902
+    ],
+    [
+     "2020-12",
+     63867
+    ],
+    [
+     "2021-01",
+     54403
+    ],
+    [
+     "2021-02",
+     53821
+    ],
+    [
+     "2021-03",
+     69220
+    ],
+    [
+     "2021-04",
+     74942
+    ],
+    [
+     "2021-05",
+     86928
+    ],
+    [
+     "2021-06",
+     104308
+    ],
+    [
+     "2021-07",
+     106911
+    ],
+    [
+     "2021-08",
+     105882
+    ],
+    [
+     "2021-09",
+     120726
+    ],
+    [
+     "2021-10",
+     126258
+    ],
+    [
+     "2021-11",
+     134584
+    ],
+    [
+     "2021-12",
+     118980
+    ],
+    [
+     "2022-01",
+     90543
+    ],
+    [
+     "2022-02",
+     113324
+    ],
+    [
+     "2022-03",
+     135996
+    ],
+    [
+     "2022-04",
+     136994
+    ],
+    [
+     "2022-05",
+     142464
+    ],
+    [
+     "2022-06",
+     160064
+    ],
+    [
+     "2022-07",
+     142450
+    ],
+    [
+     "2022-08",
+     152376
+    ],
+    [
+     "2022-09",
+     163689
+    ],
+    [
+     "2022-10",
+     156830
+    ],
+    [
+     "2022-11",
+     160891
+    ],
+    [
+     "2022-12",
+     152777
+    ],
+    [
+     "2023-01",
+     146120
+    ],
+    [
+     "2023-02",
+     152017
+    ],
+    [
+     "2023-03",
+     167806
+    ],
+    [
+     "2023-04",
+     163918
+    ],
+    [
+     "2023-05",
+     181174
+    ],
+    [
+     "2023-06",
+     193539
+    ],
+    [
+     "2023-07",
+     174803
+    ],
+    [
+     "2023-08",
+     188429
+    ],
+    [
+     "2023-09",
+     186886
+    ],
+    [
+     "2023-10",
+     194021
+    ],
+    [
+     "2023-11",
+     196313
+    ],
+    [
+     "2023-12",
+     186561
+    ],
+    [
+     "2024-01",
+     174866
+    ],
+    [
+     "2024-02",
+     182497
+    ],
+    [
+     "2024-03",
+     190495
+    ],
+    [
+     "2024-04",
+     200561
+    ],
+    [
+     "2024-05",
+     208539
+    ],
+    [
+     "2024-06",
+     211755
+    ],
+    [
+     "2024-07",
+     206423
+    ],
+    [
+     "2024-08",
+     207510
+    ],
+    [
+     "2024-09",
+     219771
+    ],
+    [
+     "2024-10",
+     229105
+    ],
+    [
+     "2024-11",
+     210595
+    ],
+    [
+     "2024-12",
+     211314
+    ],
+    [
+     "2025-01",
+     194140
+    ],
+    [
+     "2025-02",
+     198429
+    ],
+    [
+     "2025-03",
+     210706
+    ],
+    [
+     "2025-04",
+     225282
+    ],
+    [
+     "2025-05",
+     224925
+    ],
+    [
+     "2025-06",
+     227175
+    ],
+    [
+     "2025-07",
+     233377
+    ],
+    [
+     "2025-08",
+     229329
+    ],
+    [
+     "2025-09",
+     243329
+    ],
+    [
+     "2025-10",
+     237780
+    ],
+    [
+     "2025-11",
+     220552
+    ],
+    [
+     "2025-12",
+     230843
+    ],
+    [
+     "2026-01",
+     190250
+    ],
+    [
+     "2026-02",
+     194545
+    ],
+    [
+     "2026-03",
+     228457
+    ],
+    [
+     "2026-04",
+     235454
+    ],
+    [
+     "2026-05",
+     201489
+    ],
+    [
+     "2026-06",
+     260234
+    ],
+    [
+     "2026-07",
+     245287
+    ],
+    [
+     "2026-08",
+     239379
+    ],
+    [
+     "2026-09",
+     252642
+    ]
+   ]
+  },
+  "metro_north": {
+   "descripcion": "Viajes diarios promedio en Metro-North (suma del mes ÷ días con dato)",
+   "unidad": "viajes por día (promedio del mes)",
+   "vigencia": "2020-03 a 2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "x": "mes",
+   "pregunta": "P5",
+   "puntos": [
+    [
+     "2020-03",
+     125509
+    ],
+    [
+     "2020-04",
+     8145
+    ],
+    [
+     "2020-05",
+     10834
+    ],
+    [
+     "2020-06",
+     20593
+    ],
+    [
+     "2020-07",
+     29492
+    ],
+    [
+     "2020-08",
+     30803
+    ],
+    [
+     "2020-09",
+     38740
+    ],
+    [
+     "2020-10",
+     41659
+    ],
+    [
+     "2020-11",
+     35704
+    ],
+    [
+     "2020-12",
+     32450
+    ],
+    [
+     "2021-01",
+     30323
+    ],
+    [
+     "2021-02",
+     31230
+    ],
+    [
+     "2021-03",
+     38498
+    ],
+    [
+     "2021-04",
+     43960
+    ],
+    [
+     "2021-05",
+     50571
+    ],
+    [
+     "2021-06",
+     85904
+    ],
+    [
+     "2021-07",
+     87429
+    ],
+    [
+     "2021-08",
+     83725
+    ],
+    [
+     "2021-09",
+     96911
+    ],
+    [
+     "2021-10",
+     107302
+    ],
+    [
+     "2021-11",
+     112434
+    ],
+    [
+     "2021-12",
+     99279
+    ],
+    [
+     "2022-01",
+     72681
+    ],
+    [
+     "2022-02",
+     94530
+    ],
+    [
+     "2022-03",
+     118554
+    ],
+    [
+     "2022-04",
+     123449
+    ],
+    [
+     "2022-05",
+     125241
+    ],
+    [
+     "2022-06",
+     140995
+    ],
+    [
+     "2022-07",
+     125592
+    ],
+    [
+     "2022-08",
+     129954
+    ],
+    [
+     "2022-09",
+     145104
+    ],
+    [
+     "2022-10",
+     146767
+    ],
+    [
+     "2022-11",
+     149222
+    ],
+    [
+     "2022-12",
+     140263
+    ],
+    [
+     "2023-01",
+     134095
+    ],
+    [
+     "2023-02",
+     136081
+    ],
+    [
+     "2023-03",
+     150779
+    ],
+    [
+     "2023-04",
+     149060
+    ],
+    [
+     "2023-05",
+     167164
+    ],
+    [
+     "2023-06",
+     171413
+    ],
+    [
+     "2023-07",
+     152298
+    ],
+    [
+     "2023-08",
+     161051
+    ],
+    [
+     "2023-09",
+     163803
+    ],
+    [
+     "2023-10",
+     175706
+    ],
+    [
+     "2023-11",
+     177979
+    ],
+    [
+     "2023-12",
+     167419
+    ],
+    [
+     "2024-01",
+     154947
+    ],
+    [
+     "2024-02",
+     159827
+    ],
+    [
+     "2024-03",
+     164506
+    ],
+    [
+     "2024-04",
+     179620
+    ],
+    [
+     "2024-05",
+     184829
+    ],
+    [
+     "2024-06",
+     184411
+    ],
+    [
+     "2024-07",
+     179697
+    ],
+    [
+     "2024-08",
+     169481
+    ],
+    [
+     "2024-09",
+     186668
+    ],
+    [
+     "2024-10",
+     204956
+    ],
+    [
+     "2024-11",
+     186935
+    ],
+    [
+     "2024-12",
+     183752
+    ],
+    [
+     "2025-01",
+     165473
+    ],
+    [
+     "2025-02",
+     166343
+    ],
+    [
+     "2025-03",
+     179774
+    ],
+    [
+     "2025-04",
+     195444
+    ],
+    [
+     "2025-05",
+     193600
+    ],
+    [
+     "2025-06",
+     197374
+    ],
+    [
+     "2025-07",
+     196918
+    ],
+    [
+     "2025-08",
+     182093
+    ],
+    [
+     "2025-09",
+     203647
+    ],
+    [
+     "2025-10",
+     212720
+    ],
+    [
+     "2025-11",
+     191769
+    ],
+    [
+     "2025-12",
+     196299
+    ],
+    [
+     "2026-01",
+     160353
+    ],
+    [
+     "2026-02",
+     165730
+    ],
+    [
+     "2026-03",
+     192850
+    ],
+    [
+     "2026-04",
+     206294
+    ],
+    [
+     "2026-05",
+     199042
+    ],
+    [
+     "2026-06",
+     223378
+    ],
+    [
+     "2026-07",
+     206784
+    ],
+    [
+     "2026-08",
+     194191
+    ],
+    [
+     "2026-09",
+     208814
+    ]
+   ]
+  },
+  "ferrocarril_staten": {
+   "descripcion": "Viajes diarios promedio en el ferrocarril de Staten Island (suma del mes ÷ días con dato)",
+   "unidad": "viajes por día (promedio del mes)",
+   "vigencia": "2020-03 a 2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "x": "mes",
+   "pregunta": "P5",
+   "puntos": [
+    [
+     "2020-03",
+     6470
+    ],
+    [
+     "2020-04",
+     656
+    ],
+    [
+     "2020-05",
+     757
+    ],
+    [
+     "2020-06",
+     1420
+    ],
+    [
+     "2020-07",
+     2010
+    ],
+    [
+     "2020-08",
+     2190
+    ],
+    [
+     "2020-09",
+     2567
+    ],
+    [
+     "2020-10",
+     2970
+    ],
+    [
+     "2020-11",
+     2397
+    ],
+    [
+     "2020-12",
+     2315
+    ],
+    [
+     "2021-01",
+     2303
+    ],
+    [
+     "2021-02",
+     2381
+    ],
+    [
+     "2021-03",
+     3224
+    ],
+    [
+     "2021-04",
+     3350
+    ],
+    [
+     "2021-05",
+     3268
+    ],
+    [
+     "2021-06",
+     4383
+    ],
+    [
+     "2021-07",
+     4251
+    ],
+    [
+     "2021-08",
+     4323
+    ],
+    [
+     "2021-09",
+     4759
+    ],
+    [
+     "2021-10",
+     5133
+    ],
+    [
+     "2021-11",
+     5357
+    ],
+    [
+     "2021-12",
+     4640
+    ],
+    [
+     "2022-01",
+     3694
+    ],
+    [
+     "2022-02",
+     4567
+    ],
+    [
+     "2022-03",
+     5348
+    ],
+    [
+     "2022-04",
+     4717
+    ],
+    [
+     "2022-05",
+     5003
+    ],
+    [
+     "2022-06",
+     5203
+    ],
+    [
+     "2022-07",
+     4278
+    ],
+    [
+     "2022-08",
+     4597
+    ],
+    [
+     "2022-09",
+     5504
+    ],
+    [
+     "2022-10",
+     5194
+    ],
+    [
+     "2022-11",
+     5506
+    ],
+    [
+     "2022-12",
+     4927
+    ],
+    [
+     "2023-01",
+     5165
+    ],
+    [
+     "2023-02",
+     5092
+    ],
+    [
+     "2023-03",
+     5660
+    ],
+    [
+     "2023-04",
+     5162
+    ],
+    [
+     "2023-05",
+     5835
+    ],
+    [
+     "2023-06",
+     5474
+    ],
+    [
+     "2023-07",
+     4884
+    ],
+    [
+     "2023-08",
+     5329
+    ],
+    [
+     "2023-09",
+     5512
+    ],
+    [
+     "2023-10",
+     6028
+    ],
+    [
+     "2023-11",
+     5845
+    ],
+    [
+     "2023-12",
+     5160
+    ],
+    [
+     "2024-01",
+     5253
+    ],
+    [
+     "2024-02",
+     5376
+    ],
+    [
+     "2024-03",
+     5531
+    ],
+    [
+     "2024-04",
+     5677
+    ],
+    [
+     "2024-05",
+     5949
+    ],
+    [
+     "2024-06",
+     5602
+    ],
+    [
+     "2024-07",
+     5476
+    ],
+    [
+     "2024-08",
+     5259
+    ],
+    [
+     "2024-09",
+     6217
+    ],
+    [
+     "2024-10",
+     7432
+    ],
+    [
+     "2024-11",
+     5915
+    ],
+    [
+     "2024-12",
+     5583
+    ],
+    [
+     "2025-01",
+     5379
+    ],
+    [
+     "2025-02",
+     5532
+    ],
+    [
+     "2025-03",
+     5799
+    ],
+    [
+     "2025-04",
+     6092
+    ],
+    [
+     "2025-05",
+     6003
+    ],
+    [
+     "2025-06",
+     5856
+    ],
+    [
+     "2025-07",
+     5795
+    ],
+    [
+     "2025-08",
+     5423
+    ],
+    [
+     "2025-09",
+     6040
+    ],
+    [
+     "2025-10",
+     5742
+    ],
+    [
+     "2025-11",
+     5315
+    ],
+    [
+     "2025-12",
+     5354
+    ],
+    [
+     "2026-01",
+     5127
+    ],
+    [
+     "2026-02",
+     5408
+    ],
+    [
+     "2026-03",
+     6418
+    ],
+    [
+     "2026-04",
+     6334
+    ],
+    [
+     "2026-05",
+     6136
+    ],
+    [
+     "2026-06",
+     6370
+    ],
+    [
+     "2026-07",
+     5907
+    ],
+    [
+     "2026-08",
+     5490
+    ],
+    [
+     "2026-09",
+     6256
+    ]
+   ]
+  },
+  "puentes_tuneles": {
+   "descripcion": "Cruces diarios promedio por puentes y túneles de la MTA (suma del mes ÷ días con dato)",
+   "unidad": "viajes por día (promedio del mes)",
+   "vigencia": "2020-03 a 2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "x": "mes",
+   "pregunta": "P5",
+   "puntos": [
+    [
+     "2020-03",
+     542927
+    ],
+    [
+     "2020-04",
+     280982
+    ],
+    [
+     "2020-05",
+     419747
+    ],
+    [
+     "2020-06",
+     586092
+    ],
+    [
+     "2020-07",
+     663501
+    ],
+    [
+     "2020-08",
+     696484
+    ],
+    [
+     "2020-09",
+     707059
+    ],
+    [
+     "2020-10",
+     696240
+    ],
+    [
+     "2020-11",
+     644470
+    ],
+    [
+     "2020-12",
+     703071
+    ],
+    [
+     "2021-01",
+     683529
+    ],
+    [
+     "2021-02",
+     655315
+    ],
+    [
+     "2021-03",
+     791048
+    ],
+    [
+     "2021-04",
+     834103
+    ],
+    [
+     "2021-05",
+     870360
+    ],
+    [
+     "2021-06",
+     933790
+    ],
+    [
+     "2021-07",
+     907731
+    ],
+    [
+     "2021-08",
+     913354
+    ],
+    [
+     "2021-09",
+     907322
+    ],
+    [
+     "2021-10",
+     911110
+    ],
+    [
+     "2021-11",
+     899437
+    ],
+    [
+     "2021-12",
+     845712
+    ],
+    [
+     "2022-01",
+     715277
+    ],
+    [
+     "2022-02",
+     842809
+    ],
+    [
+     "2022-03",
+     889171
+    ],
+    [
+     "2022-04",
+     917314
+    ],
+    [
+     "2022-05",
+     938831
+    ],
+    [
+     "2022-06",
+     966719
+    ],
+    [
+     "2022-07",
+     931335
+    ],
+    [
+     "2022-08",
+     948777
+    ],
+    [
+     "2022-09",
+     943876
+    ],
+    [
+     "2022-10",
+     921411
+    ],
+    [
+     "2022-11",
+     901737
+    ],
+    [
+     "2022-12",
+     878353
+    ],
+    [
+     "2023-01",
+     836687
+    ],
+    [
+     "2023-02",
+     860628
+    ],
+    [
+     "2023-03",
+     905454
+    ],
+    [
+     "2023-04",
+     919403
+    ],
+    [
+     "2023-05",
+     964967
+    ],
+    [
+     "2023-06",
+     983410
+    ],
+    [
+     "2023-07",
+     952422
+    ],
+    [
+     "2023-08",
+     962255
+    ],
+    [
+     "2023-09",
+     932374
+    ],
+    [
+     "2023-10",
+     943168
+    ],
+    [
+     "2023-11",
+     926057
+    ],
+    [
+     "2023-12",
+     899726
+    ],
+    [
+     "2024-01",
+     824572
+    ],
+    [
+     "2024-02",
+     868932
+    ],
+    [
+     "2024-03",
+     911462
+    ],
+    [
+     "2024-04",
+     928418
+    ],
+    [
+     "2024-05",
+     962725
+    ],
+    [
+     "2024-06",
+     988082
+    ],
+    [
+     "2024-07",
+     952082
+    ],
+    [
+     "2024-08",
+     956425
+    ],
+    [
+     "2024-09",
+     957446
+    ],
+    [
+     "2024-10",
+     952396
+    ],
+    [
+     "2024-11",
+     920324
+    ],
+    [
+     "2024-12",
+     915645
+    ],
+    [
+     "2025-01",
+     830056
+    ],
+    [
+     "2025-02",
+     852240
+    ],
+    [
+     "2025-03",
+     915003
+    ],
+    [
+     "2025-04",
+     941606
+    ],
+    [
+     "2025-05",
+     972229
+    ],
+    [
+     "2025-06",
+     986823
+    ],
+    [
+     "2025-07",
+     970350
+    ],
+    [
+     "2025-08",
+     979190
+    ],
+    [
+     "2025-09",
+     964639
+    ],
+    [
+     "2025-10",
+     946391
+    ],
+    [
+     "2025-11",
+     930194
+    ],
+    [
+     "2025-12",
+     896018
+    ],
+    [
+     "2026-01",
+     798326
+    ],
+    [
+     "2026-02",
+     807235
+    ],
+    [
+     "2026-03",
+     911817
+    ],
+    [
+     "2026-04",
+     927782
+    ],
+    [
+     "2026-05",
+     955327
+    ],
+    [
+     "2026-06",
+     991480
+    ],
+    [
+     "2026-07",
+     954221
+    ],
+    [
+     "2026-08",
+     959954
+    ],
+    [
+     "2026-09",
+     934748
+    ]
+   ]
+  },
+  "ingresos_zona_congestion": {
+   "descripcion": "Vehículos diarios que entran a la zona de cobro por congestión (suma del mes ÷ días con dato)",
+   "unidad": "viajes por día (promedio del mes)",
+   "vigencia": "2025-01 a 2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "x": "mes",
+   "pregunta": "P5",
+   "puntos": [
+    [
+     "2025-01",
+     471794
+    ],
+    [
+     "2025-02",
+     477354
+    ],
+    [
+     "2025-03",
+     493047
+    ],
+    [
+     "2025-04",
+     501872
+    ],
+    [
+     "2025-05",
+     512925
+    ],
+    [
+     "2025-06",
+     502433
+    ],
+    [
+     "2025-07",
+     488965
+    ],
+    [
+     "2025-08",
+     484030
+    ],
+    [
+     "2025-09",
+     503934
+    ],
+    [
+     "2025-10",
+     507964
+    ],
+    [
+     "2025-11",
+     496765
+    ],
+    [
+     "2025-12",
+     479159
+    ],
+    [
+     "2026-01",
+     431188
+    ],
+    [
+     "2026-02",
+     431152
+    ],
+    [
+     "2026-03",
+     475608
+    ],
+    [
+     "2026-04",
+     489990
+    ],
+    [
+     "2026-05",
+     494343
+    ],
+    [
+     "2026-06",
+     492956
+    ],
+    [
+     "2026-07",
+     475471
+    ],
+    [
+     "2026-08",
+     468048
+    ],
+    [
+     "2026-09",
+     480657
+    ]
+   ]
+  },
+  "ingresos_cbd": {
+   "descripcion": "Vehículos diarios que entran al distrito central de negocios (suma del mes ÷ días con dato)",
+   "unidad": "viajes por día (promedio del mes)",
+   "vigencia": "2025-01 a 2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "x": "mes",
+   "pregunta": "P5",
+   "puntos": [
+    [
+     "2025-01",
+     533434
+    ],
+    [
+     "2025-02",
+     541229
+    ],
+    [
+     "2025-03",
+     560255
+    ],
+    [
+     "2025-04",
+     568143
+    ],
+    [
+     "2025-05",
+     580225
+    ],
+    [
+     "2025-06",
+     570327
+    ],
+    [
+     "2025-07",
+     553291
+    ],
+    [
+     "2025-08",
+     553218
+    ],
+    [
+     "2025-09",
+     570357
+    ],
+    [
+     "2025-10",
+     571770
+    ],
+    [
+     "2025-11",
+     559403
+    ],
+    [
+     "2025-12",
+     538033
+    ],
+    [
+     "2026-01",
+     484555
+    ],
+    [
+     "2026-02",
+     484952
+    ],
+    [
+     "2026-03",
+     536878
+    ],
+    [
+     "2026-04",
+     553855
+    ],
+    [
+     "2026-05",
+     558231
+    ],
+    [
+     "2026-06",
+     558847
+    ],
+    [
+     "2026-07",
+     539385
+    ],
+    [
+     "2026-08",
+     532970
+    ],
+    [
+     "2026-09",
+     543751
+    ]
+   ]
+  },
+  "access_a_ride": {
+   "descripcion": "Viajes diarios de Access-A-Ride (paratránsito) (suma del mes ÷ días con dato)",
+   "unidad": "viajes por día (promedio del mes)",
+   "vigencia": "2020-03 a 2026-09",
+   "fuente": "F17",
+   "tipo": "derivado",
+   "x": "mes",
+   "pregunta": "P5",
+   "puntos": [
+    [
+     "2020-03",
+     18011
+    ],
+    [
+     "2020-04",
+     6062
+    ],
+    [
+     "2020-05",
+     7634
+    ],
+    [
+     "2020-06",
+     11548
+    ],
+    [
+     "2020-07",
+     14366
+    ],
+    [
+     "2020-08",
+     15619
+    ],
+    [
+     "2020-09",
+     17600
+    ],
+    [
+     "2020-10",
+     18566
+    ],
+    [
+     "2020-11",
+     18048
+    ],
+    [
+     "2020-12",
+     17540
+    ],
+    [
+     "2021-01",
+     16654
+    ],
+    [
+     "2021-02",
+     15930
+    ],
+    [
+     "2021-03",
+     18573
+    ],
+    [
+     "2021-04",
+     19234
+    ],
+    [
+     "2021-05",
+     18953
+    ],
+    [
+     "2021-06",
+     20224
+    ],
+    [
+     "2021-07",
+     19102
+    ],
+    [
+     "2021-08",
+     18992
+    ],
+    [
+     "2021-09",
+     19449
+    ],
+    [
+     "2021-10",
+     19786
+    ],
+    [
+     "2021-11",
+     19187
+    ],
+    [
+     "2021-12",
+     18085
+    ],
+    [
+     "2022-01",
+     15096
+    ],
+    [
+     "2022-02",
+     18532
+    ],
+    [
+     "2022-03",
+     20703
+    ],
+    [
+     "2022-04",
+     20749
+    ],
+    [
+     "2022-05",
+     20657
+    ],
+    [
+     "2022-06",
+     21866
+    ],
+    [
+     "2022-07",
+     20648
+    ],
+    [
+     "2022-08",
+     22100
+    ],
+    [
+     "2022-09",
+     22558
+    ],
+    [
+     "2022-10",
+     22475
+    ],
+    [
+     "2022-11",
+     22883
+    ],
+    [
+     "2022-12",
+     22175
+    ],
+    [
+     "2023-01",
+     22321
+    ],
+    [
+     "2023-02",
+     23732
+    ],
+    [
+     "2023-03",
+     25422
+    ],
+    [
+     "2023-04",
+     24394
+    ],
+    [
+     "2023-05",
+     25715
+    ],
+    [
+     "2023-06",
+     25755
+    ],
+    [
+     "2023-07",
+     24480
+    ],
+    [
+     "2023-08",
+     26158
+    ],
+    [
+     "2023-09",
+     26073
+    ],
+    [
+     "2023-10",
+     27341
+    ],
+    [
+     "2023-11",
+     27098
+    ],
+    [
+     "2023-12",
+     26326
+    ],
+    [
+     "2024-01",
+     26155
+    ],
+    [
+     "2024-02",
+     28271
+    ],
+    [
+     "2024-03",
+     29667
+    ],
+    [
+     "2024-04",
+     30241
+    ],
+    [
+     "2024-05",
+     31134
+    ],
+    [
+     "2024-06",
+     30725
+    ],
+    [
+     "2024-07",
+     30708
+    ],
+    [
+     "2024-08",
+     31066
+    ],
+    [
+     "2024-09",
+     32210
+    ],
+    [
+     "2024-10",
+     33769
+    ],
+    [
+     "2024-11",
+     32668
+    ],
+    [
+     "2024-12",
+     32368
+    ],
+    [
+     "2025-01",
+     33644
+    ],
+    [
+     "2025-02",
+     35029
+    ],
+    [
+     "2025-03",
+     35859
+    ],
+    [
+     "2025-04",
+     37063
+    ],
+    [
+     "2025-05",
+     36905
+    ],
+    [
+     "2025-06",
+     37400
+    ],
+    [
+     "2025-07",
+     37724
+    ],
+    [
+     "2025-08",
+     37345
+    ],
+    [
+     "2025-09",
+     38869
+    ],
+    [
+     "2025-10",
+     39906
+    ],
+    [
+     "2025-11",
+     38289
+    ],
+    [
+     "2025-12",
+     38736
+    ],
+    [
+     "2026-01",
+     35854
+    ],
+    [
+     "2026-02",
+     37824
+    ],
+    [
+     "2026-03",
+     42393
+    ],
+    [
+     "2026-04",
+     42569
+    ],
+    [
+     "2026-05",
+     41833
+    ],
+    [
+     "2026-06",
+     43373
+    ],
+    [
+     "2026-07",
+     41729
+    ],
+    [
+     "2026-08",
+     41776
+    ],
+    [
+     "2026-09",
+     43227
+    ]
+   ]
+  }
+ },
+ "listas": {
+  "estaciones": {
+   "descripcion": "Paradas de subte (y del ferrocarril de Staten Island) por borough",
+   "vigencia": "vigente",
+   "fuente": "F18",
+   "tipo": "medido",
+   "columnas": {
+    "borough": {
+     "descripcion": "Borough (distrito) de la Ciudad de Nueva York",
+     "unidad": "nombre",
+     "tipo_dato": "Texto",
+     "tipo": "medido",
+     "original": "borough (M/Bx/Bk/Q/SI)",
+     "transformacion": "Mayúsculas, códigos 1–5 y nombres de condado se unifican al nombre del borough",
+     "clasificacion": "Pública",
+     "pregunta": "P5",
+     "fuente": "F18",
+     "vigencia": "vigente"
+    },
+    "paradas": {
+     "descripcion": "Filas del dataset de estaciones en el borough (una por estación-línea)",
+     "unidad": "paradas",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "count(*)",
+     "transformacion": "COUNT por borough",
+     "clasificacion": "Pública",
+     "pregunta": "P5",
+     "fuente": "F18",
+     "vigencia": "vigente"
+    }
+   },
+   "filas": [
+    {
+     "borough": "Manhattan",
+     "paradas": 153
+    },
+    {
+     "borough": "Bronx",
+     "paradas": 70
+    },
+    {
+     "borough": "Brooklyn",
+     "paradas": 169
+    },
+    {
+     "borough": "Queens",
+     "paradas": 83
+    },
+    {
+     "borough": "Staten Island",
+     "paradas": 21
+    }
+   ]
+  }
+ },
+ "notas": [
+  "El promedio diario por mes (suma ÷ días con dato) hace comparables meses de distinta duración. El mes en curso no se publica porque llega incompleto.",
+  "La MTA comunica 472 estaciones de subte porque cuenta las de transbordo de otra forma; el dataset trae una fila por estación-línea."
+ ],
+ "calidad": [
+  "El dataset anterior de pasajeros (F22) dejó de actualizarse en enero de 2025; se reemplazó por F17."
+ ],
+ "excluido": []
 }

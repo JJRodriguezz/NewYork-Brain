@@ -1,0 +1,8 @@
+# Versiones exactas: si una versión nueva cambia, se decide actualizar; no se hereda en silencio.
+# Ingesta (ingesta/*.py): requests y sus 4 dependencias (certifi, charset-normalizer, idna, urllib3)
+requests==2.34.2
+# Documentos (scripts/generar_excel.py, scripts/generar_word.py): openpyxl, python-docx y sus dependencias (et_xmlfile, lxml, typing_extensions)
+openpyxl==3.1.5
+python-docx==1.2.0
+# El sitio no instala nada: MapLibre GL 4.7.1 llega desde unpkg con hash de integridad (SRI) en index.html.
+# La verificación (verificacion/*.mjs) y la publicación (scripts/publicar.mjs) solo usan Node, sin paquetes.

@@ -1,129 +1,229 @@
 {
- "_meta": {
-  "id_fuente": "F06",
-  "tabla": "economia_rodajes",
-  "fecha_prueba": "2026-10-04",
-  "conjunto_de_datos": "Film Permits",
-  "entidad": "NYC Mayor's Office of Media and Entertainment (MOME) vía NYC Open Data",
-  "url_api": "https://data.cityofnewyork.us/resource/tg4x-b46p.json",
-  "consulta_soql": "$select=borough,category,count(*)&$where=startdatetime between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'&$group=borough,category",
-  "licencia": "no declara (el dataset no trae campo de licencia; el portal se rige por los Términos de Uso de NYC.gov y la Local Law 11 de 2012, que obliga a publicar sin registro ni restricciones de uso)",
-  "trae_personas": false,
-  "cobertura": "Ciudad de Nueva York; borough",
-  "periodo": "Permisos con inicio en 2025",
-  "frecuencia_actualizacion": "Diaria",
-  "unidad": "permisos de rodaje y eventos",
-  "nota": "Las filas cuyo campo borough trae un valor que no es un borough (errores de captura en la fuente) se cuentan aparte y no se suman."
+ "tema": "economia_rodajes",
+ "titulo": "Permisos de rodaje 2025",
+ "probado": "2026-10-20",
+ "fuentes": [
+  {
+   "id": "F06",
+   "nombre": "Film Permits",
+   "entidad": "NYC Mayor's Office of Media and Entertainment (MOME)",
+   "url": "https://data.cityofnewyork.us/resource/tg4x-b46p.json",
+   "consulta": "$select=borough,category,count(*)&$where=startdatetime between '2025-01-01T00:00:00' and '2025-12-31T23:59:59'&$group=borough,category",
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "2025",
+   "probado": "2026-10-20"
+  }
+ ],
+ "cifras": {
+  "permisos_2025": {
+   "valor": 5491,
+   "unidad": "permisos",
+   "vigencia": "2025",
+   "fuente": "F06",
+   "tipo": "medido",
+   "descripcion": "Permisos de rodaje y eventos con inicio en 2025",
+   "pregunta": "P9"
+  },
+  "filas_borough_invalido": {
+   "valor": 0,
+   "unidad": "filas",
+   "vigencia": "2025",
+   "fuente": "F06",
+   "tipo": "medido",
+   "descripcion": "Permisos cuyo campo borough no es un borough (se excluyen)",
+   "pregunta": "G"
+  }
  },
- "por_borough": [
-  {
-   "borough": "Manhattan",
-   "permisos": 2860
-  },
-  {
-   "borough": "Bronx",
-   "permisos": 108
-  },
-  {
-   "borough": "Brooklyn",
-   "permisos": 1787
-  },
-  {
-   "borough": "Queens",
-   "permisos": 657
-  },
-  {
-   "borough": "Staten Island",
-   "permisos": 79
+ "series": {
+  "permisos_mensual": {
+   "descripcion": "Permisos por mes de inicio",
+   "unidad": "permisos",
+   "vigencia": "2025",
+   "fuente": "F06",
+   "tipo": "medido",
+   "x": "mes",
+   "pregunta": "P9",
+   "puntos": [
+    [
+     "2025-01",
+     282
+    ],
+    [
+     "2025-02",
+     317
+    ],
+    [
+     "2025-03",
+     451
+    ],
+    [
+     "2025-04",
+     523
+    ],
+    [
+     "2025-05",
+     459
+    ],
+    [
+     "2025-06",
+     413
+    ],
+    [
+     "2025-07",
+     398
+    ],
+    [
+     "2025-08",
+     495
+    ],
+    [
+     "2025-09",
+     572
+    ],
+    [
+     "2025-10",
+     683
+    ],
+    [
+     "2025-11",
+     548
+    ],
+    [
+     "2025-12",
+     350
+    ]
+   ]
   }
- ],
- "por_categoria": [
-  {
-   "categoria": "Television",
-   "permisos": 2036
+ },
+ "listas": {
+  "boroughs": {
+   "descripcion": "Permisos por borough",
+   "vigencia": "2025",
+   "fuente": "F06",
+   "tipo": "medido",
+   "columnas": {
+    "borough": {
+     "descripcion": "Borough (distrito) de la Ciudad de Nueva York",
+     "unidad": "nombre",
+     "tipo_dato": "Texto",
+     "tipo": "medido",
+     "original": "borough",
+     "transformacion": "Mayúsculas, códigos 1–5 y nombres de condado se unifican al nombre del borough",
+     "clasificacion": "Pública",
+     "pregunta": "P9",
+     "fuente": "F06",
+     "vigencia": "2025"
+    },
+    "permisos": {
+     "descripcion": "Permisos de rodaje o evento con inicio en 2025",
+     "unidad": "permisos",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "count(*)",
+     "transformacion": "COUNT; filas con borough inválido se excluyen",
+     "clasificacion": "Pública",
+     "pregunta": "P9",
+     "fuente": "F06",
+     "vigencia": "2025"
+    }
+   },
+   "filas": [
+    {
+     "borough": "Manhattan",
+     "permisos": 2860
+    },
+    {
+     "borough": "Bronx",
+     "permisos": 108
+    },
+    {
+     "borough": "Brooklyn",
+     "permisos": 1787
+    },
+    {
+     "borough": "Queens",
+     "permisos": 657
+    },
+    {
+     "borough": "Staten Island",
+     "permisos": 79
+    }
+   ]
   },
-  {
-   "categoria": "Theater",
-   "permisos": 1087
-  },
-  {
-   "categoria": "Film",
-   "permisos": 861
-  },
-  {
-   "categoria": "Commercial",
-   "permisos": 707
-  },
-  {
-   "categoria": "Still Photography",
-   "permisos": 370
-  },
-  {
-   "categoria": "WEB",
-   "permisos": 302
-  },
-  {
-   "categoria": "Documentary",
-   "permisos": 61
-  },
-  {
-   "categoria": "Student",
-   "permisos": 43
-  },
-  {
-   "categoria": "Music Video",
-   "permisos": 24
+  "categorias": {
+   "descripcion": "Permisos por categoría",
+   "vigencia": "2025",
+   "fuente": "F06",
+   "tipo": "medido",
+   "columnas": {
+    "categoria": {
+     "descripcion": "Categoría del permiso (televisión, cine, publicidad…)",
+     "unidad": "categoría",
+     "tipo_dato": "Texto",
+     "tipo": "medido",
+     "original": "category",
+     "transformacion": "Ninguna",
+     "clasificacion": "Pública",
+     "pregunta": "P9",
+     "fuente": "F06",
+     "vigencia": "2025"
+    },
+    "permisos": {
+     "descripcion": "Permisos de esa categoría",
+     "unidad": "permisos",
+     "tipo_dato": "Entero",
+     "tipo": "medido",
+     "original": "count(*)",
+     "transformacion": "COUNT",
+     "clasificacion": "Pública",
+     "pregunta": "P9",
+     "fuente": "F06",
+     "vigencia": "2025"
+    }
+   },
+   "filas": [
+    {
+     "categoria": "Television",
+     "permisos": 2036
+    },
+    {
+     "categoria": "Theater",
+     "permisos": 1087
+    },
+    {
+     "categoria": "Film",
+     "permisos": 861
+    },
+    {
+     "categoria": "Commercial",
+     "permisos": 707
+    },
+    {
+     "categoria": "Still Photography",
+     "permisos": 370
+    },
+    {
+     "categoria": "WEB",
+     "permisos": 302
+    },
+    {
+     "categoria": "Documentary",
+     "permisos": 61
+    },
+    {
+     "categoria": "Student",
+     "permisos": 43
+    },
+    {
+     "categoria": "Music Video",
+     "permisos": 24
+    }
+   ]
   }
- ],
- "serie_mensual": [
-  {
-   "mes": "2025-01",
-   "permisos": 282
-  },
-  {
-   "mes": "2025-02",
-   "permisos": 317
-  },
-  {
-   "mes": "2025-03",
-   "permisos": 451
-  },
-  {
-   "mes": "2025-04",
-   "permisos": 523
-  },
-  {
-   "mes": "2025-05",
-   "permisos": 459
-  },
-  {
-   "mes": "2025-06",
-   "permisos": 413
-  },
-  {
-   "mes": "2025-07",
-   "permisos": 398
-  },
-  {
-   "mes": "2025-08",
-   "permisos": 495
-  },
-  {
-   "mes": "2025-09",
-   "permisos": 572
-  },
-  {
-   "mes": "2025-10",
-   "permisos": 683
-  },
-  {
-   "mes": "2025-11",
-   "permisos": 548
-  },
-  {
-   "mes": "2025-12",
-   "permisos": 350
-  }
- ],
- "filas_descartadas_por_codificacion": []
+ },
+ "notas": [],
+ "calidad": [],
+ "excluido": []
 }

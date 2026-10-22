@@ -1,0 +1,24 @@
+# Verificación en cada push y pull request: si algo falla, el cambio queda marcado en rojo en GitHub.
+# Vercel corre además verificacion/verificar.mjs en su build (vercel.json): con un FAIL no publica.
+name: verificar-lago
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read            # mínimo privilegio: solo lectura, sin secretos
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Contrato, datos personales, dominio y paquete
+        run: node verificacion/verificar.mjs
+      - name: La verificación sabe fallar (lago roto a propósito)
+        run: node verificacion/prueba_de_fallos.mjs
+      - name: Funciones de análisis (percentiles, margen de error, Benjamini-Hochberg, geometría)
+        run: node tests/analisis.test.cjs
+      - name: Lo que se publica sale de una lista blanca
+        run: node scripts/publicar.mjs

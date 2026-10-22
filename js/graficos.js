@@ -29,22 +29,69 @@
   function bonito(max) { if (max <= 0) return 1; const p = Math.pow(10, Math.floor(Math.log10(max))); const m = max / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p; }
 
   // ---- tile: cifra con etiqueta, fuente y estado
+  // ---- etiqueta visible del tipo de cifra (medido · derivado · transcrito · declarado · proxy)
+  function chipTipo(tipo) {
+    const T = window.LG && LG.TIPO[tipo]; if (!T) return '';
+    return `<span class="tipo ${tipo}" title="${esc(T.d)}">${T.t}<i> · ${T.api}</i></span>`;
+  }
+  // línea corta de procedencia: «F03 · 2025 · probado 2026-10-20»
+  function lineaProv(p) {
+    if (!p) return '';
+    const fs_ = p.fuentes || [];
+    const prob = [...new Set(fs_.map(id => window.LG && LG.probado(id)).filter(Boolean))].join(', ');
+    return `${fs_.join(' + ')}${p.vigencia ? ' · ' + esc(p.vigencia) : ''}${prob ? ' · probado ' + prob : ''}`;
+  }
+  // ---- ficha de procedencia: a un clic de cada cifra
+  function ficha(p, titulo) {
+    if (!p) return;
+    let dlg = document.getElementById('fichaFuente');
+    if (!dlg) { dlg = document.createElement('dialog'); dlg.id = 'fichaFuente'; dlg.className = 'ficha-fuente'; document.body.appendChild(dlg); dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); }); }
+    const T = window.LG && LG.TIPO[p.tipo];
+    const fuentes = (p.fuentes || []).map(id => {
+      const f = window.LG && LG.fuente(id) || {};
+      return `<li><div><b class="mono">${esc(id)}</b> · ${esc(f.nombre || '(fuente no encontrada en el catálogo)')}</div>
+        <div class="sub">${esc(f.entidad || '')}</div>
+        <dl><dt>Probada</dt><dd>${esc(f.probado || 'sin prueba')}${f.estado ? ` · ${esc(f.estado)}` : ''}</dd>
+        <dt>Licencia, tal como aparece</dt><dd>«${esc(f.licencia || 'no declara')}»</dd>
+        <dt>Datos de personas en la fuente</dt><dd>${esc(f.personas || '—')}</dd></dl>
+        ${f.url ? `<a href="${esc(f.url)}" target="_blank" rel="noopener">Abrir la fuente ↗</a>` : ''}</li>`;
+    }).join('');
+    dlg.innerHTML = `<form method="dialog"><header><div class="eyebrow">De dónde sale esta cifra</div><button class="cerrar" aria-label="Cerrar">✕</button></header>
+      <h3>${esc(titulo || p.descripcion || '')}</h3>
+      ${T ? `<p>${chipTipo(p.tipo)} ${esc(T.d)}</p>` : ''}
+      <dl class="ficha-dl">${p.descripcion && titulo ? `<dt>Qué es</dt><dd>${esc(p.descripcion)}</dd>` : ''}
+        <dt>Vigencia</dt><dd>${esc(p.vigencia || '—')}</dd>
+        ${p.unidad ? `<dt>Unidad</dt><dd>${esc(p.unidad)}</dd>` : ''}
+        ${p.formula ? `<dt>Cómo se obtuvo</dt><dd>${esc(p.formula)}</dd>` : ''}
+        ${p.original ? `<dt>Campo en la fuente</dt><dd class="mono">${esc(p.original)}</dd>` : ''}
+        ${p.moe != null && p.moe !== '' ? `<dt>Margen de error (90 %)</dt><dd>± ${typeof p.moe === 'number' ? fmt.n(p.moe, 2) : esc(p.moe)}${p.moeNota ? ' · ' + esc(p.moeNota) : ''}</dd>` : ''}
+        ${p.extra ? p.extra : ''}</dl>
+      <h4>Fuente${(p.fuentes || []).length > 1 ? 's' : ''}</h4><ul class="ficha-fuentes">${fuentes}</ul>
+      <p class="sub">Catálogo completo y diccionario: sección «Fuentes y gobernanza».</p></form>`;
+    dlg.showModal();
+  }
+  // ---- tile: cifra con etiqueta de tipo, fuente (ID), vigencia y fecha de prueba; un clic abre la ficha
   function tile(cont, o) {
-    const d = document.createElement('div'); d.className = 'tile'; if (o.title) d.title = o.title;
-    d.innerHTML = `<div class="v">${o.valor}${o.unidad ? `<small>${esc(o.unidad)}</small>` : ''}</div><div class="l">${o.etiqueta}</div>` +
-      `<div class="f">${o.estado ? `<span class="estado ${o.estado}">${o.estado}</span>` : ''}<span>${esc(o.fuente || '')}${o.vigencia ? ' · ' + esc(o.vigencia) : ''}</span></div>`;
+    const d = document.createElement('button'); d.type = 'button';
+    const tipo = o.prov && o.prov.tipo;
+    d.className = 'tile' + (tipo ? ' t-' + tipo : '');
+    d.setAttribute('aria-label', `${o.etiqueta.replace(/<[^>]+>/g, '')}: ${String(o.valor).replace(/<[^>]+>/g, '')}. Ver de dónde sale.`);
+    d.innerHTML = `<div class="v">${o.valor}${o.unidad ? `<small>${esc(o.unidad)}</small>` : ''}${o.moe != null ? `<small class="moe">±${o.moe}</small>` : ''}</div><div class="l">${o.etiqueta}</div>` +
+      `<div class="f">${chipTipo(tipo)}<span class="prov">${lineaProv(o.prov)}</span></div>`;
+    d.onclick = () => ficha(o.prov, o.etiqueta.replace(/<[^>]+>/g, ''));
     cont.appendChild(d); return d;
   }
-
-  // ---- tarjeta con cuerpo, nota y fuente
+  // ---- tarjeta: título, procedencia a un clic, cuerpo, notas
   function card(cont, titulo, sub, opts = {}) {
-    const c = document.createElement('article'); c.className = 'card' + (opts.ancha ? ' ancha' : '');
-    c.innerHTML = `<h3>${titulo}</h3>${sub ? `<div class="sub">${sub}</div>` : ''}<div class="cuerpo"></div>`;
+    const c = document.createElement('article'); c.className = 'card' + (opts.ancha ? ' ancha' : '') + (opts.prov && opts.prov.tipo === 'declarado' ? ' declarada' : '');
+    c.innerHTML = `<header class="card-h"><div><h3>${titulo}</h3>${sub ? `<div class="sub">${sub}</div>` : ''}</div>${opts.prov ? `<button type="button" class="btn-fuente" title="Ver de dónde sale">${chipTipo(opts.prov.tipo)}<span>ⓘ ${esc((opts.prov.fuentes || []).join(' + '))}</span></button>` : ''}</header><div class="cuerpo"></div>`;
     cont.appendChild(c);
     const api = { el: c, cuerpo: c.querySelector('.cuerpo') };
+    if (opts.prov) c.querySelector('.btn-fuente').onclick = () => ficha(opts.prov, titulo);
     api.nota = h => { const p = document.createElement('div'); p.className = 'nota'; p.innerHTML = h; c.appendChild(p); return api; };
     api.calidad = h => { const p = document.createElement('div'); p.className = 'calidad'; p.innerHTML = h; c.appendChild(p); return api; };
     api.fuente = h => { const p = document.createElement('div'); p.className = 'fuente'; p.innerHTML = h; c.appendChild(p); return api; };
+    if (opts.prov) { const p = document.createElement('button'); p.type = 'button'; p.className = 'fuente fuente-btn'; p.innerHTML = `Fuente: ${lineaProv(opts.prov)} · ver ficha`; p.onclick = () => ficha(opts.prov, titulo); api.pie = p; setTimeout(() => c.appendChild(p)); }
     return api;
   }
 
@@ -126,6 +173,10 @@
     const ty = txt(s, 14, (ar + H - ab) / 2, o.ejeY || '', { 'text-anchor': 'middle', fill: 'var(--text)', 'font-size': 11 }); ty.setAttribute('transform', `rotate(-90 14 ${(ar + H - ab) / 2})`);
     const r = regresion(xsv, ysv);
     if (r) el('line', { x1: x(x0), y1: y(r.a + r.b * x0), x2: x(x1), y2: y(r.a + r.b * x1), stroke: 'var(--text)', 'stroke-dasharray': '5 4', opacity: .45 }, s);
+    puntos.forEach(p => { // margen de error del ACS en cada eje
+      if (p.ex) el('line', { x1: x(p.x - p.ex), x2: x(p.x + p.ex), y1: y(p.y), y2: y(p.y), stroke: p.color || 'var(--accent)', 'stroke-width': 1, opacity: .45 }, s);
+      if (p.ey) el('line', { x1: x(p.x), x2: x(p.x), y1: y(p.y - p.ey), y2: y(p.y + p.ey), stroke: p.color || 'var(--accent)', 'stroke-width': 1, opacity: .45 }, s);
+    });
     puntos.forEach(p => { const c = el('circle', { cx: x(p.x), cy: y(p.y), r: p.destacado ? 7 : 5, fill: p.color || 'var(--accent)', class: 'pt' + (p.destacado ? ' sel' : '') }, s); conTip(c, p.tip || esc(p.nombre)); if (p.onclick) c.addEventListener('click', p.onclick); if (p.destacado) txt(s, x(p.x) + 9, y(p.y) - 7, p.nombre, { fill: 'var(--text)', 'font-weight': 600, 'font-size': 11 }); });
     return s;
   }
@@ -140,9 +191,10 @@
     const maxCol = {}; cols.forEach(c => { if (c.barra) maxCol[c.k] = Math.max(...filas.map(f => +f[c.k] || 0)); });
     function pintar() {
       const fs = [...filas]; if (orden) fs.sort((a, b) => { const va = a[orden], vb = b[orden]; if (va == null) return 1; if (vb == null) return -1; return (typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb))) * dir; });
-      t.innerHTML = `<thead><tr>${cols.map(c => `<th class="${c.num ? 'n' : ''}" data-k="${c.k}" ${orden === c.k ? `aria-sort="${dir > 0 ? 'ascending' : 'descending'}"` : ''} title="${esc(c.ayuda || '')}">${c.t}</th>`).join('')}</tr></thead><tbody>` +
+      t.innerHTML = `<thead><tr>${cols.map(c => `<th class="${c.num ? 'n' : ''}" data-k="${c.k}" ${orden === c.k ? `aria-sort="${dir > 0 ? 'ascending' : 'descending'}"` : ''} title="${esc(c.ayuda || '')}">${c.t}${c.prov ? `<button type="button" class="th-ficha" data-ficha="${c.k}" aria-label="De dónde sale ${esc(String(c.t).replace(/<[^>]+>/g, ''))}">ⓘ</button>` : ''}</th>`).join('')}</tr></thead><tbody>` +
         fs.map(f => `<tr ${o.fila ? o.fila(f) : ''}>${cols.map(c => { const v = f[c.k]; const s = c.f ? c.f(v, f) : (c.num ? fmt.n(v, c.d || 0) : esc(v)); if (c.barra && typeof v === 'number') return `<td class="n celda-barra"><i style="width:${(v / (maxCol[c.k] || 1) * 100).toFixed(1)}%"></i><span>${s}</span></td>`; return `<td class="${c.num ? 'n' : ''} ${c.wrap ? 'wrap' : ''}">${s}</td>`; }).join('')}</tr>`).join('') + '</tbody>';
-      t.querySelectorAll('th').forEach(th => th.onclick = () => { const k = th.dataset.k; dir = orden === k ? -dir : -1; orden = k; pintar(); });
+      t.querySelectorAll('th').forEach(th => th.onclick = e => { if (e.target.closest('.th-ficha')) return; const k = th.dataset.k; dir = orden === k ? -dir : -1; orden = k; pintar(); });
+      t.querySelectorAll('.th-ficha').forEach(b => b.onclick = () => { const c = cols.find(x => x.k === b.dataset.ficha); ficha(c.prov, String(c.t).replace(/<[^>]+>/g, '')); });
       o.despues && o.despues(t);
     }
     pintar(); return t;
@@ -162,5 +214,5 @@
   }
   function lgamma(z) { const g = 7, c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61503916999185, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7]; if (z < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * z)) - lgamma(1 - z); z -= 1; let x = c[0]; for (let i = 1; i < g + 2; i++) x += c[i] / (z + i); const t = z + g + 0.5; return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x); }
 
-  window.G = { esc, fmt, PALETA, BORO_COLOR, tile, card, barras, apiladas, columnas, lineas, dispersion, tabla, leyenda, conTip, pearson, spearman, pValor, regresion };
+  window.G = { esc, fmt, PALETA, BORO_COLOR, tile, card, ficha, chipTipo, lineaProv, barras, apiladas, columnas, lineas, dispersion, tabla, leyenda, conTip, pearson, spearman, pValor, regresion };
 })();

@@ -22,4 +22,16 @@ for(const q of circle) assert(Math.abs(A.distancia(p,q)-1000)<0.001);
 const stations=JSON.parse(fs.readFileSync('lago/geo/estaciones.geojson')).features;
 const count=r=>stations.filter(f=>A.distancia(p,f.geometry.coordinates)<=r).length;
 assert(count(500)<=count(1000) && count(1000)<=count(2000));
-console.log('OK: percentiles, ausencia de datos, pesos, cambios, geometrías y radios con lago real.');
+// incertidumbre: con márgenes de error cero, el intervalo es un solo puesto; con márgenes enormes, se abre
+const F=[{puma:'a',x:1,m:0},{puma:'b',x:2,m:0},{puma:'c',x:3,m:0}];
+let R=A.rangosConError(F,{d:{k:'x',moe:'m'}},{d:1},{n:50});
+assert.deepEqual([R.c.desde,R.c.hasta,R.a.desde,R.a.hasta],[1,1,3,3]);
+assert.equal(A.grupos(R).length,3);
+const F2=F.map(f=>({...f,m:50}));
+R=A.rangosConError(F2,{d:{k:'x',moe:'m'}},{d:1},{n:300});
+assert(R.a.desde===1 && R.a.hasta===3); assert.equal(A.grupos(R).length,1);
+assert.deepEqual(A.rangosConError(F2,{d:{k:'x',moe:'m'}},{d:1},{n:300}),R); // reproducible con la misma semilla
+assert.equal(A.rangosConError([{puma:'a',x:null}],{d:{k:'x'}},{d:1}),null);
+// Benjamini-Hochberg contra el ejemplo de referencia: p=[.01,.04,.03,.005] → q=[.02,.04,.04,.02]
+assert.deepEqual(A.benjaminiHochberg([.01,.04,.03,.005]).map(x=>+x.toFixed(4)),[.02,.04,.04,.02]);
+console.log('OK: percentiles, ausencia de datos, pesos, cambios, geometrías y radios con lago real, rangos con margen de error, grupos y Benjamini-Hochberg.');

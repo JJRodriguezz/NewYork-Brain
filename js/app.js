@@ -1,7 +1,7 @@
 // Arranque: carga el lago (paquete lago.js o, si falta, los JSON sueltos), navegación, buscador, reloj, clima, tema y presentación.
 (function () {
   const $ = s => document.querySelector(s);
-  const ARCHIVOS = ['demografia', 'distritos', 'seguridad_vial', 'calidad_de_vida_311', 'seguridad_delitos', 'vivienda', 'economia_rodajes', 'ambiente', 'escucha_interes', 'movilidad', 'verificaciones', 'catalogo'];
+  const ARCHIVOS = ['demografia', 'distritos', 'seguridad_vial', 'calidad_de_vida_311', 'seguridad_delitos', 'vivienda', 'economia_rodajes', 'ambiente', 'escucha_interes', 'movilidad', 'declarados', 'verificaciones', 'catalogo'];
   const GEOS = ['boroughs', 'distritos_puma', 'barrios_nta', 'precintos', 'estaciones'];
 
   async function cargar() {
@@ -14,19 +14,34 @@
   }
 
   async function arrancar() {
-    const L = await cargar(); window.LAGO = L;
+    const L = await cargar(); window.LAGO = L; LG.init(L);
     const ok = ARCHIVOS.filter(a => L.datos[a]).length;
-    const fechas = Object.values(L.datos).map(d => d && d._meta && d._meta.fecha_prueba).filter(Boolean).sort();
-    $('#estadoDatos').innerHTML = `lago: <b>${ok}/${ARCHIVOS.length}</b> temas · probado <b>${fechas[fechas.length - 1] || '—'}</b>`;
-    $('#pie').textContent = `Cerebro NYC · datos abiertos federados · lago probado ${fechas[0] || ''}${fechas[0] !== fechas[fechas.length - 1] ? ' → ' + fechas[fechas.length - 1] : ''} · réplica del Cerebro Lima para el Taller de Datos (Gestión y Gobernanza de Datos)`;
+    const ultima = LG.pruebaMasReciente(), primera = LG.pruebaMasAntigua();
+    $('#estadoDatos').innerHTML = `lago: <b>${ok}/${ARCHIVOS.length}</b> temas · fuentes probadas <b>${ultima || '—'}</b>`;
+    $('#pie').innerHTML = `Cerebro NYC · Grupo: Isabella Idarraga Botero · Juan Camilo Ramón · Juan José Rodriguez Restrepo · Esteban Jacob Romero Ríos<br>fuentes probadas ${primera || ''}${primera !== ultima ? ' → ' + ultima : ''} · réplica del Cerebro Lima para el Taller de Datos (Gestión y Gobernanza de Datos)`;
+    vigencia(ultima);
+    $('#comoLeer').innerHTML = `<span class="como-leer-t">Cómo leer cada cifra:</span> ${Object.entries(LG.TIPO).map(([k, x]) => `<span title="${G.esc(x.d)}">${G.chipTipo(k)}</span>`).join(' ')} <span class="como-leer-t">· toca cualquier cifra para ver su fuente, vigencia y fecha de prueba · ± = margen de error al 90 %</span>`;
     const paso = (n, f) => { try { f(); } catch (e) { console.error(n, e); } };
     paso('diagnostico', () => DIAGNOSTICO.init(L));
     paso('secciones', () => SECCIONES.render(L));
     paso('correlaciones', () => CORRELACIONES.render(L));
     paso('mapa', () => MAPA.init(L));
     paso('laboratorio', () => LABORATORIO.init(L));
+    paso('preguntas', () => PREGUNTAS.render(L));
     navegacion(); buscador(); reloj(); clima(); tema(); presentacion();
     if (location.hash) { const s = document.querySelector(location.hash); s && s.scrollIntoView(); }
+  }
+
+  // «¿Qué debería decir la portada el día en que la fecha de prueba más reciente tenga más de un año?»
+  function vigencia(ultima) {
+    if (!ultima) return;
+    const dias = Math.floor((Date.now() - Date.parse(ultima)) / 864e5), av = $('#avisoVigencia');
+    if (dias <= 45) return;
+    av.hidden = false;
+    av.className = 'aviso-vigencia ' + (dias > 365 ? 'grave' : 'leve');
+    av.innerHTML = dias > 365
+      ? `<b>Este sistema dejó de estar al día.</b> Sus fuentes se probaron por última vez el ${ultima} (hace ${dias} días). Las cifras describen ese momento, no el presente: no las uses para decidir sin volver a correr la ingesta.`
+      : `Las fuentes se probaron por última vez el ${ultima} (hace ${dias} días). Algunas cifras pueden haber cambiado.`;
   }
 
   function navegacion() {

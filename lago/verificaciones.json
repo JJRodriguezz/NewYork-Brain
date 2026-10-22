@@ -1,82 +1,285 @@
 {
- "_meta": {
-  "id_fuente": "F11, F12, F21, F22, F23, F25, F32",
-  "tabla": "verificaciones",
-  "fecha_prueba": "2026-10-04",
-  "nota": "Pruebas de vida de las fuentes que NO alimentan el tablero, para dejar evidencia de por qué quedaron fuera."
- },
- "resultados": {
-  "F11_acris": [
-   {
-    "recorded_borough": "1",
-    "n": "54036",
-    "con_monto": "32228"
-   },
-   {
-    "recorded_borough": "2",
-    "n": "245",
-    "con_monto": "23"
-   },
-   {
-    "recorded_borough": "4",
-    "n": "2251",
-    "con_monto": "1229"
-   },
-   {
-    "recorded_borough": "3",
-    "n": "1112",
-    "con_monto": "446"
-   }
-  ],
-  "F12_calls": [
-   {
-    "n": "10484258"
-   }
-  ],
-  "F21_census_api": {
-   "status": 302,
-   "location": "https://api.census.gov/data/missing_key.html"
+ "tema": "verificaciones",
+ "titulo": "Pruebas de vida de candidatas, descartadas y capas en vivo",
+ "probado": "2026-10-20",
+ "fuentes": [
+  {
+   "id": "F11",
+   "nombre": "ACRIS - Real Property Master",
+   "entidad": "NYC Department of Finance (DOF)",
+   "url": "https://data.cityofnewyork.us/resource/bnx9-e6tj.json",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
   },
-  "F22_mta_viejo": [
-   {
-    "ultima": "2025-01-09T00:00:00.000"
-   }
-  ],
-  "F23_dob_bis": [
-   {
-    "n": "3349"
-   }
-  ],
-  "F32_dob_permisos": [
-   {
-    "n": "10065"
-   }
-  ],
-  "F25_pob_proyeccion": [
-   {
-    "borough": "NYC Total",
-    "_2020": "8550971"
+  {
+   "id": "F12",
+   "nombre": "NYPD Calls for Service (Year to Date)",
+   "entidad": "NYC Police Department (NYPD)",
+   "url": "https://data.cityofnewyork.us/resource/n2zq-pubd.json",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "Solo conteos por zona",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F21",
+   "nombre": "Census Data API (api.census.gov)",
+   "entidad": "U.S. Census Bureau",
+   "url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B19013_001E&for=county:061&in=state:36",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F22",
+   "nombre": "MTA Daily Ridership Data: 2020 - 2025",
+   "entidad": "Metropolitan Transportation Authority (MTA)",
+   "url": "https://data.ny.gov/resource/vxuj-8kew.json",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F23",
+   "nombre": "DOB Job Application Filings (sistema legado BIS)",
+   "entidad": "NYC Department of Buildings (DOB)",
+   "url": "https://data.cityofnewyork.us/resource/ic3t-wcy2.json",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "Personas identificables",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F25",
+   "nombre": "New York City Population by Borough, 1950 - 2040",
+   "entidad": "NYC Department of City Planning (DCP)",
+   "url": "https://data.cityofnewyork.us/resource/xywu-7bv9.json",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F32",
+   "nombre": "DOB Permit Issuance (sistema legado BIS)",
+   "entidad": "NYC Department of Buildings (DOB)",
+   "url": "https://data.cityofnewyork.us/resource/ipu4-2q9a.json",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "Personas identificables",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F24",
+   "nombre": "Open-Meteo Forecast API (tiempo actual en Manhattan)",
+   "entidad": "Open-Meteo",
+   "url": "https://api.open-meteo.com/v1/forecast?latitude=40.7831&longitude=-73.9712&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "The data obtained through the API is provided under the terms of the CC-BY 4.0 licence",
+   "personas": "No",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F28",
+   "nombre": "OpenFreeMap (teselas vectoriales de OpenStreetMap, con edificios 3D)",
+   "entidad": "OpenFreeMap / OpenStreetMap contributors",
+   "url": "https://tiles.openfreemap.org/styles/liberty",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "The license of this project is MIT · datos: OpenStreetMap (ODbL) · «Attribution is required.»",
+   "personas": "No",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
+  },
+  {
+   "id": "F31",
+   "nombre": "Esri World Imagery (teselas satelitales)",
+   "entidad": "Esri",
+   "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+   "consulta": null,
+   "estado": "vivo",
+   "licencia": "no declara",
+   "personas": "No",
+   "vigencia": "prueba de vida",
+   "probado": "2026-10-20"
+  }
+ ],
+ "cifras": {},
+ "series": {},
+ "listas": {
+  "pruebas": {
+   "descripcion": "Pruebas de vida de las fuentes que no alimentan cifras del tablero",
+   "vigencia": "2026-10-20",
+   "fuente": [
+    "F11",
+    "F12",
+    "F21",
+    "F22",
+    "F23",
+    "F25",
+    "F32",
+    "F24",
+    "F28",
+    "F31"
+   ],
+   "tipo": "medido",
+   "columnas": {
+    "fuente": {
+     "descripcion": "ID de la fuente probada",
+     "unidad": "código F##",
+     "tipo_dato": "Código",
+     "tipo": "medido",
+     "original": "(propio)",
+     "transformacion": "Ninguna",
+     "clasificacion": "Pública",
+     "pregunta": "G",
+     "fuente": "cada fila",
+     "vigencia": "2026-10-20"
+    },
+    "prueba": {
+     "descripcion": "Qué se le pidió a la fuente",
+     "unidad": "texto",
+     "tipo_dato": "Texto",
+     "tipo": "medido",
+     "original": "(propio)",
+     "transformacion": "Ninguna",
+     "clasificacion": "Pública",
+     "pregunta": "G",
+     "fuente": "cada fila",
+     "vigencia": "2026-10-20"
+    },
+    "respuesta": {
+     "descripcion": "Código HTTP de la respuesta (o «error»)",
+     "unidad": "código HTTP",
+     "tipo_dato": "Código",
+     "tipo": "medido",
+     "original": "(respuesta HTTP)",
+     "transformacion": "Ninguna",
+     "clasificacion": "Pública",
+     "pregunta": "G",
+     "fuente": "cada fila",
+     "vigencia": "2026-10-20"
+    },
+    "resultado": {
+     "descripcion": "Lo que devolvió, resumido",
+     "unidad": "texto",
+     "tipo_dato": "Texto",
+     "tipo": "medido",
+     "original": "(respuesta)",
+     "transformacion": "Recortado a 180 caracteres",
+     "clasificacion": "Pública",
+     "pregunta": "G",
+     "fuente": "cada fila",
+     "vigencia": "2026-10-20"
+    },
+    "probado": {
+     "descripcion": "Día de la prueba",
+     "unidad": "AAAA-MM-DD",
+     "tipo_dato": "Fecha",
+     "tipo": "medido",
+     "original": "(sistema)",
+     "transformacion": "Fecha del día en que corrió el script",
+     "clasificacion": "Pública",
+     "pregunta": "G",
+     "fuente": "cada fila",
+     "vigencia": "2026-10-20"
+    }
    },
-   {
-    "borough": "   Bronx",
-    "_2020": "1446788"
-   },
-   {
-    "borough": "   Brooklyn",
-    "_2020": "2648452"
-   },
-   {
-    "borough": "   Manhattan",
-    "_2020": "1638281"
-   },
-   {
-    "borough": "   Queens",
-    "_2020": "2330295"
-   },
-   {
-    "borough": "   Staten Island",
-    "_2020": "487155"
-   }
-  ]
- }
+   "filas": [
+    {
+     "fuente": "F11",
+     "prueba": "Escrituras de 2025 y cuántas traen monto",
+     "respuesta": "200",
+     "resultado": "57646 escrituras (DEED) en 2025; 33928 con monto > 0; 93.7 % aparecen en Manhattan",
+     "probado": "2026-10-20"
+    },
+    {
+     "fuente": "F12",
+     "prueba": "Filas del año en curso",
+     "respuesta": "200",
+     "resultado": "10484258 llamadas registradas",
+     "probado": "2026-10-20"
+    },
+    {
+     "fuente": "F21",
+     "prueba": "Pedir el ACS sin llave",
+     "respuesta": "302",
+     "resultado": "redirige a https://api.census.gov/data/missing_key.html",
+     "probado": "2026-10-20"
+    },
+    {
+     "fuente": "F22",
+     "prueba": "Última fecha publicada",
+     "respuesta": "200",
+     "resultado": "última fecha: 2025-01-09",
+     "probado": "2026-10-20"
+    },
+    {
+     "fuente": "F23",
+     "prueba": "Radicaciones de 2025 (fecha guardada como texto)",
+     "respuesta": "200",
+     "resultado": "3349 radicaciones con filtro de texto",
+     "probado": "2026-10-20"
+    },
+    {
+     "fuente": "F25",
+     "prueba": "Valor de la columna 2020",
+     "respuesta": "200",
+     "resultado": "NYC Total = 8550971 (el Censo 2020 dice 8.804.190)",
+     "probado": "2026-10-20"
+    },
+    {
+     "fuente": "F32",
+     "prueba": "Permisos de 2025 (fecha guardada como texto)",
+     "respuesta": "200",
+     "resultado": "10065 permisos con filtro de texto",
+     "probado": "2026-10-20"
+    },
+    {
+     "fuente": "F24",
+     "prueba": "Tiempo actual en Central Park",
+     "respuesta": "200",
+     "resultado": "16.8 °C al probar",
+     "probado": "2026-10-20"
+    },
+    {
+     "fuente": "F28",
+     "prueba": "Estilo del mapa base",
+     "respuesta": "200",
+     "resultado": "estilo con 111 capas",
+     "probado": "2026-10-20"
+    },
+    {
+     "fuente": "F31",
+     "prueba": "Una tesela satelital de Manhattan",
+     "respuesta": "200",
+     "resultado": "image/jpeg de 21419 bytes",
+     "probado": "2026-10-20"
+    }
+   ]
+  }
+ },
+ "notas": [],
+ "calidad": [],
+ "excluido": []
 }

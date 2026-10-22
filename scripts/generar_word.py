@@ -6,7 +6,11 @@ Uso: python scripts/generar_word.py [plantilla] [salida]
 import sys, os, json
 import docx
 from docx.shared import Pt
-from comun import RAIZ, LAGO, HOY
+import re, datetime
+sys.stdout.reconfigure(encoding='utf-8')
+RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LAGO = os.path.join(RAIZ, 'lago')
+HOY = datetime.date.today().isoformat()
 from bitacora import GRUPO, BITACORA
 
 PADRE = os.path.dirname(RAIZ)
@@ -16,20 +20,21 @@ SALIDA = sys.argv[2] if len(sys.argv) > 2 else os.path.join(PADRE, 'Preguntas_po
 J = lambda n: json.load(open(os.path.join(LAGO, n), encoding='utf-8'))
 n0 = lambda v: f'{v:,.0f}'.replace(',', '.')
 n1 = lambda v: f'{v:,.1f}'.replace(',', 'X').replace('.', ',').replace('X', '.')
-num_bitacora = lambda texto: next(i + 2 for i, b in enumerate(BITACORA) if texto in b['encargo'])
+num_bitacora = lambda texto: next(i + 1 for i, b in enumerate(BITACORA) if texto in b['encargo'])   # sin la fila de ejemplo, la bitácora empieza en 1
 
 
 def respuestas():
-    dem = {d['borough']: d for d in J('demografia.json')['datos']}
-    viv = J('vivienda.json'); ver = J('verificaciones.json')['resultados']; dis = J('distritos.json')['datos']
-    deli = J('seguridad_delitos.json')['primer_semestre']['datos']
+    # lago con la forma del contrato (tema, fuentes, cifras, series, listas)
+    dem = {d['borough']: d for d in J('demografia.json')['listas']['boroughs']['filas']}
+    viv = J('vivienda.json'); dis = J('distritos.json')['listas']['distritos']['filas']
+    deli = J('seguridad_delitos.json')['listas']['primer_semestre']['filas']
     h25, h26 = sum(d['denuncias_2025'] for d in deli), sum(d['denuncias_2026'] for d in deli)
     carga = max(dem.values(), key=lambda d: d['pct_hogares_con_carga_alquiler'])
-    nb = sum(x['viviendas_propuestas'] for x in viv['obra_nueva_2025'])
-    acris = ver.get('F11_acris') or []
-    deeds = sum(int(x['n']) for x in acris) if isinstance(acris, list) else 0
-    con_monto = sum(int(float(x.get('con_monto') or 0)) for x in acris) if isinstance(acris, list) else 0
-    mn = sum(int(x['n']) for x in acris if x.get('recorded_borough') == '1') if isinstance(acris, list) else 0
+    nb = viv['cifras']['viviendas_propuestas_2025']['valor']
+    prueba = next((x['resultado'] for x in J('verificaciones.json')['listas']['pruebas']['filas'] if x['fuente'] == 'F11'), '')
+    m = re.search(r'(\d+) escrituras .*?; (\d+) con monto > 0; ([\d.]+) % aparecen en Manhattan', prueba)
+    deeds, con_monto = (int(m.group(1)), int(m.group(2))) if m else (0, 0)
+    mn = round(deeds * float(m.group(3)) / 100) if m else 0
     min_pob = min(d['poblacion_acs'] for d in dis)
     b_dob, b_puma, b_pob, b_bis = num_bitacora('obras nuevas radicadas'), num_bitacora('55 PUMA'), num_bitacora('población 2020'), num_bitacora('sistema legado')
 

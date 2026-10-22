@@ -3,26 +3,21 @@
   let L, D, seleccionado, activo = false;
   const n = (v, d = 1) => A.valido(v) ? G.fmt.n(v, d) : '—';
   const opciones = () => D.map(d => `<option value="${d.puma}">${G.esc(d.etiqueta + ' · ' + d.nombre)}</option>`).join('');
-  const campos = [
-    ['ingreso_mediano', 'Ingreso mediano', 'US$', 'F10 · ACS 2020–2024'],
-    ['alquiler_mediano', 'Alquiler mediano', 'US$/mes', 'F10 · ACS 2020–2024'],
-    ['pct_pobreza', 'Pobreza', '%', 'F10 · ACS 2020–2024'],
-    ['pct_hogares_con_carga_alquiler', 'Carga de alquiler', '%', 'F10 · ACS 2020–2024'],
-    ['delitos_graves_por_1000', 'Delitos graves', '/1.000 hab.', 'F04 · 2025'],
-    ['solicitudes_311_por_1000', 'Solicitudes 311', '/1.000 hab.', 'F03 · 2025'],
-    ['heridos_transito_por_10000', 'Heridos de tránsito', '/10.000 hab.', 'F02 · 2025'],
-    ['pm25', 'PM2,5', 'µg/m³', 'F15 · último año del lago'],
-    ['pct_transporte_publico', 'Transporte público al trabajo', '%', 'F10 · ACS 2020–2024'],
-    ['arboles_calle_por_km2', 'Árboles de calle', '/km²', 'F07 · censo 2015'],
-    ['viviendas_obra_nueva_por_1000', 'Viviendas propuestas', '/1.000 hab.', 'F05 · 2025'],
-    ['viviendas_asequibles_por_1000', 'Viviendas asequibles', '/1.000 hab.', 'F16 · acumulado desde 2014']
-  ];
+  // nombre, unidad, fuente, vigencia y margen de error salen de lago/distritos.json (una sola definición)
+  const campos = ['ingreso_mediano', 'alquiler_mediano', 'pct_pobreza', 'pct_hogares_con_carga_alquiler', 'delitos_graves_por_1000', 'solicitudes_311_por_1000',
+    'heridos_transito_por_10000', 'pm25', 'pct_transporte_publico', 'arboles_calle_por_km2', 'viviendas_obra_nueva_por_1000', 'viviendas_asequibles_por_1000'];
   function comparar() {
     const a = D.find(d => d.puma === $('#compA').value), b = D.find(d => d.puma === $('#compB').value);
-    $('#compResultado').innerHTML = `<div class="tabla-scroll"><table><thead><tr><th>Indicador / fuente</th><th>${G.esc(a.nombre)} (A)</th><th>${G.esc(b.nombre)} (B)</th><th>B − A</th></tr></thead><tbody>${campos.map(([k, titulo, unidad, fuente]) => {
-      const dif = A.diferencia(a[k], b[k]);
-      return `<tr><th>${titulo}<small>${unidad} · ${fuente}</small></th><td>${n(a[k])}</td><td>${n(b[k])}</td><td>${n(dif.absoluta)} ${unidad === '%' ? 'pp' : unidad}${unidad === '%' ? '' : ` (${n(dif.porcentaje)} %)`}</td></tr>`;
-    }).join('')}</tbody></table></div><p class="veredicto">${a === b ? 'Elegiste el mismo distrito: las diferencias son cero.' : campos.filter(([k]) => ['pct_pobreza','pct_hogares_con_carga_alquiler','pm25','delitos_graves_por_1000'].includes(k) && A.valido(a[k]) && A.valido(b[k])).map(([k,t]) => `${t}: ${a[k] === b[k] ? 'igual en ambos' : 'mayor en ' + G.esc(a[k] > b[k] ? a.nombre : b.nombre)}`).join(' · ')}.</p><p class="nota">Diferencias descriptivas, sin prueba de significancia. Ingreso ACS: margen de error A ±${n(a.ingreso_mediano_moe,0)} US$, B ±${n(b.ingreso_mediano_moe,0)} US$. Las tasas usan residentes, no población de paso; PUMA 4165 (Midtown) requiere especial cuidado. Un porcentaje con base cero queda sin resultado.</p>`;
+    const filasC = campos.map(k => {
+      const m = LG.metrica(k), dif = A.diferencia(a[k], b[k]), ma = LG.moe(a, k), mb = LG.moe(b, k);
+      const dist = a === b ? null : LG.distinguibles(a[k], ma, b[k], mb);
+      const u = m.unidad, pct = u === '%';
+      const conMoe = (v, e) => `${n(v, m.decimales ?? 1)}${e != null ? `<small class="moe"> ±${n(e, m.decimales ?? 1)}</small>` : ''}`;
+      return `<tr><th><button type="button" class="enlace" data-ficha="${k}">${G.esc(m.etiqueta)}</button><small>${G.esc(u)} · ${G.esc(LG.ids(m.fuente).join('+'))} · ${G.esc(m.vigencia)}</small></th><td>${conMoe(a[k], ma)}</td><td>${conMoe(b[k], mb)}</td><td>${n(dif.absoluta)} ${pct ? 'pp' : ''}${pct ? '' : ` (${n(dif.porcentaje)} %)`}</td><td>${dist === null ? '—' : dist ? '<span class="sig">≠ sí</span>' : '<span class="sig igual">≈ cabe en el error</span>'}</td></tr>`;
+    }).join('');
+    const reales = campos.filter(k => a !== b && LG.distinguibles(a[k], LG.moe(a, k), b[k], LG.moe(b, k)));
+    $('#compResultado').innerHTML = `<div class="tabla-scroll"><table><thead><tr><th>Indicador / fuente</th><th>${G.esc(a.nombre)} (A)</th><th>${G.esc(b.nombre)} (B)</th><th>B − A</th><th>¿Diferencia real?</th></tr></thead><tbody>${filasC}</tbody></table></div><p class="veredicto">${a === b ? 'Elegiste el mismo distrito: las diferencias son cero.' : `${reales.length} de ${campos.length} diferencias superan el margen de error. ${['pct_pobreza', 'pct_hogares_con_carga_alquiler', 'pm25', 'delitos_graves_por_1000'].filter(k => A.valido(a[k]) && A.valido(b[k])).map(k => `${LG.metrica(k).etiqueta}: ${reales.includes(k) || LG.metrica(k).moe == null ? 'mayor en ' + G.esc(a[k] > b[k] ? a.nombre : b.nombre) : 'no se distingue'}`).join(' · ')}.`}</p><p class="nota">«¿Diferencia real?» usa la regla del Census Bureau al 90 %: |A − B| > √(MOE<sub>A</sub>² + MOE<sub>B</sub>²). Las tasas tienen margen porque su denominador es la población del ACS; PM2,5 y árboles no publican margen y se comparan tal cual. Las tasas usan residentes, no población de paso: Midtown (PUMA 4165) requiere especial cuidado.</p>`;
+    $('#compResultado').querySelectorAll('[data-ficha]').forEach(btn => btn.onclick = () => G.ficha(LG.provMetrica(btn.dataset.ficha), LG.metrica(btn.dataset.ficha).etiqueta));
   }
   const preguntas = [
     ['¿Dónde coinciden pobreza y contaminación?', {pobreza:50, aire:50}],
@@ -57,11 +52,10 @@
   }
   function series() {
     const res = [];
-    const aire = L.datos.ambiente?.aire_serie || [];
+    const aire = LG.filas('ambiente', 'aire_serie');
     for (const k of ['pm25','no2']) res.push({id:k, nombre:k === 'pm25' ? 'Aire · PM2,5' : 'Aire · NO₂', fuente:'F15 · NYCCAS', unidad:k === 'pm25' ? 'µg/m³' : 'ppb', escala:'borough', filas:aire.map(d=>({periodo:String(d.anio),lugar:d.lugar,v:d[k]}))});
-    const mta = L.datos.movilidad?.serie_mensual || [];
-    for (const k of ['subte','bus','lirr','metro_north','ingresos_zona_congestion']) res.push({id:k,nombre:'MTA · '+k.replaceAll('_',' '),fuente:'F17 · MTA',unidad:'viajes/día (promedio del mes)',escala:'red MTA',filas:mta.map(d=>({periodo:d.mes,lugar:'Red MTA',v:d[k]}))});
-    res.push({id:'denuncias',nombre:'Denuncias · enero–junio',fuente:'F04 / F14 · NYPD',unidad:'denuncias',escala:'borough',filas:(L.datos.seguridad_delitos?.primer_semestre?.datos || []).flatMap(d=>[2025,2026].map(y=>({periodo:String(y),lugar:d.borough,v:d['denuncias_'+y]})))});
+    for (const k of ['subte','bus','lirr','metro_north','ingresos_zona_congestion']) { const se = LG.serie('movilidad', k); if (se) res.push({id:k,nombre:'MTA · '+se.descripcion.replace(/ \(.*$/, ''),fuente:'F17 · MTA',unidad:se.unidad,escala:'red MTA',filas:se.puntos.map(([m, v])=>({periodo:m,lugar:'Red MTA',v}))}); }
+    res.push({id:'denuncias',nombre:'Denuncias · enero–junio',fuente:'F04 / F14 · NYPD',unidad:'denuncias',escala:'borough',filas:LG.filas('seguridad_delitos', 'primer_semestre').flatMap(d=>[2025,2026].map(y=>({periodo:String(y),lugar:d.borough,v:d['denuncias_'+y]})))});
     return res.map(s=>({...s,filas:s.filas.filter(d=>A.valido(d.v))})).filter(s=>s.filas.length);
   }
   function temporal() {
@@ -108,7 +102,7 @@
   }
   window.LABORATORIO = {
     init(lago) {
-      L=lago; D=(L.datos.distritos?.datos || []).slice().sort((a,b)=>a.etiqueta.localeCompare(b.etiqueta)); if (!D.length) return;
+      L=lago; D=LG.distritos().slice().sort((a,b)=>a.etiqueta.localeCompare(b.etiqueta)); if (!D.length) return;
       $('#comparador').innerHTML=`<h2>Comparar dos distritos</h2><div class="fila-ctrl"><label class="campo">Distrito A<select id="compA">${opciones()}</select></label><button class="chip" id="intercambiarComp" aria-label="Intercambiar distritos">⇄</button><label class="campo">Distrito B<select id="compB">${opciones()}</select></label></div><div id="compResultado" aria-live="polite"></div>`;
       $('#compB').value=D[1]?.puma || D[0].puma;
       $('#compA').onchange=$('#compB').onchange=comparar;

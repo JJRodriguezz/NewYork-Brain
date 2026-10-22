@@ -1,67 +1,189 @@
-# Cerebro NYC
+# Nueva York · sistema de información (Cerebro NYC)
 
-## Laboratorio territorial
+**Grupo:** Isabella Idarraga Botero · Juan Camilo Ramón · Juan José Rodriguez Restrepo · Esteban Jacob Romero Ríos *(papeles: [COMPLETAR: quién respondió por cada tramo])*
+· **Enlace:** https://newyork-brain.vercel.app · **Repositorio:** https://github.com/JJRodriguezz/NewYork-Brain · **Revisado:** 2026-10-20
 
-La nueva sección conecta cinco funciones con el lago existente, sin llaves de API ni un servicio de IA:
+Réplica, para Nueva York, del [Cerebro Lima](https://cerebro-lima.vercel.app) del Taller de Datos (Gestión y Gobernanza de Datos). Sin compuerta: todo lo publicado son agregados de fuentes abiertas (ver *Protección*).
 
-- **Personalizado** en Panorama: seis pesos, normalizados a 100 %, ranking actualizado y mapa de atención sincronizado. Los empates usan rango medio. Todos los pesos en cero o un valor ausente en una dimensión activa dejan el índice sin resultado; no se imputan valores.
-- **Comparador**: doce indicadores, diferencias B − A, puntos porcentuales para porcentajes y lectura automática descriptiva. Incluye fuentes, periodos y márgenes de error del ingreso ACS.
-- **Punto/radio** en Gemelo: clic o coordenadas, radios de 500 m, 1 km y 2 km, identificación del PUMA y conteo de filas geográficas MTA. Son registros por andén/línea, no complejos únicos. El contexto distrital no se convierte en un conteo dentro del radio.
-- **Temporal**: selector y cursor de periodos reales de aire, MTA y denuncias. Aire y denuncias admiten mapa de valor final o cambio porcentual **por borough**, repetido en sus PUMA. MTA corresponde a la red y no se distribuye sobre distritos. NYPD compara enero–junio de 2025 y 2026.
-- **Pregúntale a NYC**: preguntas guiadas que configuran pesos, ranking y mapa mediante reglas locales transparentes; no interpreta texto libre ni consume una API de IA.
+```bash
+pip install -r requirements.txt
+python ingesta/construir.py            # corre ingesta/pull_*.py en orden, verifica y SOLO si pasa escribe lago/lago.js
+node verificacion/verificar.mjs        # contrato, datos personales, dominio NYC, conteo mínimo y paquete
+node verificacion/prueba_de_fallos.mjs # rompe el lago a propósito: cada daño tiene que dar FAIL
+node tests/analisis.test.cjs           # percentiles, rangos con margen de error, Benjamini-Hochberg, geometría
+python scripts/generar_excel.py        # diccionario de datos (Excel) desde el lago y la plantilla en blanco
+python scripts/generar_readme.py       # tablas «¿Se puede usar?» y «Bitácora de IA» de este README
+```
 
-La cartografía requiere conexión y WebGL; comparación, cálculos, coordenadas y series funcionan con el paquete local del lago. No hay puntos de incidentes, árboles ni 311 en este lago y no se simulan. El color verde del cambio significa disminución, no una valoración automática de mejora.
+## Para quién y qué pregunta
 
-Validación: `node tests/analisis.test.cjs` (pesos, empates, ausencias, bases cero, huecos de polígonos y radios sobre geometrías reales). `python scripts/verificar_lago.py` verifica el diccionario; en Windows puede requerir `PYTHONIOENCODING=utf-8`. También se comprobó la interacción en Chrome de escritorio y móvil: preguntas, sliders, comparación, coordenadas y mapas temporales.
+- **Usuario:** una junta comunitaria (Community Board) o el equipo de un concejal que pide inversión y servicios para su distrito, y Planeación (NYC DCP) cuando compara distritos.
+- **Preguntas** (P1–P3 son las de la primera entrega; todas están en el sistema, sección «Preguntas y pendientes», con la respuesta calculada desde el lago):
+  - P1 ¿Qué distrito concentra más carga de calidad de vida, inseguridad y siniestralidad por habitante? — *respondida*
+  - P2 ¿Dónde se cruza la presión del alquiler con bajo ingreso, y cuánta vivienda nueva y asequible llega allí? — *respondida*
+  - P3 ¿Está bajando el delito este año frente al anterior? — *respondida*
+  - P4 víctimas del tránsito, P7 interés externo, P8 población, P9 actividad audiovisual — *respondidas*; P5 transporte y peaje de congestión, P6 aire y arbolado — *a medias* (el sistema dice por qué)
+  - **Pendientes, con su razón:** P10 ¿cuánto cuesta mudarse hoy? (no hay alquiler de mercado abierto), P11 precio de la vivienda vendida (ACRIS es candidata), P12 opinión de los vecinos (no hay fuente abierta), P13 población de paso (no hay dato abierto por distrito).
+- **Escala y comparación:** dos escalas, como Lima: los 5 boroughs y los **55 distritos PUMA** (agrupan los 59 distritos comunitarios; es la escala más fina a la que el Censo publica ingreso y alquiler). Cada distrito se compara contra los otros 54 y contra la mediana de la ciudad; las tendencias, contra el mismo periodo del año anterior.
+- **Lo que decidimos no mostrar, y por qué:**
+  - Ningún registro individual: ni puntos de delitos, choques o solicitudes 311, ni nombres de dueños o solicitantes de obras, ni edad, raza o sexo de víctimas y sospechosos. Se usan para contar por zona y se descartan (lista completa en el sitio: «Lo que decidimos no publicar»).
+  - Conteos de personas por distrito entre 1 y 9: la verificación los rechaza; por eso las muertes en el tránsito se publican solo por borough.
+  - La composición étnica no entra al explorador de correlaciones: cruzarla con delitos o pobreza invita a lecturas estigmatizantes y a la falacia ecológica. Se muestra por borough, como composición, y nada más.
+  - Ningún «puesto» cuando la diferencia cabe en el margen de error del ACS: el sistema muestra grupos de distritos indistinguibles.
 
-Gemelo territorial de la Ciudad de Nueva York construido solo con datos abiertos trazables. Es la réplica, para Nueva York, del [Cerebro Lima](https://cerebro-lima.vercel.app) del Taller de Datos (Gestión y Gobernanza de Datos).
+## La réplica
 
-**Abrir:** doble clic en `index.html` (funciona sin servidor gracias a `lago/lago.js`) o publicar la carpeta en Vercel / GitHub Pages.
+- **Igual que el ejemplo:** HTML y JavaScript sin framework, MapLibre GL para el mapa 3D, un JSON por tema con el contrato del taller (tema, probado, fuentes, cifras, series, listas), las mismas secciones de Lima, el diagnóstico con prioridades intercambiables, el atlas, las correlaciones, el buscador, el modo presentación y el clima en vivo.
+- **Lo que cambiamos para Nueva York:** la escala (PUMA en vez de distritos de Lima); el margen de error del ACS en cada tasa y en los rankings (en Lima los datos son censales); la ubicación por coordenadas de choques y delitos (punto en polígono, sin guardar el punto); la separación visible entre lo medido y lo declarado; sin compuerta (no hay nada que proteger detrás de una clave, ver *Protección*).
+- **Fuentes:** 30 catalogadas · 23 integradas · 1 candidata · 6 descartadas · 0 que no responden · 0 inventadas por la IA (cada una se abrió y se consultó). Todas probadas el 2026-10-20 (`lago/catalogo.json` y hoja «1. Fuentes» del Excel).
+- **Huecos** (lo que buscamos y no existe abierto para Nueva York): alquiler de mercado actual por barrio, opinión ciudadana por distrito, población de paso por distrito, censo de árboles 2025, la API oficial del Censo sin llave. Quién no aparece en el lago está en el sitio, «Lo que el cerebro no sabe, lo dice».
 
-## Qué responde
+## ¿Se puede usar?
 
-| # | Pregunta | Fuentes |
-|---|----------|---------|
-| P1 | ¿Qué distrito concentra más carga de calidad de vida, inseguridad y siniestralidad por habitante? | F02, F03, F04, F10 |
-| P2 | ¿Dónde se cruza la presión del alquiler con bajo ingreso, y cuánta vivienda nueva y asequible llega allí? | F05, F10, F16 |
-| P3 | ¿Está bajando el delito este año frente al anterior? | F04, F14 |
-| P4 | ¿Quiénes son las víctimas del tránsito y dónde? | F02 |
-| P5 | ¿Cuánto se recuperó el transporte público y qué cambió con el peaje de congestión? | F10, F17, F18 |
-| P6 | ¿Dónde es peor el aire y hay menos árboles, y coincide con menor ingreso? | F07, F10, F15 |
-| P7 | ¿Cuánto interés externo despierta la ciudad y cada borough? | F08 |
+Ningún dataset de NYC Open Data ni de data.ny.gov declara licencia en sus metadatos (verificado en `/api/views/{id}.json`): figuran como **«no declara»**, y la condición de uso sale de la Local Law 11 de 2012 y de los Términos de Uso del portal. Las cuatro fuentes que sí declaran licencia se copian literalmente.
 
-## Secciones del sitio
+<!-- tabla-uso: la genera scripts/generar_readme.py desde lago/catalogo.json -->
+| Fuente | Licencia (literal, o «no declara») | Personas | Estado | Condición |
+|---|---|---|---|---|
+| F02 · [Motor Vehicle Collisions - Crashes](https://data.cityofnewyork.us/resource/h9gi-nx95.json) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia) |
+| F03 · [311 Service Requests from 2020 to Present](https://data.cityofnewyork.us/resource/erm2-nwe9.json) | no declara | Texto libre sin revisar | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia). Solo conteos por tipo y zona: no se piden dirección ni texto libre |
+| F04 · [NYPD Complaint Data Historic](https://data.cityofnewyork.us/resource/qgea-i56i.json) | no declara | Personas identificables | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia). Solo conteos por tipo, mes y zona: edad, raza, sexo y punto del hecho no se publican |
+| F05 · [DOB NOW: Build – Job Application Filings](https://data.cityofnewyork.us/resource/w9ak-ipjd.json) | no declara | Personas identificables | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia). Solo viviendas propuestas por zona: nombres, licencias y teléfonos no se piden |
+| F06 · [Film Permits](https://data.cityofnewyork.us/resource/tg4x-b46p.json) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia) |
+| F07 · [2015 Street Tree Census - Tree Data](https://data.cityofnewyork.us/resource/uvpi-gqnh.json) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia) |
+| F08 · [Wikimedia Pageviews: artículos 'New York City', 'Nueva York' y los 5 boroughs](https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/New_York_City/monthly/2024100100/2026093000) | All Analytics datasets are available under the Creative Commons CC0 dedication. | No | Integrada al lago · vivo · probado 2026-10-20 | Ninguna (CC0); se cita igual |
+| F09 · [Censo 2020: población por borough](https://www.nyc.gov/content/planning/pages/planning/nyc-population-2020-census) | no declara | No | Integrada al lago · transcrito · probado 2026-10-20 | Dominio público (obra del gobierno federal, 17 U.S.C. §105); citar al DCP, que la publica |
+| F10 · [American Community Survey 2020–2024, 5 años (tablas B01003, B19013, B25064, B25070, B25071, B17001, B25003, B08301, B08201, B05002, B03002, B01002)](https://api.censusreporter.org/1.0/data/show/acs2024_5yr?table_ids=B19013&geo_ids=05000US36061) | This data is not copyrighted. You do not need to ask our permission to use it. | No | Integrada al lago · vivo · probado 2026-10-20 | Ninguna; citar Census Reporter y el ACS, y mostrar el margen de error (90 %) |
+| F11 · [ACRIS - Real Property Master](https://data.cityofnewyork.us/resource/bnx9-e6tj.json) | no declara | No | Candidata · vivo · probado 2026-10-20 | No se usa todavía: montos en 0 y distribución inverosímil (ver catálogo) |
+| F12 · [NYPD Calls for Service (Year to Date)](https://data.cityofnewyork.us/resource/n2zq-pubd.json) | no declara | Solo conteos por zona | Descartada · vivo · probado 2026-10-20 | No se usa: mide llamadas al 911, no delitos, y sumarla a F04 y al 311 contaría doble |
+| F14 · [NYPD Complaint Data Current (Year To Date)](https://data.cityofnewyork.us/resource/5uac-w243.json) | no declara | Personas identificables | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia). Igual que F04 |
+| F15 · [Air Quality (NYC Community Air Survey)](https://data.cityofnewyork.us/resource/c3uy-2p5r.json) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia) |
+| F16 · [Affordable Housing Production by Building (Housing New York)](https://data.cityofnewyork.us/resource/hg8x-zxpr.json) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia) |
+| F17 · [MTA Daily Ridership and Traffic: Beginning 2020](https://data.ny.gov/resource/sayj-mze2.json) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Términos de Uso de Open NY (data.ny.gov; el dataset no declara licencia) |
+| F18 · [MTA Subway Stations](https://data.ny.gov/resource/39hk-dx4f.json) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Términos de Uso de Open NY (data.ny.gov; el dataset no declara licencia) |
+| F19 · [2020 Public Use Microdata Areas (PUMAs)](https://data.cityofnewyork.us/resource/pikk-p9nv.geojson) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia) |
+| F20 · [Borough Boundaries](https://data.cityofnewyork.us/resource/gthc-hcne.geojson) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia) |
+| F21 · [Census Data API (api.census.gov)](https://api.census.gov/data/2024/acs/acs5?get=NAME,B19013_001E&for=county:061&in=state:36) | no declara | No | Descartada · vivo · probado 2026-10-20 | No se usa: pide llave con registro (sin llave, HTTP 302); la reemplaza F10 |
+| F22 · [MTA Daily Ridership Data: 2020 - 2025](https://data.ny.gov/resource/vxuj-8kew.json) | no declara | No | Descartada · vivo · probado 2026-10-20 | No se usa: su último dato es del 9-ene-2025; la reemplaza F17 |
+| F23 · [DOB Job Application Filings (sistema legado BIS)](https://data.cityofnewyork.us/resource/ic3t-wcy2.json) | no declara | Personas identificables | Descartada · vivo · probado 2026-10-20 | No se usa: sistema en retiro (hoy se radica en F05) y trae nombres de propietarios |
+| F24 · [Open-Meteo Forecast API (tiempo actual en Manhattan)](https://api.open-meteo.com/v1/forecast?latitude=40.7831&longitude=-73.9712&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code) | The data obtained through the API is provided under the terms of the CC-BY 4.0 licence | No | Integrada al lago · vivo · probado 2026-10-20 | Atribución CC BY 4.0: «(F24) Open-Meteo» junto al clima |
+| F25 · [New York City Population by Borough, 1950 - 2040](https://data.cityofnewyork.us/resource/xywu-7bv9.json) | no declara | No | Descartada · vivo · probado 2026-10-20 | No se usa: la columna «2020» es una proyección de 2013 |
+| F26 · [2020 Neighborhood Tabulation Areas (NTAs)](https://data.cityofnewyork.us/resource/9nt8-h7nd.geojson) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia) |
+| F27 · [Police Precincts](https://data.cityofnewyork.us/resource/y76i-bdw7.geojson) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Citar fuente y fecha; Local Law 11 de 2012 y Términos de Uso de NYC.gov (el dataset no declara licencia) |
+| F28 · [OpenFreeMap (teselas vectoriales de OpenStreetMap, con edificios 3D)](https://tiles.openfreemap.org/styles/liberty) | The license of this project is MIT · datos: OpenStreetMap (ODbL) · «Attribution is required.» | No | Integrada al lago · vivo · probado 2026-10-20 | Atribución a OpenFreeMap y © OpenStreetMap (ODbL) en el mapa |
+| F29 · [NYC Tourism + Conventions: informe anual 2025 (comunicado de prensa)](https://www.business.nyctourism.com/press-media/press-releases/NYC-Tourism-Annual-Report-March-2026) | no declara | No | Integrada al lago · declarado · probado 2026-10-20 | Cifra declarada por la entidad: se muestra marcada «declarado», separada de lo medido |
+| F30 · [NYC Council: aprobación del presupuesto FY2027 (comunicado)](https://council.nyc.gov/press/2026/06/30/3166/) | no declara | No | Integrada al lago · declarado · probado 2026-10-20 | Cifra declarada por la entidad: se muestra marcada «declarado», separada de lo medido |
+| F31 · [Esri World Imagery (teselas satelitales)](https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer) | no declara | No | Integrada al lago · vivo · probado 2026-10-20 | Exige atribución a Esri y sus proveedores: «Imágenes © Esri, Maxar, Earthstar Geographics» en el mapa; solo capa visual |
+| F32 · [DOB Permit Issuance (sistema legado BIS)](https://data.cityofnewyork.us/resource/ipu4-2q9a.json) | no declara | Personas identificables | Descartada · vivo · probado 2026-10-20 | No se usa: residual frente a F05 y trae nombre, dirección y teléfono de personas |
+<!-- /tabla-uso -->
 
-Panorama con **diagnóstico territorial** de los 55 distritos (prioridades intercambiables y prueba de robustez) · **Gemelo 3D** (MapLibre, edificios de OpenStreetMap, 8 lentes, indicador extruido, satélite, estaciones, precintos, barrios) · Gente · Economía y vivienda · Turismo y rodajes · Municipio y 311 · Seguridad · Movilidad · **Correlaciones** (n = 55, Pearson, Spearman y valor p) · **Atlas** ordenable · Ambiente y aire · Escucha (Wikipedia) · Fuentes y gobernanza. Buscador `Ctrl+K`, modo presentación, tema claro/oscuro, reloj y clima en vivo de Central Park.
+## Bitácora de exploración
 
-Cada cifra indica su fuente (ID F##) y su estado: **observado** (sale de una API), **derivado** (calculado por nosotros), **transcrito** (copiado de una tabla oficial sin API) o **declarado** (comunicado oficial, no verificable con microdatos).
+Probamos cada herramienta con **los mismos datos** (el atlas de los 55 distritos, `lago/distritos.json`) y en entornos aislados (`venv` nuevo por herramienta, fuera del repositorio). Los scripts de prueba están en `exploracion/`; sus salidas no se suben (`.gitignore`). Paquetes contados con `pip list` en cada entorno limpio, el 2026-10-20. Licencia y última versión, de PyPI y npm ese mismo día.
+
+| Tramo | Herramienta | Qué pidió para empezar | Licencia | Dónde quedan los datos | ¿Se rehace con un comando? | Estado del proyecto | Qué resolvió | Qué no pudo | ¿Quedó? ¿Por qué? |
+|---|---|---|---|---|---|---|---|---|---|
+| Rastreo | API de catálogo de Socrata (`api.us.socrata.com/api/catalog/v1`) | Nada: sin llave ni cuenta | No la declara en la respuesta | En el servidor de Socrata; solo se lee | Sí (`curl`) | Activa | Encontró los ID oficiales de PUMA, barrios, precintos, vivienda HPD, DOB NOW y MTA | No cubre el Censo ni comunicados | **Quedó** para NYC Open Data y data.ny.gov |
+| Rastreo | Búsqueda web con IA (Claude Code) | Sesión con la IA | Términos del proveedor | Las consultas pasan por el buscador y el proveedor de IA | No (los resultados cambian) | — | Comunicados de turismo y presupuesto; frases literales de licencia | Una página de licencia llegó vacía; otra mostraba la licencia del sitio y no la de los datos (bitácora IA #17) | **Quedó** solo para lo que no está en catálogos, abriendo cada enlace |
+| Ingesta | Python + `requests` + SoQL | Python 3.12 y `pip install requests` (5 paquetes) | Apache-2.0 | En la máquina que corre el script; al lago solo llegan agregados | Sí: `python ingesta/construir.py` (3 min 27 s) | requests 2.34.2 (14-may-2026) | Contrato, margen de error, punto en polígono, consultas mensuales | La consulta anual del 311 agota el tiempo de la API (se parte por mes) | **Quedó**: control total y 5 paquetes |
+| Ingesta | DuckDB (`httpfs`) | `pip install duckdb` (1 paquete) | MIT | En memoria; Parquet local | Sí | 1.5.6 (28-sep-2026) | Leyó la API de choques en 1 s y agregó por borough | Chocó con las comillas de SoQL y tomó el `*` de `count(*)` como comodín; sin extensión espacial deja 17.031 choques «sin borough» (nuestro script deja 1.395) | **No quedó** para ingesta; sí sirve para consultar el lago |
+| Lago | JSON con el contrato del taller | Nada | Formato abierto | Repositorio y despliegue (solo agregados) | Sí | — | El navegador lo lee directo; cada columna trae su diccionario (fuente, vigencia, MOE) | Pesa más: atlas de 142 KB con metadatos | **Quedó** |
+| Lago | Parquet (escrito con DuckDB) | DuckDB | Apache-2.0 (formato) | Archivo local | Sí | — | El atlas pesa 23 KB (contra 89 KB de filas en JSON) | El navegador necesita DuckDB-WASM o Arrow (varios MB) para leerlo; la ficha por columna habría que reinventarla en metadatos | **No quedó**; lo reconsideraríamos si una capa dejara de caber |
+| Verificación | `verificacion/verificar.mjs` (propio) | Node, que ya está en GitHub y en Vercel | Del grupo | Local, GitHub Actions y build de Vercel | Sí | — | 1.365 comprobaciones; atrapa 11 de 11 daños hechos a propósito | No reemplaza un esquema formal de tipos por columna | **Quedó** |
+| Verificación | Frictionless | `pip install frictionless` (40 paquetes) | MIT | Local | Sí | 5.21.0 (15-oct-2026) | Validó tipos y rangos del atlas en CSV; atrapó 3 de 3 daños de esquema | Rechazó la ruta absoluta («path is not safe»); en Windows falló al cargar una librería por la ruta larga; no conoce fuentes, vigencia ni datos personales | **No quedó**: 40 dependencias para cubrir una parte de lo que necesitamos |
+| Vistas | HTML + JS propio + MapLibre GL | Nada que instalar: MapLibre desde unpkg con hash de integridad (SRI) | MapLibre BSD-3-Clause; OpenFreeMap MIT + datos OSM (ODbL) | Repositorio público y Vercel; `public/` sale de una lista blanca | Sí: el sitio es el repositorio | MapLibre 4.7.1 (sep-2024; la última es 6.15.0) | Ficha de procedencia a un clic, margen de error y grupos, mapa 3D, móvil, sin servidor | Depende de dos servicios en vivo (unpkg y OpenFreeMap); versión de MapLibre vieja | **Quedó** (ver *Herramienta elegida*) |
+| Vistas | Streamlit | `pip install streamlit` (35 paquetes); para publicar, cuenta de GitHub y de Streamlit Community Cloud | Apache-2.0 | En el repositorio y en el servidor de la app | Sí (`streamlit run`) | 1.66.0 (14-oct-2026) | Mapa coroplético y tabla con margen de error en unas 30 líneas | Necesita un servidor Python (no corre en Vercel estático); la ficha por cifra y los grupos por error hay que construirlos a mano; envía estadísticas de uso por defecto (las apagamos con `--browser.gatherUsageStats false`) | **Casi la elegimos; no quedó** |
+| Vistas | kepler.gl (paquete `keplergl`) | `pip install keplergl` (113 paquetes) y `setuptools<81` | MIT en el repositorio; PyPI no la declara | En el navegador al explorar; al exportar, **dentro del HTML** | Sí | keplergl 0.3.7 (1-feb-2025) | Exploración rápida del mapa | El HTML exportado pesó 11,5 MB, lleva los datos adentro, una llave de Mapbox de terceros, ~15 librerías de unpkg sin integridad y Google Analytics; abre centrado en San Francisco; no arrancó en Python 3.12 sin `setuptools<81` | **No quedó**: sirve para explorar, no para publicar |
+| Protección | Pruebas de terminal (`curl`) | Una terminal | — | — | Sí | — | Comprobar qué responde 200 y qué 404 en producción y en el build nuevo | — | **Quedó** (resultados abajo) |
+| Protección | Protección de despliegues de Vercel (Vercel Authentication) | Viene activa en el plan Hobby | Términos de Vercel | En Vercel | — | — | Las URL de cada despliegue piden iniciar sesión (302 a SSO) | No aplica a la URL de producción, que es la que se entrega | **Se dejó como está**: no publicamos nada que necesite compuerta |
+| Catálogo | Hoja «1. Fuentes» de la plantilla | Excel | — | Archivo local | No | — | Formato pedido por el curso | Se desactualiza a mano | **Se genera** desde el código |
+| Catálogo | `ingesta/catalogo.py` + `lago/catalogo.json` | Python | Del grupo | Repositorio | Sí | — | Única fuente de verdad: alimenta el lago, el sitio, el Excel y este README | — | **Quedó** |
+
+## Protección
+
+- **Nivel: abierto, solo agregados.** Todas las fuentes integradas son abiertas, y lo que publicamos son conteos y tasas por borough o por distrito (el más pequeño tiene 97.765 residentes). Una clave sería teatro: no hay nada detrás que la necesite.
+- **Qué protegemos, y de quién:** a las personas que aparecen en las fuentes —víctimas de delitos (edad, raza, sexo y punto del hecho en F04), dueños y solicitantes de obras (nombres y licencias en F05), quien llama al 311 (dirección y texto libre en F03)— de cualquiera que lea el sitio o descargue el lago. Esos campos **no se piden en la consulta** (o, en el caso de las coordenadas, se usan en memoria para asignar el distrito y se descartan). El verificador rechaza campos con nombre de dato personal, textos con correos, teléfonos o números de seguro social, y conteos de 1 a 9 personas por distrito.
+- **Pruebas de terminal** (2026-10-20). Producción hoy publica cualquier archivo del repositorio; el build nuevo, con `vercel.json` y `scripts/publicar.mjs`, publica solo lo que está en la lista blanca:
+
+  | Ruta | Producción hoy | Build nuevo (`public/` servido con los encabezados de `vercel.json`) |
+  |---|---|---|
+  | `/` | 200 | 200 |
+  | `/lago/catalogo.json`, `/lago/lago.js` | 200 (público a propósito) | 200 (público a propósito) |
+  | `/scripts/bitacora.py` | **200** | 404 |
+  | `/ingesta/…`, `/verificacion/…`, `/exploracion/…`, `/README.md`, `/entregables/` | 404 | 404 |
+  | URL de un despliegue concreto (`…-sando6.vercel.app`) | 302 a inicio de sesión de Vercel | igual |
+
+  El lago publicado se revisó con `grep`: 0 campos personales, 0 correos y 0 teléfonos. Los encabezados nuevos (`Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) se probaron en local con `node scripts/servidor_local.mjs`: el mapa, las fuentes tipográficas y el clima en vivo funcionan, sin violaciones de la política.
+- **Revisión de secretos en el historial** (los 13 commits, `git log -p --all`): los patrones de llaves reales (`pk.ey…`, `sk_live`, `ghp_`, `AKIA…`, claves privadas `BEGIN … PRIVATE`) dan 0. Las palabras «secret», «password», «token» y «clave» solo aparecen en textos y en el formulario de clave de la v1 (commit 4674e16), que enviaba la clave a `/api/entrar`, una función que nunca estuvo en el repositorio: no hay clave ni hash en el historial. No hay `.env` ni variables de entorno: no hay secretos que guardar.
+
+## Herramienta elegida para las vistas
+
+- **Qué necesitábamos mostrar:** cada cifra con su fuente, vigencia y fecha de prueba a un clic; el margen de error del ACS sin convertirlo en un ranking falso; un mapa por distrito que abra en un teléfono.
+- **Qué teníamos que proteger:** nada detrás de una clave, pero sí que ningún dato de personas ni ningún archivo de trabajo llegue a la carpeta pública.
+- **Por qué esta herramienta cumple las dos cosas, y cuál descartamos por poco:** un sitio estático (HTML, JavaScript y MapLibre GL en Vercel) deja escribir la ficha de procedencia, los intervalos y los grupos exactamente como los necesitábamos, publica solo lo que pasa la verificación y la lista blanca, y no pide servidor ni llaves. **Streamlit** casi queda: resolvió el mapa en 30 líneas, pero necesita un servidor Python siempre encendido, envía estadísticas de uso por defecto y habríamos reconstruido a mano la ficha y los grupos.
+
+## Nuestra posición
+
+**Datos — «¿Más datos, más certeza?».** El explorador de correlaciones cruza 22 variables de los 55 distritos: **231 comparaciones** que el usuario no ve. Al 5 %, el azar solo daría unas 12 «significativas»; nosotros encontramos 139, y 131 sobreviven a la corrección de Benjamini-Hochberg que ahora calcula el sistema. Pero la corrección no arregla lo que de verdad infla el número: muchas variables miden casi lo mismo (alquiler como % del ingreso y hogares con carga de alquiler, r = 0,98) y todas comparten un mismo eje socioeconómico, así que «significativo» no quiere decir «nuevo». Lo que defenderíamos aunque la correlación desapareciera con un año más de datos no es una correlación, sino una medición: en 2025 el 52 % de los muertos en el tránsito fueron peatones, y la vivienda asequible de HPD llega a donde hay más pobreza (r = 0,68) pero casi nada a donde más pesa el alquiler (r = 0,19). Por eso el sistema muestra q junto a p, avisa cuándo una relación no sobrevive, y saca del explorador la composición étnica.
+
+**Seguridad — «Explorar es ampliar la superficie de ataque».** Para el sistema publicado instalamos **cero paquetes de JavaScript**: MapLibre llega desde unpkg con un hash de integridad (SRI) que el navegador comprueba, y la ingesta usa `requests` y sus 4 dependencias, con versiones fijadas en `requirements.txt`. Para explorar instalamos, en entornos aislados y fuera del repositorio, 35 paquetes con Streamlit, 113 con kepler.gl, 40 con Frictionless y 1 con DuckDB: no sabríamos nombrar ni la mitad. Si mañana MapLibre en unpkg resultara comprometido, el hash no coincidiría y el navegador no lo ejecutaría (el mapa se cae, el resto del sistema sigue); si lo fuera `requests`, lo veríamos solo al actualizar a propósito, porque la versión está fijada. Lo que sí descubrimos al explorar fue lo que traen las herramientas: el HTML de kepler.gl cargaba Google Analytics y una llave de Mapbox ajena. También pesa la cadena de **agentes**: Claude Code tuvo terminal, escritura en el repositorio local y un conector con permiso para crear proyectos en la cuenta de Vercel; la terminal podía usar las credenciales de git guardadas en el equipo. No publicó nada en GitHub porque se lo prohibimos, no porque no pudiera. La próxima vez le daríamos un conector de solo lectura.
+
+## Bitácora de IA
+
+Para cada encargo: con qué herramienta, qué entregó y qué le corregimos. La misma bitácora, con la comprobación completa, está en la hoja «3. Bitácora IA» del Excel.
+
+<!-- tabla-ia: la genera scripts/generar_readme.py desde scripts/bitacora.py -->
+| # | Tramo | Herramienta | Qué le encargamos | Qué entregó | Qué le corregimos |
+|---|---|---|---|---|---|
+| 1 | Ingesta | Claude Code (Claude Opus 5.5) | Auditar el lago v1: ¿las cifras de los JSON salen de verdad de las APIs citadas? | Repitió las consultas documentadas en _meta y comparó resultado por resultado | **Correcto.** Colisiones 2024 y 311 de enero 2025 por borough coincidieron al dígito. Pero el ingreso "2024" atribuido al Contralor (PDF) era idéntico a la mediana del ACS 2020–2024: la fuente estaba mal atribuida. → Se reatribuyó el ingreso al ACS (F10). |
+| 2 | Rastreo | Claude Code (Claude Opus 5.5) | Obtener el ACS (ingreso, alquiler, pobreza) por borough desde una API sin llave | Propuso la API oficial del Censo (api.census.gov) | **Parcial.** Sin llave respondió HTTP 302 hacia /data/missing_key.html. Buscamos un espejo abierto (Census Reporter, Northwestern University): declara la versión usada (ACS 2024, 5 años) y sus cifras coinciden con las que el prototipo había tomado de otra publicación (Manhattan US$103.931, Bronx US$48.676). Queda pendiente contrastarlas con la API oficial cuando tengamos llave. → Se cambió de fuente (F21 → F10) y se dejó el contraste pendiente por escrito. |
+| 3 | Rastreo | Claude Code (Claude Opus 5.5) | Conseguir la población 2020 por borough desde una API en lugar de transcribirla | Ofreció el dataset "New York City Population by Borough, 1950 - 2040" (xywu-7bv9) | **Incorrecto.** Su columna 2020 dice 8.550.971 habitantes; el Censo 2020 publicado por el DCP dice 8.804.190. La columna es una proyección hecha en 2013. → Se descartó F25 y la población quedó como «transcrito» desde el DCP. |
+| 4 | Ingesta | Claude Code (Claude Opus 5.5) | Contar las viviendas propuestas en obras nuevas radicadas en 2025 (DOB NOW) | Primera consulta: sumó proposed_dwelling_units de todas las filas "New Building" de 2025: 562.235 viviendas | **Incorrecto.** La cifra era absurda (NYC produce unas 30.000 al año). Revisando las filas de mayor valor, la misma obra aparecía 7 veces (-P1, -P2, -S8, -Z1…). Contando solo la radicación inicial (-I1) quedan ~42.000. → Filtro -I1; la verificación exige que la cifra depurada sea menor que la cruda. |
+| 5 | Rastreo | Claude Code (Claude Opus 5.5) | ¿El sistema legado de permisos del DOB sigue recibiendo trámites en 2025? | Consultó DOB Permit Issuance con issuance_date ≥ 2025-01-01 y concluyó "0 permisos: dataset abandonado" | **Incorrecto.** Al ver filas de ejemplo, la fecha venía como texto "04/27/1998": el filtro comparaba texto con fecha. Con like "%/2025" aparecen 10.065 permisos. El sistema sí es legado, pero la conclusión era falsa. → Se reescribió la consulta con filtro de texto y se registró F32 como descartada con la razón correcta. |
+| 6 | Catálogo | Claude Code (Claude Opus 5.5) | Leer la licencia declarada en los metadatos de 20 datasets de NYC Open Data y Open NY | Escribió un script que lee /api/views/{id}.json y extrae los campos license y attribution | **Correcto.** Ningún dataset trae license; todos traen attribution (la agencia). Se repitió con los 3 datasets de data.ny.gov (MTA): tampoco declaran licencia. → Nada que corregir; se reemplazó la licencia supuesta de la v1 por «no declara». |
+| 7 | Ingesta | Claude Code (Claude Opus 5.5) | Asignar cada delito de 2025 a su distrito comunitario por coordenadas | Consulta anual agrupada por latitud/longitud, paginada y ordenada | **Parcial.** Después de 20 minutos no terminaba. La misma agrupación por mes y sin $order tardó 1,5 s por mes. Además se verificó que las coordenadas no se escriben en el lago. → Doce consultas mensuales en paralelo y sin $order. |
+| 8 | Lago | Claude Code (Claude Opus 5.5) | Simplificar las geometrías oficiales para que el mapa pese poco | Implementó Douglas-Peucker sobre cada anillo | **Incorrecto.** El GeoJSON de boroughs salió de 804 bytes: los polígonos habían desaparecido. Causa: en un anillo cerrado el primer y el último punto son iguales y el algoritmo lo colapsa. Se corrigió simplificando en dos mitades y se comprobó con punto-en-polígono (Times Square cae en el PUMA 4165). → Simplificación en dos mitades; la prueba de Times Square quedó en tests/analisis.test.cjs. |
+| 9 | Rastreo | Claude Code (Claude Opus 5.5) | Actualizar las cifras declaradas del sitio (visitantes y presupuesto municipal) | Búsqueda web: 65 M visitantes en 2025 (NYC Tourism + Conventions, 24-mar-2026) y presupuesto FY2027 de US$125.800 M (Concejo, 30-jun-2026) | **Correcto.** Se abrieron los dos comunicados oficiales y las cifras coinciden. El sitio anterior usaba 2024 y FY2026. → Ahora el script exige que el comunicado siga diciendo cada cifra; si no, falla. |
+| 10 | Lago | Claude Code (Claude Opus 5.5) | Relacionar los 55 PUMA con los 59 distritos comunitarios para unir 311, árboles, aire y vivienda | Propuso deducir los distritos del código PUMA (41xx Manhattan… 45xx Staten Island; 21 = CD 1&2, 65 = 5&6, 63 = 3&6) | **Correcto.** Se contrastó con los 55 nombres oficiales del ACS ("Community Districts 1 & 2", etc.): la regla acierta en todos. → Nada que corregir; la ingesta exige que lleguen exactamente 55 PUMA. |
+| 11 | Vistas | Antigravity (Gemini) | Llenar los JSON del primer prototipo (carpeta datos/) con cifras de NYC para que el tablero mostrara gráficos | Generó cifras con apariencia oficial y con «fuente» al lado (p. ej. 34.120 delitos mayores en Manhattan en 2025, US$15.800/m², 18.500 cámaras) sin haber consultado ninguna API | **Inventado.** Las comparamos con NYPD Complaint Data (F04): Manhattan tuvo 136.768 denuncias en 2025, 44.604 de ellas graves. Ninguna de las cifras salía de una consulta que se pudiera repetir. → Se borró datos/ y se rehízo el lago desde las APIs. |
+| 12 | Vistas | Codex (commit 9862e7f, PR #1 del equipo) | Según el commit: «Implementar laboratorio territorial con análisis multicriterio espacial y temporal» | Pesos personalizados, comparador de dos distritos, análisis por punto y radio, series temporales y un archivo de pruebas (tests/analisis.test.cjs) | **Parcial.** Revisión con Claude Code: el comparador decía «diferencias descriptivas, sin prueba de significancia» y no usaba el margen de error; la leyenda del mapa sobrescribía el título de la lente cada vez que se dibujaba. → El comparador ahora dice si cada diferencia supera el margen de error del ACS; la leyenda lee la métrica del lago sin modificarla. |
+| 13 | Lago | Claude Code (Claude Opus 5.5) | Rehacer el lago con el contrato del taller (tema, probado, fuentes, cifras, series, listas) y el margen de error del ACS | 15 scripts ingesta/pull_*.py y un atlas que calcula cada tasa con su MOE (fórmulas del manual del ACS) | **Parcial.** La primera corrida del atlas falló: tomó la lista completa en vez de sus filas (TypeError). Después se revisaron valores plausibles: pobreza en Lower East Side 26,1 % ± 2,4. → Se corrigió el acceso a las filas; el verificador exige que cada columna con MOE tenga su columna de error. |
+| 14 | Verificación | Claude Code (Claude Opus 5.5) | Escribir una verificación que sepa fallar, sin dependencias, que corra en local, en GitHub y en Vercel | verificacion/verificar.mjs (contrato, datos personales, dominio NYC, conteo mínimo, paquete) y prueba_de_fallos.mjs | **Parcial.** La primera corrida no encontró el lago: la ruta con espacios llegaba codificada (%20). Con fileURLToPath funcionó; luego se rompió el lago a propósito 11 veces y los 11 daños dieron FAIL. → fileURLToPath; prueba de fallos agregada a la integración continua. |
+| 15 | Vistas | Claude Code (Claude Opus 5.5) | Que cada cifra del texto salga del lago y no esté tecleada | Reescribió las secciones para leer cifras, series y listas del contrato | **Parcial.** En la revisión aparecieron dos números escritos a mano en la prosa («55» distritos y «97.000» residentes del distrito más pequeño). → Ambos números se calculan ahora desde el lago. |
+| 16 | Vistas | Claude Code (Claude Opus 5.5) | Escribir la respuesta automática a P7 (interés externo) | Redactó «X personas leyeron el artículo» | **Incorrecto.** El dato de Wikimedia son vistas de página: una persona puede sumar varias. → Ahora dice «vistas hechas por personas (no bots); son vistas, no lectores únicos». |
+| 17 | Catálogo | Claude Code (Claude Opus 5.5) | Copiar la licencia de cada fuente tal como aparece | Leyó las páginas de Wikimedia, Open-Meteo, Census Reporter y OpenFreeMap | **Parcial.** La primera página de Wikimedia solo mostraba la licencia del sitio («Content: CC BY-SA 4.0»), que no es la de los datos; la de Open-Meteo llegó vacía (se arma con JavaScript). Se encontraron las frases correctas en el readme de dumps («All Analytics datasets are available under the Creative Commons CC0 dedication.») y en los términos de Open-Meteo. → Se copió la frase literal de cada fuente al catálogo. |
+| 18 | Vistas | Claude Code (Claude Opus 5.5) | No ordenar distritos cuando la diferencia cabe en el margen de error (retroalimentación de la entrega 1) | Simulación de 500 réplicas dentro del MOE de cada tasa, intervalo del 90 % del puesto y grupos de distritos indistinguibles | **Correcto.** Pruebas unitarias: con margen cero el intervalo es un solo puesto; con margen enorme todos caen en un grupo; la misma semilla da el mismo resultado. → Nada que corregir en el método; PM2,5 se declara sin margen porque la fuente no lo publica. |
+| 19 | Exploración | Claude Code (Claude Opus 5.5) | Probar DuckDB contra la misma API y guardar el atlas en Parquet | Script exploracion/duckdb_prueba.py | **Parcial.** Falló dos veces: las comillas simples de SoQL chocaban con las del SQL de DuckDB, y el * de count(*) DuckDB lo tomó como comodín de archivos. Corregido, leyó la API en 1 s. → Comillas codificadas (%27) y count(collision_id). |
+| 20 | Exploración | Claude Code (Claude Opus 5.5) | Exportar el mapa de distritos con kepler.gl y ver qué queda adentro | Script exploracion/kepler_mapa.py | **Parcial.** El paquete keplergl 0.3.7 no arrancó en Python 3.12 (falta pkg_resources) ni en la ruta larga de Windows. Ya corriendo, el HTML pesó 11,5 MB, traía los datos adentro, una llave de Mapbox de terceros, unas 15 librerías de unpkg y Google Analytics. → setuptools<81 y un entorno en ruta corta; la salida quedó fuera del repositorio (.gitignore). |
+| 21 | Protección | Claude Code (Claude Opus 5.5) | Desplegar en Vercel desde el repositorio con el conector de Vercel | Intentó crear el proyecto vinculado a GitHub | **Parcial.** El conector respondió 403 para el alcance del equipo y, en el alcance personal, que la cuenta no tenía conectado GitHub. El equipo creó el proyecto desde el panel de Vercel. → El despliegue y los push los hace el equipo. Ojo: la terminal del agente sí podía usar las credenciales de git guardadas en el equipo; lo que lo impidió fue una instrucción, no un permiso. |
+<!-- /tabla-ia -->
+
+## Revisión cruzada
+
+- Tres cifras auditadas por el grupo **[COMPLETAR]**: [resultado y correcciones]
+- Ataque del grupo **[COMPLETAR]**: [qué intentó, qué consiguió, qué cambiamos]
+- Vueltas atrás en la ruta: de *vistas* a *rastreo* (la ficha de procedencia pedía una fecha de prueba por fuente que la v1 no guardaba: se rehízo la ingesta con el contrato); de *vistas* a *lago* (el profesor pidió el margen de error por distrito: se agregó a cada tasa en `pull_90_atlas.py`); de *protección* a *publicación* (la prueba de terminal mostró `/scripts/bitacora.py` con 200 en producción: se agregó la lista blanca de `scripts/publicar.mjs`).
+
+## Para la clase (sistema abierto en pantalla, sin diapositivas)
+
+1. **¿Qué herramienta descartamos que casi elegimos?** Streamlit. Mostrar `exploracion/streamlit_app.py`: el mapa sale en 30 líneas. Quedó fuera porque necesita servidor, envía estadísticas por defecto y la ficha de procedencia y los grupos por margen de error habría que construirlos igual. Cambiaría la respuesta si necesitáramos una compuerta real (Streamlit Community Cloud permite apps privadas por invitación) o cálculos en vivo en Python.
+2. **¿Qué decidimos no mostrar?** Abrir «Fuentes y gobernanza → Lo que decidimos no publicar» y el explorador de correlaciones (sin composición étnica). Cambiaría si la fuente publicara los datos ya agregados con un umbral mínimo por celda, o si el sistema tuviera una compuerta real y un usuario autorizado con una finalidad legítima.
+3. **¿Qué tendría que cambiar para que la respuesta fuera otra?** En la fuente: alquiler de mercado abierto por barrio (respondería P10), un censo de árboles 2025 publicado, márgenes de error en NYCCAS. En la herramienta: que MapLibre 6 no rompiera nada al actualizar. En nuestro sistema: población de paso por distrito, para que Midtown no se lea como «el más peligroso» por tener pocos residentes.
 
 ## Estructura
 
 ```
-index.html            sitio (sin build)
-css/, js/             estilos y módulos: graficos, diagnostico, mapa, secciones, correlaciones, app
-lago/*.json           lago de datos; cada archivo con bloque _meta (fuente, consulta, licencia, fecha de prueba)
-lago/geo/*.geojson    geometrías oficiales simplificadas (DCP, MTA)
-lago/lago.js          paquete de todo el lago para abrir el sitio sin servidor
-scripts/              construcción y verificación del lago y de los entregables
+index.html, css/, js/       sitio (sin build): lago.js lee el contrato; graficos.js tiene la ficha de procedencia
+ingesta/                    un script por tema (pull_01…pull_99), catálogo, preguntas y el orquestador construir.py
+lago/                       un JSON por tema con el contrato; geo/ con las capas; lago.js = paquete verificado
+verificacion/               verificar.mjs y prueba_de_fallos.mjs
+tests/                      pruebas de las funciones de análisis
+scripts/                    generar_excel.py, generar_word.py (entrega 1), bitacora.py, publicar.mjs, servidor_local.mjs
+exploracion/                pruebas de Streamlit, kepler.gl, DuckDB/Parquet y Frictionless
+vercel.json                 build = verificar + publicar; encabezados de seguridad
+.github/workflows/          verificación en cada push
 ```
 
-## Reproducir
+### Laboratorio territorial (aporte del PR #1)
 
-```bash
-pip install requests openpyxl python-docx
-python scripts/construir_lago.py      # consulta las APIs (≈10 min) y reescribe lago/
-python scripts/verificar_lago.py      # falla si un campo del lago no está en el diccionario
-python scripts/generar_entregables.py # Excel del diccionario desde la plantilla en blanco
-python scripts/generar_word.py        # Word «Por qué estos datos» desde la plantilla en blanco
-```
-
-`scripts/catalogo.py` (fuentes), `scripts/diccionario.py` (campos) y `scripts/bitacora.py` (uso de IA) son la única fuente de verdad: el sitio, el Excel y el Word salen de ahí.
-
-## Gobernanza
-
-- **Trazabilidad:** ID de fuente en cada cifra, consulta SoQL exacta en cada `_meta`.
-- **Minimización:** de las fuentes con personas identificables (NYPD, DOB) solo se guardan conteos agregados; las coordenadas de delitos se usan en memoria para asignar distrito y se descartan.
-- **Licencias:** se copian tal como aparecen. Ningún dataset de NYC Open Data ni de data.ny.gov declara licencia en sus metadatos, así que figuran como «no declara»; el portal se rige por la Local Law 11 de 2012.
-- **Calidad:** los defectos encontrados se muestran junto a cada gráfico (trámites duplicados en DOB NOW, fechas como texto, proyecciones con nombre de censo, filas mezcladas en la serie de aire…).
+Pesos personalizados, comparador de dos distritos (ahora con la regla de diferencia significativa del ACS), análisis por punto y radio, series temporales de aire, MTA y denuncias, y preguntas guiadas que configuran el índice. No interpreta texto libre ni usa una API de IA. Pruebas: `node tests/analisis.test.cjs`.

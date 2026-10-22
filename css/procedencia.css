@@ -1,0 +1,97 @@
+/* Cerebro NYC · entrega 2: procedencia a un clic, tipos de cifra, margen de error, preguntas. */
+:root{ --med:#2b7a4b; --prx:#6b7480; }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){ --med:#5fc788; --prx:#a2acb8; } }
+:root[data-theme="dark"]{ --med:#5fc788; --prx:#a2acb8; }
+
+/* etiqueta visible del tipo de cifra */
+.tipo{display:inline-flex; align-items:center; font-family:"IBM Plex Mono"; font-size:9.5px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; padding:1px 6px; border-radius:4px; border:1px solid currentColor; white-space:nowrap; line-height:1.5;}
+.tipo i{font-style:normal; font-weight:400; text-transform:none; opacity:.85;}
+.tipo.medido{color:var(--med);}
+.tipo.derivado{color:var(--der);}
+.tipo.transcrito{color:var(--tra);}
+.tipo.declarado{color:var(--dec); background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--dec) 16%,transparent) 0 4px,transparent 4px 8px);}
+.tipo.proxy{color:var(--prx); border-style:dashed;}
+
+/* tiles como botones: un clic abre la ficha */
+button.tile{font:inherit; color:inherit; text-align:left; cursor:pointer; width:100%;}
+button.tile:hover{border-color:var(--accent);}
+.tile .f{gap:5px 6px;}
+.tile .prov{font-size:10px;}
+.tile .moe,.moe{color:var(--muted); font-weight:400; font-size:.78em;}
+.tile.t-declarado{border-style:dashed; border-color:color-mix(in srgb,var(--dec) 60%,var(--border)); background:repeating-linear-gradient(135deg,var(--surface) 0 10px,color-mix(in srgb,var(--dec) 6%,var(--surface)) 10px 20px);}
+.tile.t-proxy{border-style:dashed;}
+.card.declarada{border-style:dashed; border-color:color-mix(in srgb,var(--dec) 60%,var(--border));}
+.banda-declarado,.banda-medido{margin-top:18px; padding:10px 12px; border-radius:8px; font-size:12.5px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+.banda-declarado{border:1px dashed var(--dec); background:color-mix(in srgb,var(--dec) 8%,var(--surface));}
+.banda-medido{border:1px solid color-mix(in srgb,var(--med) 50%,var(--border)); background:color-mix(in srgb,var(--med) 6%,var(--surface));}
+.como-leer{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:14px; font-size:11.5px; color:var(--muted);}
+.grupo-hero{font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--muted); margin:12px 0 0;}
+.grupo-hero .integrantes,.side-foot .integrantes{color:var(--text);}
+.aviso-vigencia{padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:14px;}
+.aviso-vigencia.leve{border:1px solid var(--dec); background:color-mix(in srgb,var(--dec) 10%,var(--surface));}
+.aviso-vigencia.grave{border:2px solid var(--danger); background:color-mix(in srgb,var(--danger) 12%,var(--surface));}
+
+/* tarjeta: título + botón de fuente */
+.card-h{display:flex; justify-content:space-between; gap:10px; align-items:flex-start;}
+.btn-fuente{border:1px solid var(--border); background:var(--surface-2); border-radius:6px; padding:3px 7px; cursor:pointer; font-family:"IBM Plex Mono"; font-size:10.5px; display:inline-flex; gap:6px; align-items:center; flex:none; color:var(--muted);}
+.btn-fuente:hover{border-color:var(--accent); color:var(--text);}
+.fuente-btn{display:block; width:100%; text-align:left; background:none; border:0; border-top:1px dashed var(--border); cursor:pointer; color:var(--muted); font-family:"IBM Plex Mono"; font-size:10.5px; margin-top:10px; padding:8px 0 0;}
+.fuente-btn:hover{color:var(--text); text-decoration:underline;}
+.th-ficha{margin-left:4px; border:0; background:none; color:var(--accent-2); cursor:pointer; font-size:11px; padding:0 2px;}
+.enlace{border:0; background:none; color:var(--accent-2); cursor:pointer; padding:0; font:inherit; text-decoration:underline; text-align:left;}
+
+/* ficha de procedencia */
+dialog.ficha-fuente{max-width:min(560px,94vw); width:100%; max-height:88vh; overflow-y:auto; border:1px solid var(--border); border-radius:12px; background:var(--surface); color:var(--text); padding:18px 20px; box-shadow:0 20px 60px rgba(0,0,0,.35);}
+dialog.ficha-fuente::backdrop{background:rgba(5,8,12,.5);}
+.ficha-fuente header{display:flex; justify-content:space-between; align-items:center;}
+.ficha-fuente h3{font-family:"IBM Plex Sans"; text-transform:none; letter-spacing:0; font-size:17px; margin:4px 0 8px; line-height:1.3;}
+.ficha-fuente h4{margin:14px 0 6px; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);}
+.ficha-fuente .cerrar{border:1px solid var(--border); background:var(--surface-2); color:var(--text); border-radius:6px; cursor:pointer; padding:2px 8px;}
+.ficha-dl,.ficha-fuentes dl{display:grid; grid-template-columns:150px 1fr; gap:4px 10px; font-size:12.5px; margin:8px 0;}
+.ficha-dl dt,.ficha-fuentes dt{color:var(--muted);}
+.ficha-dl dd,.ficha-fuentes dd{margin:0; overflow-wrap:anywhere;}
+.ficha-fuentes{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;}
+.ficha-fuentes li{border:1px solid var(--border); border-radius:8px; padding:10px; font-size:12.5px;}
+.ficha-fuente .sub{font-size:11.5px; color:var(--muted);}
+@media (max-width:560px){ .ficha-dl,.ficha-fuentes dl{grid-template-columns:1fr;} }
+
+/* margen de error en el diagnóstico */
+.veredicto .rk{white-space:nowrap; font-size:clamp(20px,2.4vw,30px);}
+.dim-fila{grid-template-columns:150px 1fr 1fr 22px;}
+.dim-fila .nm{border:0; background:none; text-align:left; cursor:pointer; color:var(--text); font:inherit; font-weight:600; padding:0;}
+.mini u{position:absolute; top:3px; bottom:3px; background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--text) 40%,transparent) 0 2px,transparent 2px 4px); text-decoration:none; opacity:.7;}
+.sig{font-family:"IBM Plex Mono"; font-weight:700; color:var(--danger); text-align:center;}
+.sig.igual{color:var(--muted); font-weight:400;}
+.moe-i{background:repeating-linear-gradient(90deg,var(--muted) 0 2px,transparent 2px 4px) !important;}
+.robustez span.quizas{border-color:var(--dec); color:var(--dec);}
+ol.grupos{list-style:none; padding:0; margin:12px 0 0; display:flex; flex-direction:column; gap:10px;}
+li.grupo{border:1px solid var(--border); border-radius:8px; padding:8px 10px;}
+.grupo-h{font-size:11.5px; color:var(--muted); margin-bottom:4px;}
+.grupo-h b{color:var(--accent);}
+li.grupo ul{margin:0; padding-left:16px; font-size:13px; line-height:1.8;}
+li.grupo a{color:var(--text);}
+@media (max-width:560px){ .dim-fila{grid-template-columns:1fr 22px;} .dim-fila .nm{grid-column:1 / -1;} }
+
+/* ficha del mapa: filas como botones */
+.ficha button.kv{width:100%; background:none; border:0; border-bottom:1px dashed var(--border); color:inherit; font:inherit; cursor:pointer; text-align:left;}
+.ficha button.kv:hover{background:var(--surface-2);}
+.leyenda-fuente{display:block; margin-top:6px; border:0; background:none; padding:0; cursor:pointer; color:var(--muted); font-family:"IBM Plex Mono"; font-size:10px; text-align:left;}
+
+/* preguntas */
+.preguntas-lista{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:20px;}
+@media (max-width:900px){ .preguntas-lista{grid-template-columns:1fr;} }
+.pregunta-item{border:1px solid var(--border); border-radius:10px; padding:14px; background:var(--surface);}
+.pregunta-item.pendiente{border-style:dashed; background:var(--surface-2);}
+.pregunta-item header{display:flex; gap:6px; align-items:center; font-size:11px;}
+.pregunta-item h3{font-family:"IBM Plex Sans"; text-transform:none; letter-spacing:0; font-size:14.5px; line-height:1.35; margin:8px 0 6px;}
+.pregunta-item .respuesta{font-size:13px; margin:0 0 6px;}
+.pregunta-item .limite{font-size:12px; color:var(--muted); margin:0;}
+.pregunta-item .ir{font-size:12px; display:inline-block; margin-top:6px;}
+.huecos{margin-top:16px;}
+.huecos h3{font-size:20px;}
+.huecos ul{margin:8px 0 0; padding-left:18px; font-size:13px; line-height:1.6;}
+.lista-tipos{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; font-size:12.5px;}
+.lista-calidad{margin:0; padding-left:18px; font-size:12.5px; line-height:1.6;}
+.lista-calidad small{color:var(--muted);}
+pre.cmd{margin:0; font-size:12px; background:var(--surface-2); padding:12px; border-radius:8px; overflow-x:auto; white-space:pre;}
+#analizar .sig{display:inline-block;}

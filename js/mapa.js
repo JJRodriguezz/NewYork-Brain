@@ -1,23 +1,21 @@
 // Gemelo territorial 3D: MapLibre + teselas OpenFreeMap (OSM) + límites oficiales del DCP + indicadores del lago.
 (function () {
   const $ = s => document.querySelector(s);
+  // Solo el ícono y la clave: nombre, unidad, fuente, vigencia y margen de error salen de lago/distritos.json
   const LENTES = {
-    atencion: { nombre: '◎ Atención', titulo: 'Índice de atención (prioridad equilibrio)', unidad: '/100', d: 0, fuente: 'derivado de F02, F03, F04, F10, F15' },
-    ingreso_mediano: { nombre: '$ Ingreso', titulo: 'Ingreso mediano del hogar', unidad: 'US$', d: 0, fuente: 'F10 · ACS 2020–2024', usd: true },
-    pct_hogares_con_carga_alquiler: { nombre: '⌂ Alquiler', titulo: 'Hogares que pagan ≥30 % de su ingreso en alquiler', unidad: '%', d: 1, fuente: 'F10 · ACS 2020–2024' },
-    solicitudes_311_por_1000: { nombre: '☎ 311', titulo: 'Solicitudes 311 por 1.000 habitantes (2025)', unidad: '/1.000', d: 0, fuente: 'F03 · NYC311' },
-    delitos_graves_por_1000: { nombre: '⚠ Delitos', titulo: 'Delitos graves por 1.000 habitantes (2025)', unidad: '/1.000', d: 1, fuente: 'F04 · NYPD' },
-    heridos_transito_por_10000: { nombre: '✚ Tránsito', titulo: 'Heridos de tránsito por 10.000 habitantes (2025)', unidad: '/10.000', d: 1, fuente: 'F02 · NYPD' },
-    pm25: { nombre: '☁ Aire', titulo: 'PM2,5 media anual', unidad: 'µg/m³', d: 2, fuente: 'F15 · NYCCAS' },
-    pct_transporte_publico: { nombre: '≋ Transporte', titulo: 'Trabajadores que van en transporte público', unidad: '%', d: 1, fuente: 'F10 · ACS 2020–2024' },
+    atencion: { icono: '◎', nombre: 'Atención' }, ingreso_mediano: { icono: '$', usd: true, nombre: 'Ingreso' }, pct_hogares_con_carga_alquiler: { icono: '⌂', nombre: 'Alquiler' },
+    solicitudes_311_por_1000: { icono: '☎', nombre: '311' }, delitos_graves_por_1000: { icono: '⚠', nombre: 'Delitos' }, heridos_transito_por_10000: { icono: '✚', nombre: 'Tránsito' },
+    pm25: { icono: '☁', nombre: 'Aire' }, pct_transporte_publico: { icono: '≋', nombre: 'Transporte' },
   };
+  const defL = k => k === 'atencion' ? { etiqueta: 'Índice de atención · ' + DIAGNOSTICO.perfil(), unidad: '/100', decimales: 0 } : (LG.metrica(k) || {});
+  const provL = k => k === 'atencion' ? LG.unir('Índice de atención: promedio ponderado de los percentiles de seis dimensiones', ...Object.values(DIAGNOSTICO.DIM).map(d => LG.provMetrica(d.k))) : LG.provMetrica(k);
   const RAMPA = ['#fbf0d9', '#f2c879', '#e0913a', '#b45a1c', '#6e2c0e'];
   const ESTILO = { claro: 'https://tiles.openfreemap.org/styles/liberty', oscuro: 'https://tiles.openfreemap.org/styles/dark' };
   let map, L, lente = 'atencion', sel = null, capas = { edificios: true, extruir: false, estaciones: false, precintos: false, barrios: false, satelite: false }, D = {}, temporal = null, punto = null, radio = 1000;
 
   const oscuro = () => { const t = document.documentElement.dataset.theme; return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
   const valor = (p, k) => temporal ? (temporal.valores[p.borough] ?? null) : k === 'atencion' ? DIAGNOSTICO.puntaje(p.puma) : p[k];
-  const fmtV = (v, k) => v == null ? '—' : temporal ? G.fmt.n(v, 2) + ' ' + temporal.unidad : LENTES[k].usd ? G.fmt.usd(v) : G.fmt.n(v, LENTES[k].d) + (LENTES[k].unidad === '%' ? ' %' : '');
+  const fmtV = (v, k) => v == null ? '—' : temporal ? G.fmt.n(v, 2) + ' ' + temporal.unidad : LENTES[k].usd ? G.fmt.usd(v) : G.fmt.n(v, defL(k).decimales ?? 1) + (defL(k).unidad === '%' ? ' %' : '');
 
   function cortes(k) { const v = Object.values(D).map(p => valor(p, k)).filter(x => x != null).sort((a, b) => a - b); if (!v.length) return [0, 0, 0, 0, 0]; return [0, .25, .5, .75, 1].map(q => v[Math.round(q * (v.length - 1))]); }
 
@@ -69,28 +67,31 @@
   }
 
   function leyenda() {
-    const c = cortes(lente), l = LENTES[lente];
+    const c = cortes(lente), l = defL(lente);
     if (temporal) { $('#leyendaMapa').innerHTML = `<b>${G.esc(temporal.titulo)}</b><p>${temporal.cambio ? 'Verde: disminuye · gris: sin cambio · rojo: aumenta' : 'Escala de menor a mayor'} · ${G.esc(temporal.unidad)}</p><small>${G.esc(temporal.fuente)} · datos por borough, repetidos en sus PUMA. Gris oscuro: sin dato.</small>`; return; }
-    if (lente === 'atencion') l.titulo = 'Índice de atención · ' + DIAGNOSTICO.perfil();
-    $('#leyendaMapa').innerHTML = `<b style="color:var(--text)">${l.titulo}</b><div class="esc" style="background:linear-gradient(90deg,${RAMPA.join(',')})"></div><div class="ext"><span>${fmtV(c[0], lente)}</span><span>${fmtV(c[2], lente)}</span><span>${fmtV(c[4], lente)}</span></div><div style="margin-top:4px;font-size:10px">${l.fuente} · cortes por cuartil · 55 distritos</div>`;
+    const p = provL(lente);
+    $('#leyendaMapa').innerHTML = `<b style="color:var(--text)">${G.esc(l.etiqueta)}</b> <span style="font-size:10px">${G.esc(l.unidad || '')}</span><div class="esc" style="background:linear-gradient(90deg,${RAMPA.join(',')})"></div><div class="ext"><span>${fmtV(c[0], lente)}</span><span>${fmtV(c[2], lente)}</span><span>${fmtV(c[4], lente)}</span></div><button type="button" class="leyenda-fuente">${G.chipTipo(p.tipo)} ${G.lineaProv(p)} · ⓘ</button><div style="margin-top:3px;font-size:10px">Cortes por cuartil. Un distrito cerca de un corte puede caer en el color vecino dentro de su margen de error: el valor con ± está en la ficha.</div>`;
+    $('#leyendaMapa .leyenda-fuente').onclick = () => G.ficha(p, l.etiqueta);
   }
 
+  const FICHA = ['poblacion_acs', 'densidad_hab_km2', 'ingreso_mediano', 'alquiler_mediano', 'pct_hogares_con_carga_alquiler', 'pct_pobreza', 'pct_transporte_publico',
+    'pct_nacidos_extranjero', 'solicitudes_311_por_1000', 'delitos_graves_por_1000', 'heridos_transito_por_10000', 'peatones_heridos_por_10000', 'pm25',
+    'arboles_calle_por_km2', 'viviendas_obra_nueva_por_1000', 'viviendas_asequibles_por_1000'];
   function ficha(puma) {
     const p = D[puma]; if (!p) return;
-    const rk = DIAGNOSTICO.rango(puma);
-    const kv = (t, v, s) => `<div class="kv"><span>${t}${s ? ` <small>${s}</small>` : ''}</span><span>${v}</span></div>`;
+    const r = DIAGNOSTICO.intervalo(puma);
+    const fila = k => {
+      const d = LG.metrica(k); if (!d) return '';
+      const v = p[k], m = LG.moe(p, k), dec = d.decimales ?? 0;
+      const txt = d.unidad.startsWith('US$') ? G.fmt.usd(v) : G.fmt.n(v, dec) + (d.unidad === '%' ? ' %' : '');
+      return `<button type="button" class="kv" data-ficha="${k}"><span>${G.esc(d.etiqueta)} <small>${G.esc(d.unidad === '%' ? '' : d.unidad)} · ${G.esc(LG.ids(d.fuente).join('+'))}</small></span><span>${txt}${m != null ? `<small class="moe"> ±${G.fmt.n(m, dec || 1)}</small>` : ''}</span></button>`;
+    };
     $('#ficha').innerHTML = `<div class="diag-tag">Distrito seleccionado · PUMA ${p.puma}</div><h3>${G.esc(p.nombre)}</h3><div class="sub" style="font-size:11.5px;color:var(--muted);font-family:'IBM Plex Mono'">${G.esc(p.etiqueta)}</div>
-      <div class="veredicto" style="margin:10px 0"><span class="rk" style="font-size:22px">${rk == null ? '—' : '#' + rk}</span> de 55 en atención (${DIAGNOSTICO.perfil()})</div>
-      ${kv('Población', G.fmt.n(p.poblacion_acs), 'ACS')}${kv('Densidad', G.fmt.n(p.densidad_hab_km2) + ' /km²')}
-      ${kv('Ingreso mediano', G.fmt.usd(p.ingreso_mediano), '± ' + G.fmt.n(p.ingreso_mediano_moe))}${kv('Alquiler mediano', G.fmt.usd(p.alquiler_mediano) + '/mes')}
-      ${kv('Hogares con carga de alquiler', G.fmt.pct(p.pct_hogares_con_carga_alquiler))}${kv('Pobreza', G.fmt.pct(p.pct_pobreza))}
-      ${kv('Transporte público al trabajo', G.fmt.pct(p.pct_transporte_publico))}${kv('Nacidos en el extranjero', G.fmt.pct(p.pct_nacidos_extranjero))}
-      ${kv('Quejas 311', G.fmt.n(p.solicitudes_311_por_1000), '/1.000')}${kv('Delitos graves', G.fmt.n(p.delitos_graves_por_1000, 1), '/1.000')}
-      ${kv('Heridos de tránsito', G.fmt.n(p.heridos_transito_por_10000, 1), '/10.000')}${kv('Peatones heridos', G.fmt.n(p.peatones_heridos_por_10000, 1), '/10.000')}
-      ${kv('PM2,5', G.fmt.n(p.pm25, 2) + ' µg/m³')}${kv('Árboles de calle', G.fmt.n(p.arboles_calle_por_km2) + ' /km²', '2015')}
-      ${kv('Viviendas propuestas 2025', G.fmt.n(p.viviendas_obra_nueva_por_1000, 1), '/1.000')}${kv('Viviendas asequibles HPD', G.fmt.n(p.viviendas_asequibles_por_1000, 1), '/1.000')}
+      <div class="veredicto" style="margin:10px 0"><span class="rk" style="font-size:22px">${r ? DIAGNOSTICO.textoRango(r) : '—'}</span> de 55 en atención (${DIAGNOSTICO.perfil()})<div class="sub">intervalo del puesto con el margen de error del ACS</div></div>
+      ${FICHA.map(fila).join('')}
       <button class="chip" id="fichaDiag" style="margin-top:12px">Ver en el diagnóstico ↑</button>
-      <div style="font-size:10.5px;color:var(--muted);margin-top:10px;font-family:'IBM Plex Mono'">Fuentes: F02, F03, F04, F05, F07, F10, F15, F16 · ver Fuentes y gobernanza</div>`;
+      <div style="font-size:10.5px;color:var(--muted);margin-top:10px">Toca cualquier fila para ver su fuente, vigencia, fecha de prueba y cómo se calculó. ± es el margen de error al 90 % del ACS.</div>`;
+    $('#ficha').querySelectorAll('[data-ficha]').forEach(b => b.onclick = () => G.ficha(LG.provMetrica(b.dataset.ficha, { moe: LG.moe(p, b.dataset.ficha) }), `${LG.metrica(b.dataset.ficha).etiqueta} · ${p.nombre}`));
     $('#fichaDiag').onclick = () => { DIAGNOSTICO.elegir(puma); document.getElementById('panorama').scrollIntoView({ behavior: 'smooth' }); };
   }
 
@@ -100,10 +101,10 @@
     if (volar && map) { const f = L.geo.distritos_puma.features.find(x => x.properties.puma === puma); if (f) { const b = new maplibregl.LngLatBounds(); f.geometry.coordinates.forEach(p => p[0].forEach(c => b.extend(c))); map.fitBounds(b, { padding: 60, maxZoom: 13.5, duration: 900 }); } }
   }
 
-  function telemetria() { const c = map.getCenter(); $('#telemetria').innerHTML = `GEMELO / TELEMETRÍA<br>LAT <b>${c.lat.toFixed(4)}</b> LON <b>${c.lng.toFixed(4)}</b><br>ZOOM <b>${map.getZoom().toFixed(1)}</b> · INCL. <b>${map.getPitch().toFixed(0)}°</b> · RUMBO <b>${map.getBearing().toFixed(0)}°</b><br>LENTE <b>${LENTES[lente].nombre.slice(2)}</b>`; }
+  function telemetria() { const c = map.getCenter(); $('#telemetria').innerHTML = `GEMELO / TELEMETRÍA<br>LAT <b>${c.lat.toFixed(4)}</b> LON <b>${c.lng.toFixed(4)}</b><br>ZOOM <b>${map.getZoom().toFixed(1)}</b> · INCL. <b>${map.getPitch().toFixed(0)}°</b> · RUMBO <b>${map.getBearing().toFixed(0)}°</b><br>LENTE <b>${G.esc(LENTES[lente].nombre)}</b>`; }
 
   function controles() {
-    $('#lentes').innerHTML = Object.entries(LENTES).map(([k, l]) => `<button data-l="${k}" class="${k === lente ? 'on' : ''}" title="${l.titulo}">${l.nombre}</button>`).join('');
+    $('#lentes').innerHTML = Object.entries(LENTES).map(([k, l]) => `<button data-l="${k}" class="${k === lente ? 'on' : ''}" title="${G.esc(defL(k).etiqueta || '')}">${l.icono} ${G.esc(l.nombre)}</button>`).join('');
     $('#lentes').querySelectorAll('button').forEach(b => b.onclick = () => { temporal = null; lente = b.dataset.l; $('#lentes').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); refrescar(); telemetria(); });
     const C = { edificios: '▥ edificios 3D', extruir: '▲ indicador en 3D', estaciones: '● estaciones subte', precintos: '▢ precintos NYPD', barrios: '⬚ barrios (NTA)', satelite: '◐ satélite' };
     $('#capas').innerHTML = Object.entries(C).map(([k, t]) => `<button data-c="${k}" class="${capas[k] ? 'on' : ''}" aria-pressed="${capas[k]}">${t}</button>`).join('') + '<button data-c="vista3d">⟳ vista 3D</button>';
@@ -127,7 +128,7 @@
   }
   window.MAPA = {
     init(lago) {
-      L = lago; (lago.datos.distritos ? lago.datos.distritos.datos : []).forEach(p => D[p.puma] = p);
+      L = lago; LG.distritos().forEach(p => D[p.puma] = p);
       controles(); leyenda();
       if (!window.maplibregl || !L.geo.distritos_puma) { $('#mapa').innerHTML = '<div class="mapa-aviso">No se pudo cargar MapLibre o la geometría (¿sin conexión?). El resto del cerebro funciona igual.</div>'; return; }
       try {
@@ -141,7 +142,7 @@
       map.on('mousemove', 'dist-fill', e => { map.getCanvas().style.cursor = 'pointer'; const f = e.features[0]; if (hov !== null) map.setFeatureState({ source: 'distritos', id: hov }, { hover: false }); hov = f.id; map.setFeatureState({ source: 'distritos', id: hov }, { hover: true }); });
       map.on('mouseleave', 'dist-fill', () => { map.getCanvas().style.cursor = ''; if (hov !== null) map.setFeatureState({ source: 'distritos', id: hov }, { hover: false }); hov = null; });
       const pop = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 8 });
-      ['dist-fill', 'dist-ext'].forEach(id => map.on('click', id, e => { const p = e.features[0].properties; seleccionar(p.puma); pop.setLngLat(e.lngLat).setHTML(`<b>${G.esc(p.nombre)}</b><br>${LENTES[lente].titulo}: <b>${fmtV(D[p.puma] ? valor(D[p.puma], lente) : null, lente)}</b>`).addTo(map); }));
+      ['dist-fill', 'dist-ext'].forEach(id => map.on('click', id, e => { const p = e.features[0].properties; seleccionar(p.puma); pop.setLngLat(e.lngLat).setHTML(`<b>${G.esc(p.nombre)}</b><br>${G.esc(defL(lente).etiqueta || '')}: <b>${fmtV(D[p.puma] ? valor(D[p.puma], lente) : null, lente)}</b>${lente !== 'atencion' && D[p.puma] && LG.moe(D[p.puma], lente) != null ? ` ±${G.fmt.n(LG.moe(D[p.puma], lente), 1)}` : ''}`).addTo(map); }));
       map.on('click', 'estaciones', e => { const p = e.features[0].properties; new maplibregl.Popup({ offset: 8 }).setLngLat(e.lngLat).setHTML(`<b>${G.esc(p.nombre)}</b><br>Líneas ${G.esc(p.lineas)} · ${G.esc(p.borough || '')}${p.ada === '1' ? ' · accesible' : ''}`).addTo(map); });
       seleccionar(Object.keys(D).sort((a, b) => DIAGNOSTICO.rango(a) - DIAGNOSTICO.rango(b))[0]);
     },
