@@ -80,7 +80,32 @@
       </div>
     </section>
 
-    <section class="sec" id="analizar"><div class="eyebrow">Laboratorio territorial</div><h1>Pregunta, compara y explora cambios</h1><p class="lede">Análisis reproducible con el lago actual. Cada resultado conserva su fuente, periodo y escala geográfica.</p><div class="card" id="preguntasNYC"></div><div class="card" id="comparador"></div><div class="card" id="temporal"></div></section>
+    <section class="sec" id="analizar"><div class="eyebrow">Laboratorio territorial</div><h1>Pregunta, compara y explora cambios</h1><p class="lede">Análisis reproducible con el lago actual. Cada resultado conserva su fuente, periodo y escala geográfica.</p>  <div class="card" id="guiaDecision">
+  <h2>De la evidencia a una decisi&oacute;n</h2>
+
+  <p>
+    Selecciona un problema, examina la evidencia
+    y formula una acci&oacute;n verificable.
+  </p>
+
+  <label for="preguntaDecision">Problema p&uacute;blico</label>
+
+  <select id="preguntaDecision">
+    <option value="vivienda">Presi&oacute;n de vivienda</option>
+    <option value="seguridad">
+      Seguridad y siniestralidad vial
+    </option>
+    <option value="ambiente">Calidad ambiental</option>
+  </select>
+
+  <div id="resultadoDecision" aria-live="polite"></div>
+
+  <p class="nota">
+    Los indicadores ayudan a priorizar investigaciones;
+    no demuestran causalidad ni sustituyen una
+    evaluaci&oacute;n de campo.
+  </p>
+</div><div class="card" id="preguntasNYC"></div><div class="card" id="comparador"></div><div class="card" id="temporal"></div></section>
     <section class="sec" id="gente"><div class="eyebrow">Gente</div><h1 id="genteTitulo">Gente</h1><p class="lede" id="genteLead"></p><div class="tiles" id="genteTiles"></div><div class="grid" id="genteGrid"></div></section>
     <section class="sec" id="economia"><div class="eyebrow">Economía y vivienda</div><h1>El alquiler pesa distinto en cada borough</h1><p class="lede" id="economiaLead"></p><div class="pregunta">¿Dónde se cruza la presión del alquiler con bajo ingreso, y cuánta vivienda nueva y asequible se está produciendo allí?</div><div class="tiles" id="economiaTiles"></div><div class="grid" id="economiaGrid"></div></section>
     <section class="sec" id="turismo"><div class="eyebrow">Turismo y economía creativa</div><h1>65 millones de visitantes y una ciudad que es plató</h1><p class="lede" id="turismoLead"></p><div class="tiles" id="turismoTiles"></div><div class="grid" id="turismoGrid"></div></section>
@@ -97,7 +122,7 @@
 </div>
 
 <div class="buscador" id="buscador" hidden role="dialog" aria-modal="true" aria-label="Buscar">
-  <div class="caja"><input type="search" id="buscadorInput" placeholder="Busca una sección, una cifra o un distrito…" aria-controls="buscadorLista" autocomplete="off"><div class="lista" id="buscadorLista" role="listbox"></div></div>
+  <div class="caja"><input type="search" id="buscadorInput" aria-label="Buscar en Cerebro NYC" placeholder="Busca una sección, una cifra o un distrito…" aria-controls="buscadorLista" autocomplete="off"><div class="lista" id="buscadorLista" role="listbox"></div></div>
 </div>
 <div class="pres-bar" id="presBar"><button id="presAnt">← anterior</button><span id="presPos">1/13</span><button id="presSig">siguiente →</button><button id="presSalir">✕ salir</button></div>
 
@@ -113,5 +138,7 @@
 <script src="js/laboratorio.js"></script>
 <script src="js/preguntas.js"></script>
 <script src="js/app.js"></script>
+<script src="js/decision-integracion.js"></script>
+<script src="js/guia-decision.js" defer></script>
 </body>
 </html>
