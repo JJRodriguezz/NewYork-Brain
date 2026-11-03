@@ -1,9 +1,22 @@
 # Nueva York · sistema de información (Cerebro NYC)
 
-**Grupo:** Isabella Idarraga Botero · Juan Camilo Ramón · Juan José Rodriguez Restrepo · Esteban Jacob Romero Ríos *(papeles: [COMPLETAR: quién respondió por cada tramo])*
+**Grupo:** Isabella Idarraga Botero · Juan Camilo Ramón · Juan José Rodriguez Restrepo · Esteban Jacob Romero Ríos *(distribución propuesta de responsabilidades; pendiente de validación individual)*
 · **Enlace:** https://newyork-brain.vercel.app · **Repositorio:** https://github.com/JJRodriguezz/NewYork-Brain · **Revisado:** 2026-10-20
 
 Réplica, para Nueva York, del [Cerebro Lima](https://cerebro-lima.vercel.app) del Taller de Datos (Gestión y Gobernanza de Datos). Sin compuerta: todo lo publicado son agregados de fuentes abiertas (ver *Protección*).
+
+## Responsabilidades del equipo (propuesta para validar)
+
+Este reparto organiza equitativamente los cuatro frentes de la entrega y las mejoras de la rama `feature/mejoras-visualizacion`. **Es una propuesta de responsabilidades y revisión, no una atribución comprobada de autoría individual.** Cada integrante debe confirmar o corregir su participación real antes de presentarla como registro definitivo.
+
+| Integrante | Frente propuesto | Alcance del trabajo que debe validar |
+|---|---|---|
+| **Isabella Idarraga Botero** | Rastreo y gobernanza de fuentes | Selección de fuentes y contraste con los portales originales; licencias, vigencia y procedencia; distinción entre datos medidos y cifras declaradas; privacidad, exclusiones y revisión de fichas. |
+| **Juan Camilo Ramón** | Ingesta y diccionario | Obtención, limpieza y normalización de fuentes; estructura del lago y catálogo; consistencia entre los JSON y el diccionario Excel; corrección del ejemplo de Medellín y cálculo del Resumen; reproducibilidad. |
+| **Juan José Rodriguez Restrepo** | Diagnóstico, estadística y calidad | Índice multicriterio, márgenes de error ACS y simulaciones de intervalos de puestos; agrupación de distritos indistinguibles; análisis de correlaciones y controles de calidad; pruebas de análisis y del contrato de datos. |
+| **Esteban Jacob Romero Ríos** | Visualización, integración y publicación | Mapa territorial 3D y navegación; laboratorio y guía de decisiones con escenarios de vivienda, seguridad y ambiente; conexión con el diagnóstico y el mapa; accesibilidad, pruebas móviles y verificación del build y despliegue. |
+
+**Responsabilidades compartidas por confirmar:** revisión de las seis respuestas del Word, bitácora de IA, pruebas funcionales, controles de publicación, documentación final y demostración en clase. Las revisiones cruzadas de otros grupos se consignan por separado cuando sus participantes y resultados estén confirmados.
 
 ```bash
 pip install -r requirements.txt
@@ -103,9 +116,9 @@ Probamos cada herramienta con **los mismos datos** (el atlas de los 55 distritos
 
 - **Nivel: abierto, solo agregados.** Todas las fuentes integradas son abiertas, y lo que publicamos son conteos y tasas por borough o por distrito (el más pequeño tiene 97.765 residentes). Una clave sería teatro: no hay nada detrás que la necesite.
 - **Qué protegemos, y de quién:** a las personas que aparecen en las fuentes —víctimas de delitos (edad, raza, sexo y punto del hecho en F04), dueños y solicitantes de obras (nombres y licencias en F05), quien llama al 311 (dirección y texto libre en F03)— de cualquiera que lea el sitio o descargue el lago. Esos campos **no se piden en la consulta** (o, en el caso de las coordenadas, se usan en memoria para asignar el distrito y se descartan). El verificador rechaza campos con nombre de dato personal, textos con correos, teléfonos o números de seguro social, y conteos de 1 a 9 personas por distrito.
-- **Pruebas de terminal** (2026-10-20). Producción hoy publica cualquier archivo del repositorio; el build nuevo, con `vercel.json` y `scripts/publicar.mjs`, publica solo lo que está en la lista blanca:
+- **Pruebas históricas de terminal (2026-10-20).** En esa revisión el despliegue expuso `/scripts/bitacora.py` (HTTP 200). Se introdujo una lista blanca en `scripts/publicar.mjs` y el directorio de salida `public/` en `vercel.json`. La siguiente tabla conserva el antes y el objetivo del cambio; no describe el estado actual de producción:
 
-  | Ruta | Producción hoy | Build nuevo (`public/` servido con los encabezados de `vercel.json`) |
+  | Ruta | Producción durante la prueba del 2026-10-20 | Build con lista blanca (`public/`) |
   |---|---|---|
   | `/` | 200 | 200 |
   | `/lago/catalogo.json`, `/lago/lago.js` | 200 (público a propósito) | 200 (público a propósito) |
@@ -115,6 +128,16 @@ Probamos cada herramienta con **los mismos datos** (el atlas de los 55 distritos
 
   El lago publicado se revisó con `grep`: 0 campos personales, 0 correos y 0 teléfonos. Los encabezados nuevos (`Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) se probaron en local con `node scripts/servidor_local.mjs`: el mapa, las fuentes tipográficas y el clima en vivo funcionan, sin violaciones de la política.
 - **Revisión de secretos en el historial** (los 13 commits, `git log -p --all`): los patrones de llaves reales (`pk.ey…`, `sk_live`, `ghp_`, `AKIA…`, claves privadas `BEGIN … PRIVATE`) dan 0. Las palabras «secret», «password», «token» y «clave» solo aparecen en textos y en el formulario de clave de la v1 (commit 4674e16), que enviaba la clave a `/api/entrar`, una función que nunca estuvo en el repositorio: no hay clave ni hash en el historial. No hay `.env` ni variables de entorno: no hay secretos que guardar.
+
+## Validación final de la segunda entrega (2026-11-02)
+
+- **Datos y estadística.** `node verificacion/verificar.mjs`: **1.365 PASS, 0 FAIL y 0 avisos**. `node tests/analisis.test.cjs`: pruebas de percentiles, valores faltantes, pesos, geometrías, radios, intervalos de puestos con margen de error ACS, agrupación y Benjamini-Hochberg aprobadas. Las bandas de puestos provienen de simulaciones condicionadas a los márgenes disponibles: no son garantía de orden real ni cubren fuentes sin margen publicado.
+- **Guía de decisiones.** La rama local `feature/mejoras-visualizacion` integra `js/guia-decision.js` y `js/decision-integracion.js` en «Laboratorio territorial». Los escenarios de vivienda (alquiler 60 %, pobreza 40 %), seguridad (delitos 50 %, tránsito 50 %) y ambiente (PM2,5 60 %, pobreza 40 %) reconfiguran el diagnóstico existente, consultan sus grupos de puestos indistinguibles y permiten enfocar un PUMA en el mapa. No se genera un ranking alterno ni se afirma causalidad. En pruebas locales, los tres escenarios mostraron candidatos y navegación al mapa.
+- **Límites explícitos.** Las tasas de seguridad basadas en población residente necesitan cautela en Midtown por la población flotante; PM2,5 no incorpora un margen de error publicado y el inventario de árboles corresponde a 2015. Los escenarios sirven para priorizar una investigación, no para asignar recursos de forma automática.
+- **Compilación y archivos públicos.** `node scripts/publicar.mjs` produjo **35 archivos (~2.582 KB)** a partir de **19 entradas** de una lista blanca. La carpeta `public/` fue servida localmente en el puerto 8001 y funcionó el mapa y la guía. La revisión de la URL de producción mediante el auditor local indicó HTTP **200** para `/` y HTTP **404** para `/scripts/bitacora.py` el 2026-11-02. Las nuevas funciones aún **no están publicadas en Vercel** hasta que el equipo confirme el despliegue tras su propio commit/push.
+- **Accesibilidad probada manualmente.** Pasaron 7 de 7 comprobaciones: navegación por Tab, foco visible, apertura de búsqueda con Ctrl+K, cierre con Escape, selección de escenarios con teclado, activación de distritos con Enter y menú en ventana estrecha. Se agregó nombre accesible a `#buscadorInput`. La experiencia móvil se comprobó en Safari desde un iPhone con 8 de 8 pruebas funcionales aprobadas: carga inicial, menú, panorama, mapa 3D, escenarios de decisión, integración con el mapa, fichas de procedencia y diseño adaptable. Estas comprobaciones no equivalen a una certificación WCAG.
+- **Documentos.** El Excel generado conserva las cinco hojas de la plantilla; la hoja «Resumen» presenta fórmulas y valores calculados (30 fuentes, 23 integradas, 327 campos y 21 episodios de IA). Se eliminó la fila de ejemplo de Medellín de las hojas de datos. El Word contiene seis respuestas; se corrigió la frase que confundía la fecha de generación con las fechas de prueba y se aclaró que los datos personales excluidos se documentan en `excluido[]` del lago, no entre los campos integrados al diccionario.
+- **Advertencia externa no bloqueante.** En la consola apareció un aviso de MapLibre por la textura `wood-pattern`; la referencia no figura en los JS/CSS propios y podría provenir del estilo de OpenFreeMap. No afecta las pruebas de datos ni impidió navegar el mapa. No se ha considerado resuelta la causa del aviso.
 
 ## Herramienta elegida para las vistas
 

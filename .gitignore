@@ -5,3 +5,24 @@ __pycache__/
 /exploracion/salidas/
 # lo que se publica se arma en public/ durante el build
 /public/
+
+# Archivos locales de desarrollo de Cerebro NYC
+/.idea/
+/.cerebro-backup-*/
+/*.ps1
+/*.ps1.bak
+/*.patch
+/*.py
+/auditoria-cerebro-local.txt
+/index.html.decision.bak
+/scripts/*.py.bak
+
+# Plantillas originales del taller
+/Diccionario_de_datos_TallerDatos (1).xlsx
+/Preguntas_por_que_estos_datos (2).docx
+
+/index.html.accesibilidad.bak
+
+/README.md.cierre.bak
+
+/README.md.roles.bak
