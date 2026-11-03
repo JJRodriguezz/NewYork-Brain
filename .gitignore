@@ -1,6 +1,6 @@
-﻿__pycache__/
+__pycache__/
 *.pyc
-# salidas de las pruebas de exploraciÃ³n: copias de datos y, en kepler.gl, una llave de Mapbox de terceros
+# salidas de las pruebas de exploración: copias de datos y, en kepler.gl, una llave de Mapbox de terceros
 /exploracion/salidas/
 # lo que se publica se arma en public/ durante el build
 /public/

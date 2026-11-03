@@ -44,7 +44,7 @@
     const rango = DIAGNOSTICO.textoRango(primero);
     destino.appendChild(crear(
       "p",
-      "Primer grupo de atencion. Puestos posibles: " + rango +
+      "Primer grupo de atención. Puestos posibles: " + rango +
       ". Se presentan juntos porque sus intervalos se superponen."
     ));
 
@@ -101,12 +101,12 @@
 
     destino.appendChild(crear(
       "p",
-      "Los candidatos no constituyen una decision definitiva. " +
-      "El indice depende de los pesos y los margenes de error disponibles. " +
+      "Los candidatos no constituyen una decisión definitiva. " +
+      "El índice depende de los pesos y los márgenes de error disponibles. " +
       "No demuestra causalidad."
     ));
 
-    const panorama = crear("button", "Revisar diagnostico");
+    const panorama = crear("button", "Revisar diagnóstico");
     panorama.type = "button";
     panorama.className = "chip";
     panorama.addEventListener("click", () => {
@@ -143,7 +143,7 @@
       const config = escenarios[selector.value];
       if (!config) return;
 
-      const boton = crear("button", "Aplicar escenario al diagnostico y mapa");
+      const boton = crear("button", "Aplicar escenario al diagnóstico y al mapa");
       boton.type = "button";
       boton.className = "chip";
 
