@@ -210,3 +210,10 @@ vercel.json                 build = verificar + publicar; encabezados de segurid
 ### Laboratorio territorial (aporte del PR #1)
 
 Pesos personalizados, comparador de dos distritos (ahora con la regla de diferencia significativa del ACS), análisis por punto y radio, series temporales de aire, MTA y denuncias, y preguntas guiadas que configuran el índice. No interpreta texto libre ni usa una API de IA. Pruebas: `node tests/analisis.test.cjs`.
+
+## Entregables academicos
+
+Los archivos finales de la entrega estan disponibles en este repositorio:
+
+- [Diccionario de datos (Excel)](entregables/Diccionario_NuevaYork.xlsx)
+- [Preguntas y justificacion de datos (Word)](entregables/Preguntas_NuevaYork.docx)
